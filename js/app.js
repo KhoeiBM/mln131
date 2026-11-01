@@ -17,10 +17,10 @@ var CARDS = [
 ];
 
 var MATCH_DEFS = [
-  { id: "R1M1", type: "case",  round: "Vòng 1 · Nhận diện năng lực", title: "Trận 1 – Vòng bảng", short: "Trận 1", caseIndex: 0 },
-  { id: "R1M2", type: "case",  round: "Vòng 1 · Nhận diện năng lực", title: "Trận 2 – Vòng bảng", short: "Trận 2", caseIndex: 1 },
-  { id: "R1M3", type: "case",  round: "Vòng 1 · Nhận diện năng lực", title: "Trận 3 – Vòng bảng", short: "Trận 3", caseIndex: 2 },
-  { id: "R1M4", type: "case",  round: "Vòng 1 · Nhận diện năng lực", title: "Trận 4 – Vòng bảng", short: "Trận 4", caseIndex: 3 },
+  { id: "R1M1", type: "case",  round: "Vòng 1 · Phân tích thực tế", title: "Trận 1 – Vòng bảng", short: "Trận 1", caseIndex: 0 },
+  { id: "R1M2", type: "case",  round: "Vòng 1 · Phân tích thực tế", title: "Trận 2 – Vòng bảng", short: "Trận 2", caseIndex: 1 },
+  { id: "R1M3", type: "case",  round: "Vòng 1 · Phân tích thực tế", title: "Trận 3 – Vòng bảng", short: "Trận 3", caseIndex: 2 },
+  { id: "R1M4", type: "case",  round: "Vòng 1 · Phân tích thực tế", title: "Trận 4 – Vòng bảng", short: "Trận 4", caseIndex: 3 },
   { id: "R2M1", type: "major", round: "Vòng 2 · My Major, My Future", title: "Bán kết 1", short: "BK1", r2Index: 0 },
   { id: "R2M2", type: "major", round: "Vòng 2 · My Major, My Future", title: "Bán kết 2", short: "BK2", r2Index: 1 },
   { id: "F1",   type: "debate", round: "Vòng 3 · The Final Debate", title: "CHUNG KẾT", short: "CK" }
@@ -335,9 +335,9 @@ function buildPhases(def) {
       title: "🎤 " + nA + " trình bày", desc: "Đội XANH trình bày trong 1 phút." },
     { key: "present", side: "B", short: "Trình bày " + nB, timer: 60,
       title: "🎤 " + nB + " trình bày", desc: "Đội ĐỎ trình bày trong 1 phút." },
-    { key: "vote", short: "Bình chọn", timer: 0,
+    { key: "vote", short: "Bình chọn 30 giây", timer: 30,
       title: "🗳️ Bình chọn của 7 giám khảo",
-      desc: "7 giám khảo giơ thẻ: XANH chọn " + nA + ", ĐỎ chọn " + nB + ". MC ghi từng phiếu vào bên dưới; đủ 7 phiếu mới chốt được kết quả." },
+      desc: "7 giám khảo có 30 giây suy nghĩ, sau đó giơ thẻ: XANH chọn " + nA + ", ĐỎ chọn " + nB + ". MC ghi từng phiếu vào bên dưới; đủ 7 phiếu mới chốt được kết quả." },
     { key: "result", short: "Kết quả", timer: 0, title: "🏁 Công bố kết quả", desc: "" }
   ];
   if (def.type === "major") return [
@@ -351,9 +351,9 @@ function buildPhases(def) {
       title: "🎤 " + nA + " trình bày", desc: "Đội XANH trình bày trong 1 phút 30 giây." },
     { key: "present", side: "B", short: "Trình bày " + nB, timer: 90,
       title: "🎤 " + nB + " trình bày", desc: "Đội ĐỎ trình bày trong 1 phút 30 giây." },
-    { key: "vote", short: "Bình chọn", timer: 0,
+    { key: "vote", short: "Bình chọn 30 giây", timer: 30,
       title: "🗳️ Bình chọn của 7 giám khảo",
-      desc: "7 giám khảo chọn đội có phần phân tích thuyết phục hơn. XANH = " + nA + " · ĐỎ = " + nB + "." },
+      desc: "7 giám khảo có 30 giây suy nghĩ, sau đó chọn đội có phần phân tích thuyết phục hơn. XANH = " + nA + " · ĐỎ = " + nB + "." },
     { key: "result", short: "Kết quả", timer: 0, title: "🏁 Công bố kết quả", desc: "" }
   ];
   /* debate */
@@ -369,9 +369,9 @@ function buildPhases(def) {
     ph.push({ key: "speak", round: r.n, stance: "disagree", timer: r.speak, short: "L" + r.n + " Phản đối",
       title: "", desc: "" });
   });
-  ph.push({ key: "vote", short: "Bình chọn", timer: 0,
+  ph.push({ key: "vote", short: "Bình chọn 30 giây", timer: 30,
     title: "🗳️ Bình chọn chung kết",
-    desc: "7 giám khảo bình chọn đội tranh biện thuyết phục hơn qua cả 4 lượt." });
+    desc: "7 giám khảo có 30 giây suy nghĩ, sau đó bình chọn đội tranh biện thuyết phục hơn qua cả 4 lượt." });
   ph.push({ key: "result", short: "Quán quân", timer: 0, title: "🏆 Công bố QUÁN QUÂN", desc: "" });
   return ph;
 }
@@ -410,10 +410,52 @@ function renderHome() {
 
 /* ---------------- Nhà vô địch ---------------- */
 function championIndex() { return matchState("F1").winner; }
+var championMusicStartedFor = null;
+function championAudioEl() { return $("#championAudio"); }
+function updateChampionMusicButton() {
+  var btn = $("#btnChampionMusic"), audio = championAudioEl();
+  if (!btn) return;
+  if (audio && audio.error) {
+    btn.disabled = true;
+    btn.textContent = "Chưa có file nhạc vô địch";
+    return;
+  }
+  btn.disabled = false;
+  btn.textContent = audio && !audio.paused && !audio.ended ? "⏸ Tạm dừng nhạc" : "🔊 Phát nhạc vô địch";
+}
+function stopChampionMusic(resetPosition) {
+  var audio = championAudioEl();
+  if (!audio) return;
+  try { audio.pause(); } catch (e) {}
+  if (resetPosition) { try { audio.currentTime = 0; } catch (e) {} }
+  updateChampionMusicButton();
+}
+function playChampionMusic(forceRestart) {
+  var champ = championIndex(), audio = championAudioEl();
+  if (champ == null || !audio) return;
+  if (!forceRestart && championMusicStartedFor === champ && !audio.paused && !audio.ended) {
+    updateChampionMusicButton();
+    return;
+  }
+  championMusicStartedFor = champ;
+  try {
+    audio.pause();
+    try { audio.currentTime = 0; } catch (e) {}
+    var promise = audio.play();
+    if (promise && typeof promise.catch === "function") promise.catch(function () { updateChampionMusicButton(); });
+  } catch (e) {}
+  updateChampionMusicButton();
+}
+function toggleChampionMusic() {
+  var audio = championAudioEl();
+  if (audio && !audio.paused && !audio.ended) stopChampionMusic(false);
+  else playChampionMusic(true);
+}
 function updateChampionUI() {
   var champ = championIndex();
   var nav = $("#navChampion");
   if (nav) nav.classList.toggle("hidden", champ == null);
+  if (champ == null) { championMusicStartedFor = null; stopChampionMusic(true); }
   if (champ == null && currentView === "champion") showView("bracket");
 }
 function renderChampion() {
@@ -432,6 +474,7 @@ function renderChampion() {
   }
   $("#championMeta").textContent = meta;
   updateChampionUI();
+  playChampionMusic(false);
 }
 
 /* ---------------- Render: Sơ đồ đấu ---------------- */
@@ -463,7 +506,7 @@ function matchCardHTML(def) {
 }
 function renderBracket() {
   var cols = [
-    { title: "VÒNG 1 · NHẬN DIỆN NĂNG LỰC", ids: ["R1M1", "R1M2", "R1M3", "R1M4"], cls: "col-r1" },
+    { title: "VÒNG 1 · PHÂN TÍCH THỰC TẾ", ids: ["R1M1", "R1M2", "R1M3", "R1M4"], cls: "col-r1" },
     { title: "VÒNG 2 · MY MAJOR, MY FUTURE", ids: ["R2M1", "R2M2"], cls: "col-r2" },
     { title: "VÒNG 3 · THE FINAL DEBATE", ids: ["F1"], cls: "final-col col-final" }
   ];
@@ -632,7 +675,7 @@ function renderMatch(resetClock) {
 }
 function chosenCardsHTML(ms, side) {
   var arr = ms.picks[side];
-  if (!arr.length) return '<p class="hint" style="text-align:center">MC chưa nhập thẻ của đội — có thể quay lại bước Thảo luận để nhập, phần trình bày vẫn diễn ra bình thường bằng thẻ giấy.</p>';
+  if (!arr.length) return "";
   return '<div class="chosen-cards">' + arr.map(function (L) {
     var c = cardOf(L);
     return '<div class="chosen-card" style="--cc:' + c.color + '"><div class="cl">' + c.letter + '</div><div class="cn">' + esc(c.name) + '</div><div class="cd">' + esc(c.desc) + "</div></div>";
@@ -651,6 +694,39 @@ function pickColumnHTML(def, ms, parts, side) {
         '" data-pick-side="' + side + '" data-pick-letter="' + c.letter + '"><span class="pl">' + c.letter + '</span><span class="pn">' + esc(c.name) + "</span></button>";
     }).join("") + "</div>" + countHTML + "</div>";
 }
+function taskBoxHTML(title, items, ordered) {
+  var tag = ordered === false ? "ul" : "ol";
+  return '<div class="task-box"><h4>' + esc(title) + '</h4><' + tag + '>' +
+    items.map(function (item) { return '<li>' + item + '</li>'; }).join("") + '</' + tag + '></div>';
+}
+function caseQuestionsHTML(includeChoice) {
+  var questions = [];
+  if (includeChoice) questions.push("Đội chọn hai năng lực nào?");
+  questions.push("Vì sao ưu tiên hai năng lực đó cho trường hợp thực tế này?");
+  questions.push("Vận dụng bằng những hành động cụ thể nào?");
+  return taskBoxHTML("❓ Câu hỏi cần trả lời", questions.map(esc), true);
+}
+function majorQuestionsHTML(ms, side) {
+  var selected = side ? (matchMajor(ms, side) || "ngành đội đã chọn") : "ngành học đội đã chọn";
+  return taskBoxHTML("❓ Câu hỏi cần trả lời", [
+    "Trong thời đại số, công việc hoặc yêu cầu lao động của ngành <strong>" + esc(selected) + "</strong> đang thay đổi như thế nào?",
+    "Đề xuất các năng lực quan trọng, cần ưu tiên nhất để thích ứng trong ngành đó và giải thích vì sao."
+  ], true);
+}
+function debateTasks(round) {
+  if (round === 1) return [
+    "Trình bày rõ luận điểm chính của phe mình.",
+    "Đưa luận cứ và dẫn chứng thuyết phục để bảo vệ luận điểm."
+  ];
+  if (round === 4) return [
+    "Tổng kết các luận điểm mạnh nhất của phe mình qua các lượt trước.",
+    "Khẳng định lại lập trường và nêu thông điệp chốt."
+  ];
+  return [
+    "Chỉ ra điểm chưa thuyết phục trong lập luận của đối thủ.",
+    "Bảo vệ và củng cố quan điểm của phe mình bằng lý lẽ, dẫn chứng."
+  ];
+}
 function phaseContentHTML(ph, def, ms, parts) {
   var nA = teamName(parts[0]), nB = teamName(parts[1]);
 
@@ -661,7 +737,7 @@ function phaseContentHTML(ph, def, ms, parts) {
     if (c.image && isURL(c.image)) html += '<img class="case-img" src="' + esc(c.image) + '" alt="Ảnh minh họa trường hợp" onerror="this.remove()">';
     if (c.source) html += '<div class="case-source">📌 Nguồn xác nhận: ' +
       (isURL(c.source) ? '<a href="' + esc(c.source) + '" target="_blank" rel="noopener noreferrer">' + esc(c.source) + "</a>" : esc(c.source)) + "</div>";
-    return html + "</div>";
+    return html + "</div>" + caseQuestionsHTML(true);
   }
 
   if (ph.key === "intro" && def.type === "major") {
@@ -675,22 +751,18 @@ function phaseContentHTML(ph, def, ms, parts) {
         '<select id="majorSelect' + side + '" class="major-select" data-major-side="' + side + '">' + options + "</select>" +
         (selected ? '<div class="case-body">🎓 <strong>' + esc(selected) + "</strong></div>" : '<p class="hint">Đội chưa chọn ngành.</p>') + "</div>";
     }
-    return '<div class="two-cols">' + majorBox(parts[0], "A") + majorBox(parts[1], "B") + "</div>" +
-      '<ul class="cue-list"><li><strong>Câu hỏi 1:</strong> Trong thời đại số, công việc hoặc yêu cầu lao động của ngành học đó đang thay đổi như thế nào?</li>' +
-      "<li><strong>Câu hỏi 2:</strong> Đề xuất các năng lực quan trọng, cần ưu tiên nhất để thích ứng trong ngành đó và giải thích vì sao.</li></ul>";
+    return '<div class="two-cols">' + majorBox(parts[0], "A") + majorBox(parts[1], "B") + "</div>" + majorQuestionsHTML(ms, null);
   }
 
   if (ph.key === "discuss") {
     if (def.type === "case")
-      return '<div class="two-cols">' + pickColumnHTML(def, ms, parts, "A") + pickColumnHTML(def, ms, parts, "B") + "</div>";
-    return '<p>Bấm <strong>Bắt đầu</strong> để tính 2 phút thảo luận đồng thời cho hai đội.</p><div class="two-cols">' + pickColumnHTML(def, ms, parts, "A") + pickColumnHTML(def, ms, parts, "B") + "</div>";
+      return caseQuestionsHTML(true) + '<div class="two-cols">' + pickColumnHTML(def, ms, parts, "A") + pickColumnHTML(def, ms, parts, "B") + "</div>";
+    return majorQuestionsHTML(ms, null) + '<div class="two-cols">' + pickColumnHTML(def, ms, parts, "A") + pickColumnHTML(def, ms, parts, "B") + "</div>";
   }
 
   if (ph.key === "present") {
     var idxP = parts[ph.side === "A" ? 0 : 1];
-    var cue = def.type === "case"
-      ? '<ul class="cue-list"><li>Đội chọn hai năng lực nào?</li><li>Vì sao ưu tiên hai năng lực đó cho trường hợp thực tế này?</li><li>Vận dụng bằng những hành động cụ thể nào?</li></ul>'
-      : '<ul class="cue-list"><li>Ngành <strong>' + esc(matchMajor(ms, ph.side) || "[chưa chọn]") + '</strong> đang thay đổi thế nào trong thời đại số?</li><li>Những năng lực nào cần ưu tiên nhất để thích ứng? Vì sao?</li></ul>';
+    var cue = def.type === "case" ? caseQuestionsHTML(false) : majorQuestionsHTML(ms, ph.side);
     return '<div class="present-box"><div class="present-role">Đang trình bày</div><div class="present-team">' + esc(teamName(idxP)) + "</div>" +
       chosenCardsHTML(ms, ph.side) + cue + "</div>";
   }
@@ -712,10 +784,19 @@ function phaseContentHTML(ph, def, ms, parts) {
   if (ph.key === "prep") {
     var rp = DEBATE_ROUNDS[ph.round - 1];
     var ag = sideForStance(ms, "agree"), dg = sideForStance(ms, "disagree");
+    var tasks = debateTasks(ph.round);
+    function prepCard(kind, side, label, order) {
+      var name = side ? teamName(parts[side === "A" ? 0 : 1]) : "—";
+      return '<div class="prep-task-card ' + kind + '"><h4>' + label + '</h4>' +
+        '<div class="prep-team">' + esc(name) + ' · phát biểu ' + order + ' (' + fmtTime(rp.speak) + ')</div>' +
+        '<ul>' + tasks.map(function (task) { return '<li>' + esc(task) + '</li>'; }).join("") + '</ul></div>';
+    }
     return '<div class="present-box"><div class="present-role">Thời gian chuẩn bị · ' + fmtTime(rp.prep) + "</div>" +
-      '<ul class="cue-list"><li><strong>Mục đích lượt ' + rp.n + ":</strong> " + rp.purpose + ".</li>" +
-      "<li>✅ <strong>" + esc(ag ? teamName(parts[ag === "A" ? 0 : 1]) : "—") + "</strong> (Đồng tình) sẽ phát biểu trước — " + fmtTime(rp.speak) + ".</li>" +
-      "<li>⛔ <strong>" + esc(dg ? teamName(parts[dg === "A" ? 0 : 1]) : "—") + "</strong> (Phản đối) sẽ phát biểu sau — " + fmtTime(rp.speak) + ".</li></ul>" +
+      '<p><strong>Mục đích lượt ' + rp.n + ':</strong> ' + esc(rp.purpose) + '.</p>' +
+      '<div class="prep-task-grid">' +
+        prepCard("agree", ag, "✅ Phe Đồng tình cần chuẩn bị", "trước") +
+        prepCard("disagree", dg, "⛔ Phe Phản đối cần chuẩn bị", "sau") +
+      '</div>' +
       '<p class="hint">Bấm <strong>Bắt đầu</strong> ở đồng hồ bên phải. Chủ đề: “' + esc(FINAL_TOPIC) + '”</p></div>';
   }
 
@@ -787,6 +868,7 @@ function showView(name) {
     name = "bracket";
   }
   if (name !== "match") stopTimer();
+  if (name !== "champion") stopChampionMusic(false);
   currentView = name;
   document.querySelectorAll(".view").forEach(function (v) { v.classList.remove("active"); });
   var el = $("#view-" + name); if (el) el.classList.add("active");
@@ -943,6 +1025,16 @@ $("#btnFullscreen").addEventListener("click", toggleFullscreen);
 $("#btnResetResults").addEventListener("click", resetResults);
 $("#btnDrawR1").addEventListener("click", drawRound1);
 $("#btnDrawR2").addEventListener("click", drawRound2);
+var championAudio = championAudioEl();
+if (championAudio) {
+  ["play", "pause", "ended", "error"].forEach(function (eventName) {
+    championAudio.addEventListener(eventName, updateChampionMusicButton);
+  });
+}
+var championMusicButton = $("#btnChampionMusic");
+if (championMusicButton) championMusicButton.addEventListener("click", function () { toggleChampionMusic(); this.blur(); });
+updateChampionMusicButton();
+
 
 document.addEventListener("input", function (e) {
   var t = e.target;

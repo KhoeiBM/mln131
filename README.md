@@ -38,13 +38,13 @@ Web là HTML/CSS/JS thuần, **không cần internet và không cần cài đặ
 
 ## Thời gian bấm giờ mặc định theo kịch bản
 
-| Vòng | Thảo luận | Trình bày |
-|---|---|---|
-| Vòng 1 | 1 phút | 1 phút/đội |
-| Vòng 2 | 2 phút | 1 phút 30 giây/đội |
-| Chung kết L1 | Chuẩn bị 2 phút | 1 phút/đội |
-| Chung kết L2–L3 | Chuẩn bị 1 phút 30 giây | 1 phút/đội |
-| Chung kết L4 (tổng kết) | Chuẩn bị 1 phút 30 giây | 1 phút 30 giây/đội |
+| Vòng | Thảo luận | Trình bày | Bình chọn |
+|---|---|---|---|
+| Vòng 1 | 1 phút | 1 phút/đội | 30 giây |
+| Vòng 2 | 2 phút | 1 phút 30 giây/đội | 30 giây |
+| Chung kết L1 | Chuẩn bị 2 phút | 1 phút/đội | — |
+| Chung kết L2–L3 | Chuẩn bị 1 phút 30 giây | 1 phút/đội | — |
+| Chung kết L4 (tổng kết) | Chuẩn bị 1 phút 30 giây | 1 phút 30 giây/đội | 30 giây ở bước bình chọn cuối |
 
 ## Lưu ý dữ liệu
 

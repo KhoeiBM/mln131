@@ -361,3 +361,11 @@ Sau khi xem bản demo, người dùng yêu cầu và web đã cập nhật:
 - Tab **Nhà vô địch** ở thanh bên trái chỉ xuất hiện sau khi chốt kết quả trận chung kết; ngay khi chốt, web tự động chuyển đến tab này.
 - Nội dung tab: hình cúp lớn, tên đội vô địch ngay phía dưới cúp, tỉ số/phe của trận chung kết và GIF ăn mừng do người dùng gửi ở dưới tên đội (`assets/champion-meme.png`; file nhận được là PNG tĩnh nên web thêm hiệu ứng nhảy múa bằng CSS).
 - Nếu kết quả chung kết bị sửa/đặt lại, tab tự ẩn và web quay về Sơ đồ đấu nếu đang ở tab này.
+
+## 15. Đợt chỉnh sửa theo hai loạt ảnh chụp (02/11/2026)
+
+1. **Tổng quan:** bỏ các chi tiết “(kể cả thầy)”, “(7–0, 6–1, 5–2, 4–3)”, bullet giải thích 7 phiếu lẻ/không hòa, dòng quy ước thẻ XANH/ĐỎ bên trái–phải và toàn bộ mục “MC vận hành như thế nào?”. Bộ 6 thẻ A–F chuyển thành lưới **3 thẻ × 2 hàng** trên màn hình rộng, chữ/mô tả lớn hơn. Ba vòng dùng tên/mô tả mới: Vòng 1 **PHÂN TÍCH THỰC TẾ**; Vòng 2 vẫn **MY MAJOR, MY FUTURE**; Chung kết vẫn **THE FINAL DEBATE**, với mô tả ngắn gọn hơn.
+2. **Câu hỏi trong trận:** màn hình Công bố trường hợp và Thảo luận Vòng 1 hiển thị cả 3 câu hỏi (“Đội chọn hai năng lực nào?”, “Vì sao ưu tiên…?”, “Vận dụng bằng những hành động cụ thể nào?”). Màn hình Trình bày Vòng 1 bỏ câu đầu, chỉ giữ hai câu còn lại. Mọi màn thảo luận/trình bày của Vòng 2 hiển thị 2 câu hỏi về ngành đã chọn.
+3. **Màn trình bày:** bỏ hoàn toàn cảnh báo “MC chưa nhập thẻ của đội…”; nếu chưa nhập thẻ thì vùng thẻ để trống. Bước Bình chọn ở cả ba loại trận có đồng hồ mặc định **0:30** để 7 giám khảo suy nghĩ trước khi MC ghi phiếu.
+4. **Chuẩn bị chung kết:** trước mỗi lượt, web hiển thị hai thẻ đầu việc riêng cho phe Đồng tình và phe Phản đối, gồm tên đội, thứ tự phát biểu và nhiệm vụ của lượt (mở luận điểm, phản biện hoặc tổng kết).
+5. **Nhà vô địch:** thay `champion-meme.png` bằng GIF89a động thật `assets/champion-meme.gif`; cúp và khung ảnh không dùng animation CSS, chỉ nội dung GIF chuyển động. Web đã nối sẵn cơ chế tự phát `assets/we-are-the-champions-hook.mp3` khi mở tab, kèm nút phát lại/tạm dừng. Vì BTC chưa cung cấp file ghi âm “We Are the Champions” của Queen và bản ghi có bản quyền, file MP3 chưa được đóng gói trong repo; khi BTC đặt file hợp lệ đúng tên trên vào `assets/`, tính năng phát nhạc sẽ hoạt động ngay mà không cần sửa code.
