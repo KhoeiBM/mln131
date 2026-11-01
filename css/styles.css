@@ -521,6 +521,18 @@ input[type="text"]:focus,textarea:focus{outline:none;border-color:var(--teal)}
 .bracket-teams{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:.75rem;margin-top:1rem}
 .bracket-team-item label{display:block;font-size:.82rem;font-weight:700;color:var(--muted);margin-bottom:.3rem}
 #drawStatus{margin:.9rem 0 0}
+.draw-btn.is-drawing{
+  opacity:1 !important;cursor:wait;
+  animation:pairDrawPulse .55s ease-in-out infinite alternate;
+}
+@keyframes pairDrawPulse{
+  from{transform:scale(1);filter:brightness(1)}
+  to{transform:scale(1.035);filter:brightness(1.14)}
+}
+.draw-btn.is-drawn:disabled{
+  opacity:1;background:#ffffff;border:1px solid #cbd9e4;color:#526a82;
+  box-shadow:none;cursor:not-allowed;
+}
 
 /* --- Dropdown chọn ngành Vòng 2 --- */
 .major-label{display:block;font-size:.88rem;font-weight:700;color:var(--muted);margin:.4rem 0 .35rem}
@@ -776,6 +788,12 @@ input[type="text"]:focus,textarea:focus{border-color:#14b8a6;outline:3px solid r
   border:3px solid #ffffff;border-radius:24px;
   box-shadow:0 18px 38px rgba(76,29,149,.22),0 0 0 1px #e7e5f4;
 }
+.champion-audio{display:block;width:min(440px,92%);margin:12px auto 0}
+.champion-music-status{
+  max-width:700px;margin:10px auto 0;color:#9a3412;
+  font-weight:650;line-height:1.55;
+}
+.champion-music-status:empty{display:none}
 .champion-stage .center-actions{margin-top:22px}
 
 /* ================= CÂU HỎI / ĐẦU VIỆC TRONG TRẬN ================= */

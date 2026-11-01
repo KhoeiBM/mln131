@@ -85,7 +85,7 @@ function sequentialPairs() { return [[0, 1], [2, 3], [4, 5], [6, 7]]; }
 function defaultState() {
   var m = {};
   MATCH_DEFS.forEach(function (d) { m[d.id] = blankMatchState(); });
-  return { matches: m, currentMatchId: null, draw: { r1: sequentialPairs(), r2: null } };
+  return { matches: m, currentMatchId: null, draw: { r1: sequentialPairs(), r2: null, r1Drawn: false, r2Drawn: false } };
 }
 function sanitizeConfig(c) {
   var d = defaultConfig(), i;
@@ -130,6 +130,14 @@ function sanitizeState(s) {
     var r1 = sanitizePairs(s.draw.r1, 4, 7);
     if (r1) d.draw.r1 = r1;
     d.draw.r2 = sanitizePairs(s.draw.r2, 2, 7); /* null nếu chưa bốc thăm */
+    var anyMatchProgress = MATCH_DEFS.some(function (def) {
+      var m = d.matches[def.id];
+      return m.winner != null || m.votes.length || m.picks.A.length || m.picks.B.length || m.phase > 0 || m.stanceA || m.majorA || m.majorB;
+    });
+    /* Trạng thái lưu từ bản cũ chưa có cờ đã bốc thăm: suy ra từ tiến trình/cặp đã xáo trộn để khóa nút đúng một lần. */
+    var r1LooksDrawn = JSON.stringify(d.draw.r1) !== JSON.stringify(sequentialPairs());
+    d.draw.r1Drawn = (typeof s.draw.r1Drawn === "boolean") ? s.draw.r1Drawn : (anyMatchProgress || r1LooksDrawn || !!d.draw.r2);
+    d.draw.r2Drawn = !!d.draw.r2;
   }
   return d;
 }
@@ -144,6 +152,8 @@ var config = sanitizeConfig(loadJSON(LS_CONFIG, function () {
 var tstate = sanitizeState(loadJSON(LS_STATE, defaultState));
 var currentView = "home";
 var drawingStance = false;
+var drawingPairRound = null;
+var pairDrawTimeout = null;
 
 function saveConfig() {
   try { localStorage.setItem(LS_CONFIG, JSON.stringify(config)); } catch (e) {}
@@ -222,6 +232,7 @@ function participantIndexes(def) {
 function clearDownstream(mid) {
   if (matchDef(mid).type === "case") {
     tstate.draw.r2 = null;
+    tstate.draw.r2Drawn = false;
     ["R2M1", "R2M2", "F1"].forEach(function (did) { tstate.matches[did] = blankMatchState(); });
   } else if (matchDef(mid).type === "major") {
     tstate.matches.F1 = blankMatchState();
@@ -411,17 +422,41 @@ function renderHome() {
 /* ---------------- Nhà vô địch ---------------- */
 function championIndex() { return matchState("F1").winner; }
 var championMusicStartedFor = null;
+var championMusicRetry = 0;
+var CHAMPION_MUSIC_PATH = "assets/we-are-the-champions-hook.mp3";
 function championAudioEl() { return $("#championAudio"); }
-function updateChampionMusicButton() {
-  var btn = $("#btnChampionMusic"), audio = championAudioEl();
-  if (!btn) return;
-  if (audio && audio.error) {
-    btn.disabled = true;
-    btn.textContent = "Chưa có file nhạc vô địch";
-    return;
+function championMusicStatusEl() { return $("#championMusicStatus"); }
+function championMusicErrorMessage(audio) {
+  var code = audio && audio.error ? audio.error.code : null;
+  var detail = code ? " (mã lỗi trình duyệt: " + code + ")" : "";
+  return "Chưa tải được nhạc" + detail + ". File phải nằm đúng tại " + CHAMPION_MUSIC_PATH +
+    " — kiểm tra thư mục assets và tên file phải chính xác là we-are-the-champions-hook.mp3, rồi bấm “Tải lại & phát nhạc”.";
+}
+function updateChampionMusicButton(message) {
+  var btn = $("#btnChampionMusic"), audio = championAudioEl(), status = championMusicStatusEl();
+  if (status) {
+    if (message) status.textContent = message;
+    else if (audio && audio.error) status.textContent = championMusicErrorMessage(audio);
+    else if (audio && !audio.paused && !audio.ended) status.textContent = "";
+    else if (status.textContent && audio && audio.readyState > 0) status.textContent = "";
   }
+  if (!btn) return;
+  /* Không khóa nút khi lỗi: người dùng có thể vừa bổ sung/đổi tên MP3 và bấm để web tải lại. */
   btn.disabled = false;
-  btn.textContent = audio && !audio.paused && !audio.ended ? "⏸ Tạm dừng nhạc" : "🔊 Phát nhạc vô địch";
+  if (audio && audio.error) btn.textContent = "↻ Tải lại & phát nhạc";
+  else btn.textContent = audio && !audio.paused && !audio.ended ? "⏸ Tạm dừng nhạc" : "🔊 Phát nhạc vô địch";
+}
+function reloadChampionMusic(audio) {
+  if (!audio) return;
+  try {
+    var base = (audio.getAttribute("src") || CHAMPION_MUSIC_PATH).split("?")[0];
+    /* Khi chạy qua http(s), thêm tham số mới để tránh trình duyệt giữ kết quả 404 cũ trong cache. */
+    if (/^https?:$/.test(window.location.protocol)) {
+      championMusicRetry++;
+      audio.src = base + "?retry=" + Date.now() + "-" + championMusicRetry;
+    }
+    audio.load();
+  } catch (e) {}
 }
 function stopChampionMusic(resetPosition) {
   var audio = championAudioEl();
@@ -438,17 +473,25 @@ function playChampionMusic(forceRestart) {
     return;
   }
   championMusicStartedFor = champ;
+  /* File có thể được thêm vào sau khi trang đã mở: luôn tải lại nếu lần tải trước bị lỗi. */
+  if (audio.error || audio.networkState === 3) reloadChampionMusic(audio);
   try {
     audio.pause();
     try { audio.currentTime = 0; } catch (e) {}
     var promise = audio.play();
-    if (promise && typeof promise.catch === "function") promise.catch(function () { updateChampionMusicButton(); });
-  } catch (e) {}
+    if (promise && typeof promise.catch === "function") promise.catch(function (err) {
+      var reason = err && err.name ? " (" + err.name + ")" : "";
+      if (audio.error) updateChampionMusicButton(championMusicErrorMessage(audio));
+      else updateChampionMusicButton("Trình duyệt chưa cho phát nhạc" + reason + ". Hãy bấm nút phát nhạc hoặc nút ▶ trên thanh âm thanh.");
+    });
+  } catch (e) {
+    updateChampionMusicButton("Trình duyệt chưa cho phát nhạc. Hãy bấm nút ▶ trên thanh âm thanh.");
+  }
   updateChampionMusicButton();
 }
 function toggleChampionMusic() {
   var audio = championAudioEl();
-  if (audio && !audio.paused && !audio.ended) stopChampionMusic(false);
+  if (audio && !audio.paused && !audio.ended && !audio.error) stopChampionMusic(false);
   else playChampionMusic(true);
 }
 function updateChampionUI() {
@@ -545,10 +588,40 @@ function shuffle(arr) {
   }
   return a;
 }
+function isPairDrawn(round) {
+  if (!tstate.draw) return false;
+  return round === 1 ? !!tstate.draw.r1Drawn : !!(tstate.draw.r2Drawn || tstate.draw.r2);
+}
+function setPairDrawButton(btn, round, drawn, eligible) {
+  if (!btn) return;
+  var roundKey = round === 1 ? "r1" : "r2";
+  var isDrawingThis = drawingPairRound === roundKey;
+  btn.disabled = drawn || !!drawingPairRound || !eligible;
+  btn.classList.toggle("primary-btn", !drawn);
+  btn.classList.toggle("secondary-btn", drawn);
+  btn.classList.toggle("is-drawn", drawn);
+  btn.classList.toggle("is-drawing", isDrawingThis);
+  btn.setAttribute("aria-busy", isDrawingThis ? "true" : "false");
+  btn.textContent = isDrawingThis
+    ? "🎲 Đang bốc thăm…"
+    : drawn
+      ? "✓ Đã bốc thăm chia cặp Vòng " + round
+      : "🎲 Bốc thăm chia cặp Vòng " + round;
+  btn.title = drawn
+    ? "Đã bốc thăm Vòng " + round + " — mỗi nút chỉ bốc thăm một lần"
+    : (!eligible && round === 2 ? "Bốc thăm Vòng 2 mở sau khi có đủ 4 đội thắng Vòng 1" : "");
+}
 function updateDrawUI() {
-  var status = $("#drawStatus"), btn2 = $("#btnDrawR2");
-  if (!status || !btn2) return;
+  var status = $("#drawStatus"), btn1 = $("#btnDrawR1"), btn2 = $("#btnDrawR2");
+  if (!status || !btn1 || !btn2) return;
   var wins = r1WinnerIndexes();
+  var r1Drawn = isPairDrawn(1), r2Drawn = isPairDrawn(2);
+  setPairDrawButton(btn1, 1, r1Drawn, true);
+  setPairDrawButton(btn2, 2, r2Drawn, wins.length === 4);
+  if (drawingPairRound) {
+    status.textContent = "🎲 Đang bốc thăm chia cặp " + (drawingPairRound === "r1" ? "Vòng 1" : "Vòng 2") + "…";
+    return;
+  }
   var r1Text = tstate.draw && tstate.draw.r1
     ? "Cặp Vòng 1: " + tstate.draw.r1.map(function (p) { return teamName(p[0]) + " – " + teamName(p[1]); }).join(" · ")
     : "";
@@ -560,40 +633,69 @@ function updateDrawUI() {
   else
     r2Text = "Bốc thăm Vòng 2 sẽ mở sau khi có đủ 4 đội thắng Vòng 1 (hiện " + wins.length + "/4).";
   status.textContent = r1Text + "  |  " + r2Text;
-  btn2.disabled = wins.length !== 4;
-  btn2.classList.toggle("primary-btn", wins.length === 4 && !tstate.draw.r2);
-  btn2.classList.toggle("secondary-btn", !(wins.length === 4 && !tstate.draw.r2));
+}
+function cancelPairDraw() {
+  if (pairDrawTimeout) { clearTimeout(pairDrawTimeout); pairDrawTimeout = null; }
+  drawingPairRound = null;
+}
+function beginPairDraw(roundKey, finalize) {
+  if (drawingPairRound) return;
+  drawingPairRound = roundKey;
+  updateDrawUI();
+  beep(523, 0.1);
+  pairDrawTimeout = setTimeout(function () {
+    pairDrawTimeout = null;
+    drawingPairRound = null;
+    finalize();
+  }, 950);
 }
 function drawRound1() {
+  if (drawingPairRound) return;
+  if (isPairDrawn(1)) {
+    updateDrawUI();
+    toast("🎲 Vòng 1 đã bốc thăm rồi — mỗi nút chỉ được bấm một lần.");
+    return;
+  }
   var hasProgress = MATCH_DEFS.some(function (d) {
     var m = matchState(d.id);
     return m.winner != null || m.votes.length || m.picks.A.length || m.picks.B.length || m.phase > 0;
   });
-  if (hasProgress && !confirm("Đã có tiến trình/kết quả thi đấu. Bốc thăm lại Vòng 1 sẽ đặt lại toàn bộ kết quả giải đấu. Tiếp tục?")) return;
-  var order = shuffle([0, 1, 2, 3, 4, 5, 6, 7]);
-  var cur = tstate.currentMatchId;
-  tstate = defaultState();
-  tstate.draw.r1 = [[order[0], order[1]], [order[2], order[3]], [order[4], order[5]], [order[6], order[7]]];
-  tstate.currentMatchId = null;
-  saveState(); stopTimer();
-  renderHome(); renderBracket(); renderMatch(true);
-  toast("🎲 Đã bốc thăm cặp Vòng 1: " + tstate.draw.r1.map(function (p) { return teamName(p[0]) + " – " + teamName(p[1]); }).join(" · "));
+  if (hasProgress && !confirm("Đã có tiến trình/kết quả thi đấu. Bốc thăm Vòng 1 sẽ đặt lại toàn bộ kết quả giải đấu. Tiếp tục?")) return;
+  beginPairDraw("r1", function () {
+    var order = shuffle([0, 1, 2, 3, 4, 5, 6, 7]);
+    tstate = defaultState();
+    tstate.draw.r1 = [[order[0], order[1]], [order[2], order[3]], [order[4], order[5]], [order[6], order[7]]];
+    tstate.draw.r1Drawn = true;
+    tstate.draw.r2Drawn = false;
+    tstate.currentMatchId = null;
+    saveState(); stopTimer();
+    renderHome(); renderBracket(); renderMatch(true);
+    beep(1046, 0.2);
+    toast("🎲 Đã bốc thăm cặp Vòng 1: " + tstate.draw.r1.map(function (p) { return teamName(p[0]) + " – " + teamName(p[1]); }).join(" · "));
+  });
 }
 function drawRound2() {
+  if (drawingPairRound) return;
+  if (isPairDrawn(2)) {
+    updateDrawUI();
+    toast("🎲 Vòng 2 đã bốc thăm rồi — mỗi nút chỉ được bấm một lần.");
+    return;
+  }
   var wins = r1WinnerIndexes();
   if (wins.length !== 4) { toast("Cần chốt đủ 4 trận Vòng 1 trước khi bốc thăm Vòng 2."); return; }
-  var hasR2 = ["R2M1", "R2M2", "F1"].some(function (id) {
-    var m = matchState(id);
-    return m.winner != null || m.votes.length || m.phase > 0 || m.majorA || m.majorB || m.stanceA;
+  beginPairDraw("r2", function () {
+    var finalWins = r1WinnerIndexes();
+    if (finalWins.length !== 4) { updateDrawUI(); return; }
+    var order = shuffle(finalWins);
+    tstate.draw.r2 = [[order[0], order[1]], [order[2], order[3]]];
+    tstate.draw.r2Drawn = true;
+    ["R2M1", "R2M2", "F1"].forEach(function (did) { tstate.matches[did] = blankMatchState(); });
+    if (tstate.currentMatchId === "R2M1" || tstate.currentMatchId === "R2M2" || tstate.currentMatchId === "F1") tstate.currentMatchId = null;
+    saveState(); stopTimer();
+    renderBracket(); renderMatch(true);
+    beep(1046, 0.2);
+    toast("🎲 Đã bốc thăm cặp Vòng 2: " + tstate.draw.r2.map(function (p) { return teamName(p[0]) + " – " + teamName(p[1]); }).join(" · "));
   });
-  if (tstate.draw.r2 && hasR2 && !confirm("Vòng 2/Chung kết đã có tiến trình. Bốc thăm lại sẽ đặt lại các trận bán kết và chung kết. Tiếp tục?")) return;
-  var order = shuffle(wins);
-  tstate.draw.r2 = [[order[0], order[1]], [order[2], order[3]]];
-  ["R2M1", "R2M2", "F1"].forEach(function (did) { tstate.matches[did] = blankMatchState(); });
-  if (tstate.currentMatchId === "R2M1" || tstate.currentMatchId === "R2M2" || tstate.currentMatchId === "F1") tstate.currentMatchId = null;
-  saveState(); stopTimer();
-  renderBracket(); renderMatch(true);
-  toast("🎲 Đã bốc thăm cặp Vòng 2: " + tstate.draw.r2.map(function (p) { return teamName(p[0]) + " – " + teamName(p[1]); }).join(" · "));
 }
 
 /* ---------------- Render: Trận đấu ---------------- */
@@ -880,6 +982,7 @@ function showView(name) {
   window.scrollTo({ top: 0, behavior: "smooth" });
 }
 function openMatch(id) {
+  if (drawingPairRound) { toast("🎲 Đang bốc thăm chia cặp, vui lòng chờ một chút…"); return; }
   var def = matchDef(id);
   if (!def) return;
   if (!participantIndexes(def)) { toast("Trận này chưa xác định đủ 2 đội."); return; }
@@ -945,9 +1048,30 @@ function launchConfetti() {
 /* ---------------- Đặt lại giải đấu ---------------- */
 function resetResults() {
   if (!confirm("Đặt lại toàn bộ kết quả thi đấu, phiếu bầu, thẻ đã chọn và kết quả bốc thăm chia cặp? Tên các đội vẫn được giữ nguyên.")) return;
+  cancelPairDraw();
   tstate = defaultState(); saveState(); stopTimer();
   renderHome(); renderBracket(); renderMatch(true);
   toast("↺ Đã đặt lại kết quả thi đấu.");
+}
+function clearSavedData() {
+  if (!confirm("Xóa TOÀN BỘ dữ liệu web đã lưu trong trình duyệt này, gồm tên 8 đội, kết quả bốc thăm, phiếu bầu, thẻ/ngành đã chọn và tiến trình thi đấu?")) return;
+  try {
+    localStorage.removeItem(LS_CONFIG);
+    localStorage.removeItem(LS_STATE);
+    localStorage.removeItem("cns_config_v1");
+  } catch (e) {}
+  cancelPairDraw();
+  config = defaultConfig();
+  tstate = defaultState();
+  championMusicStartedFor = null;
+  stopTimer();
+  stopChampionMusic(true);
+  renderHome();
+  renderBracketTeams();
+  renderBracket();
+  renderMatch(true);
+  showView("bracket");
+  toast("🧹 Đã xóa toàn bộ dữ liệu đã lưu trong trình duyệt.");
 }
 
 /* ---------------- Sự kiện ---------------- */
@@ -1023,12 +1147,13 @@ $("#btnPrevPhase").addEventListener("click", function () { goPhase(-1); this.blu
 $("#btnNextPhase").addEventListener("click", function () { goPhase(1); this.blur(); });
 $("#btnFullscreen").addEventListener("click", toggleFullscreen);
 $("#btnResetResults").addEventListener("click", resetResults);
+$("#btnClearSavedData").addEventListener("click", clearSavedData);
 $("#btnDrawR1").addEventListener("click", drawRound1);
 $("#btnDrawR2").addEventListener("click", drawRound2);
 var championAudio = championAudioEl();
 if (championAudio) {
-  ["play", "pause", "ended", "error"].forEach(function (eventName) {
-    championAudio.addEventListener(eventName, updateChampionMusicButton);
+  ["loadedmetadata", "canplay", "play", "pause", "ended", "error"].forEach(function (eventName) {
+    championAudio.addEventListener(eventName, function () { updateChampionMusicButton(); });
   });
 }
 var championMusicButton = $("#btnChampionMusic");

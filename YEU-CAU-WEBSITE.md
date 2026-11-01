@@ -369,3 +369,15 @@ Sau khi xem bản demo, người dùng yêu cầu và web đã cập nhật:
 3. **Màn trình bày:** bỏ hoàn toàn cảnh báo “MC chưa nhập thẻ của đội…”; nếu chưa nhập thẻ thì vùng thẻ để trống. Bước Bình chọn ở cả ba loại trận có đồng hồ mặc định **0:30** để 7 giám khảo suy nghĩ trước khi MC ghi phiếu.
 4. **Chuẩn bị chung kết:** trước mỗi lượt, web hiển thị hai thẻ đầu việc riêng cho phe Đồng tình và phe Phản đối, gồm tên đội, thứ tự phát biểu và nhiệm vụ của lượt (mở luận điểm, phản biện hoặc tổng kết).
 5. **Nhà vô địch:** thay `champion-meme.png` bằng GIF89a động thật `assets/champion-meme.gif`; cúp và khung ảnh không dùng animation CSS, chỉ nội dung GIF chuyển động. Web đã nối sẵn cơ chế tự phát `assets/we-are-the-champions-hook.mp3` khi mở tab, kèm nút phát lại/tạm dừng. Vì BTC chưa cung cấp file ghi âm “We Are the Champions” của Queen và bản ghi có bản quyền, file MP3 chưa được đóng gói trong repo; khi BTC đặt file hợp lệ đúng tên trên vào `assets/`, tính năng phát nhạc sẽ hoạt động ngay mà không cần sửa code.
+
+## 16. Nút bốc thăm chia cặp chỉ bấm một lần (02/11/2026)
+
+- Cả hai nút **Bốc thăm chia cặp Vòng 1** và **Bốc thăm chia cặp Vòng 2** đều có màu xanh khi chưa bốc thăm. Sau khi bấm, nút chuyển sang trạng thái chờ “🎲 Đang bốc thăm…” trong 950ms với hiệu ứng nhịp và tiếng bíp bắt đầu/kết thúc giống nút bốc thăm phe ở Chung kết.
+- Bốc thăm xong, nút chuyển sang **màu trắng**, đổi nhãn thành “✓ Đã bốc thăm chia cặp…” và bị khóa. Cờ trạng thái được lưu trong `localStorage` nên tải lại trang vẫn khóa; trạng thái đã lưu từ bản cũ (đã có tiến trình/cặp Vòng 2 hoặc cặp Vòng 1 đã xáo trộn) cũng được nhận diện là đã bốc thăm.
+- Nút chỉ mở khóa khi đặt lại kết quả/xóa dữ liệu đã lưu. Riêng nút Vòng 2 tự mở khóa nếu việc sửa kết quả Vòng 1 làm lượt bốc thăm Vòng 2 cũ bị hủy.
+
+## 17. Bổ sung MP3 thật và nút xóa dữ liệu trình duyệt (02/11/2026)
+
+- BTC đã tải file nhạc lên GitHub với tên `assets/we-are-the-champions-copia.mp3`; file được đổi tên thành `assets/we-are-the-champions-hook.mp3` để khớp đường dẫn web đang tìm. Đây là nguyên nhân trước đó tab Nhà vô địch không phát nhạc dù MP3 đã nằm trong `assets/`.
+- Trình phát nhạc ở tab Nhà vô địch có thanh điều khiển dự phòng, dòng trạng thái báo đường dẫn/mã lỗi và nút **↻ Tải lại & phát nhạc** để xử lý trường hợp file được thêm sau khi trang đã mở hoặc trình duyệt còn giữ kết quả lỗi cũ.
+- Tên đội và tiến trình được lưu trong `localStorage`, không nằm trong thư mục dự án; vì vậy xóa file rồi tải lại vẫn thấy dữ liệu cũ trên cùng trình duyệt. Trang Sơ đồ đấu có nút **🧹 Xóa dữ liệu đã lưu** để xóa cả tên đội lẫn tiến trình, tách biệt với nút đặt lại kết quả vốn giữ tên đội.

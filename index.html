@@ -132,6 +132,7 @@
       </div>
       <div class="view-head-actions">
         <button type="button" id="btnResetResults" class="danger-ghost-btn">↺ Đặt lại kết quả thi đấu</button>
+        <button type="button" id="btnClearSavedData" class="danger-ghost-btn" title="Xóa cả tên đội và tiến trình đang lưu trong trình duyệt">🧹 Xóa dữ liệu đã lưu</button>
       </div>
     </div>
     <div id="championBanner" class="champion-banner hidden" data-nav="champion" role="button" tabindex="0" title="Mở tab Nhà vô địch"></div>
@@ -140,8 +141,8 @@
       <div class="teams-panel-head">
         <h3>🧑‍🤝‍🧑 Danh sách 8 đội</h3>
         <div class="draw-actions">
-          <button type="button" id="btnDrawR1" class="primary-btn">🎲 Bốc thăm chia cặp Vòng 1</button>
-          <button type="button" id="btnDrawR2" class="secondary-btn">🎲 Bốc thăm chia cặp Vòng 2</button>
+          <button type="button" id="btnDrawR1" class="primary-btn draw-btn">🎲 Bốc thăm chia cặp Vòng 1</button>
+          <button type="button" id="btnDrawR2" class="primary-btn draw-btn">🎲 Bốc thăm chia cặp Vòng 2</button>
         </div>
       </div>
       <div id="bracketTeams" class="bracket-teams"></div>
@@ -219,7 +220,8 @@
       <h2 id="championTeamName">—</h2>
       <p id="championMeta" class="champion-meta"></p>
       <img class="champion-gif" src="assets/champion-meme.gif" alt="GIF ăn mừng nhà vô địch" width="220" height="190">
-      <audio id="championAudio" src="assets/we-are-the-champions-hook.mp3" preload="auto"></audio>
+      <audio id="championAudio" class="champion-audio" src="assets/we-are-the-champions-hook.mp3" preload="auto" controls></audio>
+      <p id="championMusicStatus" class="champion-music-status" role="status" aria-live="polite"></p>
       <div class="center-actions">
         <button type="button" id="btnChampionMusic" class="secondary-btn big">🔊 Phát nhạc vô địch</button>
         <button type="button" class="primary-btn big" data-nav="bracket">🏆 Xem sơ đồ đấu</button>

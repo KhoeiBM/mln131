@@ -19,9 +19,9 @@ Web là HTML/CSS/JS thuần, **không cần internet và không cần cài đặ
 - Vòng 2: mỗi đội chọn ngành bằng **dropdown 6 ngành** khi vào trận bán kết.
 - Chủ đề Vòng 3 (chính thức): *“Trong thời đại số hiện nay, AI đang có xu hướng thay thế người lao động thay vì chỉ hỗ trợ họ làm việc”*.
 
-1. **Trước giờ thi:** mở **🏆 Sơ đồ đấu**, đổi tên 8 đội ở danh sách phía trên, rồi bấm **🎲 Bốc thăm chia cặp Vòng 1**.
+1. **Trước giờ thi:** mở **🏆 Sơ đồ đấu**, đổi tên 8 đội ở danh sách phía trên, rồi bấm nút xanh **🎲 Bốc thăm chia cặp Vòng 1**. Nút sẽ hiện trạng thái chờ kèm tiếng bíp, sau khi bốc xong chuyển sang màu trắng và khóa lại.
 2. **Khi thi đấu:** bấm **Vào trận** → **Toàn màn hình**, đi từng bước: công bố đề → bấm giờ thảo luận → nhập 2 thẻ mỗi đội đã giơ → bấm giờ trình bày → ghi 7 phiếu giám khảo → **Chốt đội thắng**.
-3. **Sau Vòng 1:** quay lại Sơ đồ đấu, bấm **🎲 Bốc thăm chia cặp Vòng 2** để ghép ngẫu nhiên 4 đội thắng thành 2 trận bán kết. Trong trận bán kết, từng đội chọn ngành học ở bước đầu tiên.
+3. **Sau Vòng 1:** quay lại Sơ đồ đấu, bấm nút xanh **🎲 Bốc thăm chia cặp Vòng 2** để ghép ngẫu nhiên 4 đội thắng thành 2 trận bán kết; nút cũng chuyển trắng và khóa sau lần bốc thăm duy nhất. Trong trận bán kết, từng đội chọn ngành học ở bước đầu tiên.
 4. **Kết thúc:** ngay khi chốt kết quả chung kết, web tự hiện thêm tab **🏆 Nhà vô địch** ở thanh bên trái và tự chuyển tới đó — hiển thị cúp, tên đội vô địch bên dưới cúp và GIF ăn mừng. Trên sơ đồ, đội thắng vẫn được highlight viền nối vào vòng trong.
 
 ## Điều khiển & phím tắt
@@ -48,15 +48,16 @@ Web là HTML/CSS/JS thuần, **không cần internet và không cần cài đặ
 
 ## Lưu ý dữ liệu
 
-- Tên đội, kết quả bốc thăm và tiến trình thi đấu lưu trong `localStorage` (khóa `cns_*_v2`) của **từng trình duyệt trên từng máy**. Hãy chạy thử và thi thật trên cùng một máy/trình duyệt khi có thể.
-- Bốc thăm lại Vòng 1 sẽ đặt lại toàn bộ kết quả; bốc thăm lại Vòng 2 sẽ đặt lại bán kết + chung kết. Nút **Đặt lại kết quả thi đấu** xóa kết quả/phiếu/thẻ và lượt bốc thăm, nhưng giữ nguyên tên đội.
+- Tên đội, kết quả bốc thăm và tiến trình thi đấu lưu trong `localStorage` (khóa `cns_*_v2`) của **từng trình duyệt trên từng máy**, không lưu trong các file của dự án. Vì vậy, xóa thư mục web rồi tải lại và mở bằng cùng trình duyệt/địa chỉ vẫn thấy dữ liệu cũ. Hãy chạy thử và thi thật trên cùng một máy/trình duyệt khi có thể.
+- Mỗi nút bốc thăm chia cặp chỉ bấm được **một lần**: chưa bốc thăm nút có màu xanh, bốc xong nút chuyển trắng và bị khóa (trạng thái này cũng được lưu trong trình duyệt). Nút **Đặt lại kết quả thi đấu** xóa kết quả/phiếu/thẻ, mở khóa lại hai nút bốc thăm nhưng giữ nguyên tên đội. Nếu sửa kết quả Vòng 1 làm lượt bốc thăm Vòng 2 bị hủy, riêng nút Vòng 2 sẽ mở khóa để bốc thăm lại cho nhánh mới. Muốn làm mới hoàn toàn như lần đầu mở web, dùng nút **🧹 Xóa dữ liệu đã lưu** ở trang Sơ đồ đấu.
 - Nếu sửa kết quả một trận Vòng 1 sau khi đã bốc thăm/đấu Vòng 2, web tự xóa lượt bốc thăm Vòng 2 và các trận phía sau để tránh sai nhánh.
+- Nhạc Nhà vô địch đang nằm tại `assets/we-are-the-champions-hook.mp3` và sẽ tự phát khi mở tab Nhà vô địch. Nếu thay file khác, giữ đúng tên này; nếu thay file trong lúc trang đang mở, bấm **↻ Tải lại & phát nhạc** (hoặc `Ctrl+F5`). Thanh âm thanh ngay dưới GIF có nút phát thủ công nếu trình duyệt chặn tự phát, và dòng trạng thái sẽ báo lỗi nếu sai đường dẫn/định dạng.
 
 ## Cấu trúc file
 
 ```
 index.html            Giao diện chính (Tổng quan, Sơ đồ đấu, Trận đấu) + tab Nhà vô địch hiện sau chung kết
-assets/               Hình/GIF ăn mừng của tab Nhà vô địch
+assets/               GIF động và MP3 nhạc ăn mừng của tab Nhà vô địch
 css/styles.css        Theme trắng + sidebar trái, bracket đối xứng căn giữa các vòng
 js/app.js             Đề bài gắn sẵn, bốc thăm chia cặp, đồng hồ, chọn thẻ/ngành, ghi 7 phiếu, bốc thăm phe
 YEU-CAU-WEBSITE.md    Tài liệu kịch bản & yêu cầu đã hệ thống hóa
