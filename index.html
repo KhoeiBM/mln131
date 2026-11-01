@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CÔNG NHÂN SỐ – Chọn Năng Lực, Giải Bài Toán</title>
+<meta name="description" content="Website điều hành trò chơi Công Nhân Số: 8 đội loại trực tiếp, 3 vòng thi, tranh biện chung kết.">
+<link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+
+<header class="topbar">
+  <div class="brand" data-nav="home" role="button" tabindex="0" title="Về trang tổng quan">
+    <span class="brand-icon">◈</span>
+    <span class="brand-text">
+      <strong>CÔNG NHÂN SỐ</strong>
+      <small>Kỹ năng thích ứng</small>
+    </span>
+  </div>
+  <nav class="main-nav" aria-label="Điều hướng chính">
+    <button type="button" class="nav-btn active" data-nav="home">⌂&ensp;Tổng quan</button>
+    <button type="button" class="nav-btn" data-nav="bracket">◈&ensp;Sơ đồ đấu</button>
+    <button type="button" class="nav-btn" data-nav="match">▶&ensp;Trận đấu</button>
+    <button type="button" class="nav-btn" data-nav="editor">⚙&ensp;Soạn nội dung</button>
+  </nav>
+  <div class="side-info">
+    <div class="mini-label">Gameshow trực tiếp</div>
+    <strong>8 → 4 → 2 → 1</strong>
+    <p>3 vòng · 7 phiếu quyết định mỗi trận<br>Trạng thái được lưu tự động trên trình duyệt.</p>
+  </div>
+  <div class="topbar-actions">
+    <button type="button" id="btnFullscreen" class="ghost-btn" title="Toàn màn hình (phím F)">⛶ Toàn màn hình</button>
+  </div>
+</header>
+
+<main>
+
+  <div class="content-topbar">
+    <div>
+      <div class="eyebrow">Thời đại số · Kỹ năng thích ứng</div>
+      <div class="content-title">Công nhân số – Chọn năng lực, giải bài toán</div>
+    </div>
+    <span class="live-tag">● Gameshow trực tiếp</span>
+  </div>
+
+  <!-- ============ VIEW: TỔNG QUAN ============ -->
+  <section id="view-home" class="view active">
+    <div class="hero">
+      <div class="hero-badge">TRÒ CHƠI HỌC THUẬT · 8 ĐỘI · LOẠI TRỰC TIẾP</div>
+      <h1>CÔNG NHÂN SỐ</h1>
+      <p class="hero-sub">CHỌN NĂNG LỰC, GIẢI BÀI TOÁN</p>
+      <p class="hero-desc">Người lao động trong thời đại chuyển đổi số cần những năng lực gì?<br>
+      8 đội tranh tài qua 3 vòng — đội thuyết phục nhất sẽ trở thành <strong>ĐỘI CÔNG NHÂN SỐ</strong>.</p>
+      <div class="hero-actions">
+        <button type="button" class="primary-btn big" data-nav="bracket">▶ Vào sơ đồ thi đấu</button>
+        <button type="button" class="secondary-btn big" data-nav="editor">✏️ Soạn nội dung đề thi</button>
+      </div>
+      <div id="homeProgress" class="hero-progress"></div>
+      <div class="stat-row">
+        <div class="stat"><b>08</b><span>Đội khởi đầu</span></div>
+        <div class="stat"><b>03</b><span>Vòng thi đấu</span></div>
+        <div class="stat"><b>07</b><span>Phiếu quyết định mỗi trận</span></div>
+      </div>
+    </div>
+
+    <h2 class="section-title">🧑‍🤝‍🧑 8 đội thi đấu</h2>
+    <div id="homeTeams" class="team-chips"></div>
+    <p class="hint">Tên đội &amp; ngành học đang để trống — BTC điền tại trang <button type="button" class="link-btn" data-nav="editor">Soạn nội dung</button>. Cặp đấu vòng bảng: Đội 1–2, 3–4, 5–6, 7–8.</p>
+
+    <h2 class="section-title">🎯 Thể lệ 3 vòng thi</h2>
+    <div class="rounds-grid">
+      <article class="round-card r1">
+        <div class="round-tag">VÒNG 1 · 4 TRẬN</div>
+        <h3>NHẬN DIỆN NĂNG LỰC</h3>
+        <p class="round-name">Phân tích thực tế – Chọn năng lực</p>
+        <ul>
+          <li>Mỗi cặp nhận 1 <strong>trường hợp thực tế có nguồn xác nhận</strong> về chuyển đổi số / AI / tự động hóa / lao động tại Việt Nam.</li>
+          <li><strong>1 phút</strong> thảo luận, chọn đúng <strong>2 thẻ</strong> trong bộ 6 thẻ A–F.</li>
+          <li>Mỗi đội <strong>1 phút</strong> trình bày lựa chọn &amp; lý do.</li>
+        </ul>
+        <div class="round-result">→ Chọn 4 đội thắng vào bán kết</div>
+      </article>
+      <article class="round-card r2">
+        <div class="round-tag">VÒNG 2 · 2 TRẬN BÁN KẾT</div>
+        <h3>MY MAJOR, MY FUTURE</h3>
+        <p class="round-name">Ngành học của tôi – Việc làm của tương lai</p>
+        <ul>
+          <li>Mỗi đội phân tích <strong>ngành học của chính mình</strong> tại FPT Hà Nội trong thời đại số.</li>
+          <li><strong>2 phút</strong> thảo luận, <strong>1 phút 30 giây</strong>/đội trình bày.</li>
+          <li>Trả lời: công việc đang thay đổi thế nào? Năng lực nào cần ưu tiên nhất, vì sao?</li>
+        </ul>
+        <div class="round-result">→ Chọn 2 đội thắng vào chung kết</div>
+      </article>
+      <article class="round-card r3">
+        <div class="round-tag">VÒNG 3 · CHUNG KẾT</div>
+        <h3>THE FINAL DEBATE</h3>
+        <p class="round-name">Tranh biện 4 lượt về tương lai của AI &amp; người lao động</p>
+        <ul>
+          <li>Bốc thăm phe: <strong>Đồng tình</strong> vs <strong>Phản đối</strong>.</li>
+          <li>Lượt 1 trình bày luận điểm · Lượt 2–3 phản biện · Lượt 4 tổng kết.</li>
+          <li>Chủ đề: <em id="homeTopic">…</em></li>
+        </ul>
+        <div class="round-result">→ Đội thắng là QUÁN QUÂN 🏆</div>
+      </article>
+    </div>
+
+    <h2 class="section-title">🃏 Bộ 6 thẻ năng lực A–F</h2>
+    <div id="homeCards" class="cards-grid"></div>
+
+    <h2 class="section-title">⚖️ Hội đồng giám khảo &amp; cách phân thắng bại</h2>
+    <div class="judges-panel">
+      <div class="judges-visual" aria-hidden="true">
+        <div class="judge-icons">
+          <span class="judge teacher" title="Thầy">🎓</span><span class="judge">🧑</span><span class="judge">🧑</span><span class="judge">🧑</span><span class="judge">🧑</span><span class="judge">🧑</span><span class="judge">🧑</span><span class="judge">🧑</span><span class="judge">🧑</span>
+        </div>
+        <p class="judges-caption">9 giám khảo = <strong>Thầy</strong> + 8 thành viên của 8 đội</p>
+      </div>
+      <ul class="judges-rules">
+        <li>2 giám khảo thuộc 2 đội đang thi <strong>không bình chọn</strong> trong trận đó.</li>
+        <li><strong>7 giám khảo còn lại</strong> vote — mỗi người 1 phiếu ngang nhau (kể cả thầy). Đội nhiều phiếu hơn thắng (7–0, 6–1, 5–2, 4–3).</li>
+        <li>7 là số lẻ nên <strong>không bao giờ hòa</strong> — không cần hiệp phụ, không chấm điểm.</li>
+        <li>Giám khảo không thảo luận/hỗ trợ đội mình trong lúc thi đấu.</li>
+        <li><span class="dot dot-blue"></span> Thẻ <strong>XANH</strong> = chọn đội bên trái &nbsp;·&nbsp; <span class="dot dot-red"></span> Thẻ <strong>ĐỎ</strong> = chọn đội bên phải trên màn hình.</li>
+      </ul>
+    </div>
+
+    <h2 class="section-title">🎤 MC vận hành như thế nào?</h2>
+    <ol class="howto">
+      <li>Trước giờ thi: vào <strong>Soạn nội dung</strong> điền tên đội, ngành học, 4 trường hợp vòng 1 (mọi thứ tự lưu trên máy).</li>
+      <li>Mở <strong>Sơ đồ đấu</strong>, bấm <strong>“Vào trận”</strong> → bấm <strong>Toàn màn hình</strong> để trình chiếu.</li>
+      <li>Đi từng bước trong trận: công bố đề → bấm giờ thảo luận → nhập 2 thẻ mỗi đội đã giơ → bấm giờ trình bày → ghi 7 phiếu giám khảo → chốt đội thắng.</li>
+      <li>Đội thắng <strong>tự động lên nhánh</strong> vòng sau trên sơ đồ. Phím tắt: <kbd>Space</kbd> chạy/dừng đồng hồ · <kbd>←</kbd>/<kbd>→</kbd> chuyển bước · <kbd>F</kbd> toàn màn hình.</li>
+    </ol>
+  </section>
+
+  <!-- ============ VIEW: SƠ ĐỒ ĐẤU ============ -->
+  <section id="view-bracket" class="view">
+    <div class="view-head">
+      <div>
+        <h2>🏆 Sơ đồ loại trực tiếp</h2>
+        <p id="bracketProgress" class="hint"></p>
+      </div>
+      <div class="view-head-actions">
+        <button type="button" id="btnResetResults" class="danger-ghost-btn">↺ Đặt lại kết quả thi đấu</button>
+      </div>
+    </div>
+    <div id="championBanner" class="champion-banner hidden"></div>
+    <div id="bracketBoard" class="bracket-board"></div>
+    <p class="hint">Bấm <strong>“Vào trận”</strong> để điều hành từng trận. Trận chỉ mở khi đã xác định đủ 2 đội. Đội thắng được tự động đưa lên vòng kế tiếp; nếu sửa lại kết quả của một trận, các vòng phía sau liên quan sẽ được xóa để tránh sai nhánh.</p>
+  </section>
+
+  <!-- ============ VIEW: TRẬN ĐẤU ============ -->
+  <section id="view-match" class="view">
+    <div id="matchEmpty" class="empty-state">
+      <div class="empty-icon">⚔️</div>
+      <h2>Chưa chọn trận đấu</h2>
+      <p>Hãy vào Sơ đồ đấu và bấm “Vào trận” ở trận muốn điều hành.</p>
+      <button type="button" class="primary-btn" data-nav="bracket">Đến sơ đồ đấu</button>
+    </div>
+
+    <div id="matchMain" class="hidden">
+      <div class="match-head">
+        <div>
+          <div id="matchRound" class="match-round"></div>
+          <h2 id="matchTitle"></h2>
+        </div>
+        <button type="button" class="ghost-btn" data-nav="bracket">← Sơ đồ đấu</button>
+      </div>
+
+      <div id="matchVs" class="vs-panel"></div>
+      <div id="phaseStepper" class="stepper"></div>
+      <div id="debateTracker" class="debate-tracker hidden"></div>
+
+      <div class="match-layout">
+        <div class="phase-main">
+          <h3 id="phaseTitle"></h3>
+          <p id="phaseDesc" class="phase-desc"></p>
+          <div id="phaseContent"></div>
+        </div>
+
+        <aside class="timer-card" id="timerCard">
+          <div class="timer-label">⏱ ĐỒNG HỒ</div>
+          <div class="timer-ring-wrap">
+            <svg class="timer-ring" viewBox="0 0 200 200" aria-hidden="true">
+              <circle class="ring-bg" cx="100" cy="100" r="88"></circle>
+              <circle class="ring-fg" id="ringFg" cx="100" cy="100" r="88"></circle>
+            </svg>
+            <div id="timerDisplay" class="timer-display">--:--</div>
+          </div>
+          <div class="timer-progress-track" aria-hidden="true"><div id="timerProgressFg" class="timer-progress-fill"></div></div>
+          <div id="timerStatus" class="timer-status">Bước này không bấm giờ</div>
+          <div class="timer-controls">
+            <button type="button" id="btnTimerToggle" class="primary-btn">▶ Bắt đầu</button>
+            <button type="button" id="btnTimerReset" class="secondary-btn">↺ Đặt lại</button>
+          </div>
+          <div class="timer-controls small">
+            <button type="button" id="btnTimerMinus" class="ghost-btn">−10 giây</button>
+            <button type="button" id="btnTimerPlus" class="ghost-btn">+10 giây</button>
+          </div>
+          <p class="hint center">Phím <kbd>Space</kbd>: chạy/dừng · <kbd>R</kbd>: đặt lại</p>
+        </aside>
+      </div>
+
+      <div class="phase-nav">
+        <button type="button" id="btnPrevPhase" class="secondary-btn big">← Bước trước</button>
+        <div id="phaseProgressText" class="phase-progress"></div>
+        <button type="button" id="btnNextPhase" class="primary-btn big">Bước tiếp →</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ VIEW: SOẠN NỘI DUNG ============ -->
+  <section id="view-editor" class="view">
+    <div class="view-head">
+      <div>
+        <h2>✏️ Soạn nội dung (BTC)</h2>
+        <p class="hint">Tất cả ô đề thi đang để trống đúng yêu cầu — điền vào đây là web tự hiển thị, không cần sửa code. Nội dung <strong>tự động lưu</strong> trên trình duyệt của máy này. <span id="saveStatus" class="save-status"></span></p>
+      </div>
+    </div>
+
+    <div class="editor-actions">
+      <button type="button" id="btnExport" class="secondary-btn">⬇ Xuất dữ liệu (JSON)</button>
+      <button type="button" id="btnImport" class="secondary-btn">⬆ Nhập dữ liệu (JSON)</button>
+      <input type="file" id="importFile" accept="application/json,.json" class="hidden">
+      <button type="button" id="btnResetContent" class="danger-ghost-btn">Xóa trống lại toàn bộ nội dung</button>
+      <button type="button" id="btnResetResults2" class="danger-ghost-btn">Đặt lại kết quả thi đấu</button>
+    </div>
+    <p class="hint">💡 Mẹo: soạn nội dung trên máy ở nhà → <strong>Xuất JSON</strong> → mang file lên lớp → <strong>Nhập JSON</strong> trên máy trình chiếu. Như vậy không phụ thuộc dữ liệu đã lưu của từng máy.</p>
+
+    <h3 class="editor-title">1) Tên &amp; ngành học của 8 đội</h3>
+    <p class="hint">Ngành học gắn theo từng đội để khi đội thắng vào bán kết (Vòng 2 – My Major), đúng ngành của đội đó tự hiện lên. Nếu một đội có thành viên nhiều ngành, hãy ghi ngành đại diện mà đội chọn trình bày.</p>
+    <div id="editorTeams" class="editor-teams"></div>
+
+    <h3 class="editor-title">2) Vòng 1 — 4 trường hợp thực tế (để trống, BTC bổ sung)</h3>
+    <p class="hint">Mỗi trận vòng bảng dùng 1 trường hợp: Trận 1 = cặp Đội 1–2, Trận 2 = cặp Đội 3–4, Trận 3 = cặp Đội 5–6, Trận 4 = cặp Đội 7–8. Có thể dán link ảnh minh họa (URL) nếu có.</p>
+    <div id="editorCases" class="editor-cases"></div>
+
+    <h3 class="editor-title">3) Vòng 3 — Chủ đề tranh biện chung kết</h3>
+    <textarea id="editorTopic" rows="3" placeholder="[Để trống — BTC bổ sung chủ đề tranh biện]"></textarea>
+    <p class="hint">Chủ đề chính thức theo kịch bản hiện đã được điền sẵn; BTC có thể sửa tại đây nếu kịch bản thay đổi.</p>
+  </section>
+
+</main>
+
+<footer class="footer">
+  CÔNG NHÂN SỐ – Chọn năng lực, giải bài toán · Web điều hành trò chơi chạy offline, dữ liệu lưu tại trình duyệt của máy trình chiếu.
+</footer>
+
+<div id="toast" class="toast hidden" role="status"></div>
+<div id="confetti" class="confetti hidden" aria-hidden="true"></div>
+
+<script src="js/app.js"></script>
+</body>
+</html>
