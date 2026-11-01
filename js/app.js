@@ -21,9 +21,9 @@ var MATCH_DEFS = [
   { id: "R1M2", type: "case",  round: "Vòng 1 · Phân tích thực tế", title: "Trận 2 – Vòng bảng", short: "Trận 2", caseIndex: 1 },
   { id: "R1M3", type: "case",  round: "Vòng 1 · Phân tích thực tế", title: "Trận 3 – Vòng bảng", short: "Trận 3", caseIndex: 2 },
   { id: "R1M4", type: "case",  round: "Vòng 1 · Phân tích thực tế", title: "Trận 4 – Vòng bảng", short: "Trận 4", caseIndex: 3 },
-  { id: "R2M1", type: "major", round: "Vòng 2 · My Major, My Future", title: "Bán kết 1", short: "BK1", r2Index: 0 },
-  { id: "R2M2", type: "major", round: "Vòng 2 · My Major, My Future", title: "Bán kết 2", short: "BK2", r2Index: 1 },
-  { id: "F1",   type: "debate", round: "Vòng 3 · The Final Debate", title: "CHUNG KẾT", short: "CK" }
+  { id: "R2M1", type: "major", round: "Vòng 2 · Thích ứng thời đại", title: "Bán kết 1", short: "BK1", r2Index: 0 },
+  { id: "R2M2", type: "major", round: "Vòng 2 · Thích ứng thời đại", title: "Bán kết 2", short: "BK2", r2Index: 1 },
+  { id: "F1",   type: "debate", round: "Vòng 3 · Tranh biện", title: "CHUNG KẾT", short: "CK" }
 ];
 
 /* 6 ngành học cho dropdown Vòng 2 */
@@ -550,8 +550,8 @@ function matchCardHTML(def) {
 function renderBracket() {
   var cols = [
     { title: "VÒNG 1 · PHÂN TÍCH THỰC TẾ", ids: ["R1M1", "R1M2", "R1M3", "R1M4"], cls: "col-r1" },
-    { title: "VÒNG 2 · MY MAJOR, MY FUTURE", ids: ["R2M1", "R2M2"], cls: "col-r2" },
-    { title: "VÒNG 3 · THE FINAL DEBATE", ids: ["F1"], cls: "final-col col-final" }
+    { title: "VÒNG 2 · THÍCH ỨNG THỜI ĐẠI", ids: ["R2M1", "R2M2"], cls: "col-r2" },
+    { title: "VÒNG 3 · TRANH BIỆN", ids: ["F1"], cls: "final-col col-final" }
   ];
   $("#bracketBoard").innerHTML = cols.map(function (c) {
     return '<div class="bracket-col ' + c.cls + '"><h3>' + c.title + '</h3><div class="bracket-col-body">' +

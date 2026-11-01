@@ -1,6 +1,6 @@
 # CÔNG NHÂN SỐ – Chọn Năng Lực, Giải Bài Toán
 
-Website điều hành trò chơi học thuật **CÔNG NHÂN SỐ** dành cho buổi thuyết trình trên lớp: 8 đội loại trực tiếp qua 3 vòng (Nhận diện năng lực → My Major, My Future → The Final Debate), hội đồng giám khảo 9 người với 7 phiếu quyết định mỗi trận. Giao diện **theme trắng** với sidebar trái và màu chữ tương phản cao cho máy chiếu.
+Website điều hành trò chơi học thuật **CÔNG NHÂN SỐ** dành cho buổi thuyết trình trên lớp: 8 đội loại trực tiếp qua 3 vòng (Phân tích thực tế → Thích ứng thời đại → Tranh biện), hội đồng giám khảo 9 người với 7 phiếu quyết định mỗi trận. Giao diện **theme trắng** với sidebar trái và màu chữ tương phản cao cho máy chiếu.
 
 Kịch bản & lịch sử yêu cầu chi tiết nằm ở [`YEU-CAU-WEBSITE.md`](YEU-CAU-WEBSITE.md).
 

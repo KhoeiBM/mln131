@@ -381,3 +381,9 @@ Sau khi xem bản demo, người dùng yêu cầu và web đã cập nhật:
 - BTC đã tải file nhạc lên GitHub với tên `assets/we-are-the-champions-copia.mp3`; file được đổi tên thành `assets/we-are-the-champions-hook.mp3` để khớp đường dẫn web đang tìm. Đây là nguyên nhân trước đó tab Nhà vô địch không phát nhạc dù MP3 đã nằm trong `assets/`.
 - Trình phát nhạc ở tab Nhà vô địch có thanh điều khiển dự phòng, dòng trạng thái báo đường dẫn/mã lỗi và nút **↻ Tải lại & phát nhạc** để xử lý trường hợp file được thêm sau khi trang đã mở hoặc trình duyệt còn giữ kết quả lỗi cũ.
 - Tên đội và tiến trình được lưu trong `localStorage`, không nằm trong thư mục dự án; vì vậy xóa file rồi tải lại vẫn thấy dữ liệu cũ trên cùng trình duyệt. Trang Sơ đồ đấu có nút **🧹 Xóa dữ liệu đã lưu** để xóa cả tên đội lẫn tiến trình, tách biệt với nút đặt lại kết quả vốn giữ tên đội.
+
+## 18. Đổi tên Vòng 2 và Vòng 3 (02/11/2026)
+
+- Vòng 2 đổi tên từ **MY MAJOR, MY FUTURE** thành **THÍCH ỨNG THỜI ĐẠI** trên thẻ thể lệ, tiêu đề cột Sơ đồ đấu và nhãn vòng trong màn hình trận đấu.
+- Vòng 3 đổi tên từ **THE FINAL DEBATE** thành **TRANH BIỆN** trên các vị trí tương ứng.
+- Mô tả ngắn của Vòng 3 là: **“Đối thoại để đột phá”**.
