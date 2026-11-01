@@ -342,3 +342,22 @@ Phần này chỉ là yêu cầu dự kiến; **chưa triển khai**.
 | R8 – Chủ đề chung kết | Điền sẵn chủ đề chính thức, sửa/xóa được trong trang Soạn nội dung. |
 | R9 – Cặp đấu vòng bảng | Ấn định sẵn: Đội 1–2, 3–4, 5–6, 7–8 (đổi tên đội trong Soạn nội dung tương đương với việc xếp đội vào cặp). |
 | R10 – Giao diện | Ban đầu: gameshow nền tối xanh/cyan. Từ 01/11/2026 đã **thiết kế lại theo file giao diện tham khảo do người dùng gửi** ("Công nhân số • Kỹ năng thích ứng"): sidebar trái cố định, nền navy `#08111f` có lưới mờ 44px, tông teal/mint `#4dd9d2/#8bf1d5` + vàng `#ffcd75`, panel bo góc 19px, hero editorial căn trái kèm hàng số liệu 08–03–07, nút chính gradient mint, đồng hồ chữ số lớn + thanh tiến trình (thay vòng tròn). Chỉ lấy diện mạo — không lấy luật khác biệt của bản tham khảo (6 phiếu, hòa 3–3, quay ngành ngẫu nhiên, chấm điểm tranh biện). Đội bên trái vẫn = XANH, đội bên phải = ĐỎ. Trên màn hình hẹp, sidebar tự chuyển thành thanh ngang phía trên. |
+
+## 13. Đợt chỉnh sửa theo ảnh chụp demo (01/11/2026)
+
+Sau khi xem bản demo, người dùng yêu cầu và web đã cập nhật:
+
+1. **Bỏ mục "Soạn nội dung"**: web chỉ còn 3 màn hình (Tổng quan, Sơ đồ đấu, Trận đấu). Đề bài được đưa thẳng vào code:
+   - Vòng 1: 4 tình huống điều chỉnh (dệt may MES/QR; AI kiểm tra chất lượng; nhà máy số IoT; tài xế công nghệ) — chưa kèm nguồn xác nhận nên web không hiển thị dòng nguồn.
+   - Vòng 3: chủ đề mới *"Trong thời đại số hiện nay, AI đang có xu hướng thay thế người lao động thay vì chỉ hỗ trợ họ làm việc"*.
+2. **Sơ đồ đấu**: thêm danh sách 8 đội ở phía trên để đổi tên trực tiếp; nút **bốc thăm ngẫu nhiên chia cặp Vòng 1**; sau Vòng 1 thêm nút **bốc thăm ngẫu nhiên chia cặp Vòng 2** từ 4 đội thắng (thay cho ghép cặp cố định). Các cột vòng trong **lệch xuống căn giữa** hai trận cấp nguồn cho đối xứng; đội thắng được **highlight viền vàng**, ô của đội đó ở vòng trong highlight viền teal kèm đường nối.
+3. **Vòng 2**: khi vào trận, mỗi đội chọn ngành học bằng **dropdown 6 ngành** (Công nghệ thông tin; Công nghệ truyền thông; Khối Ngành Ngôn ngữ; Luật; Quản trị kinh doanh; Khoa học máy tính) thay cho việc nhập ngành trước.
+4. **Bỏ các đoạn text** theo ảnh chụp: hướng dẫn giơ thẻ/nhập thẻ ở bước Thảo luận vòng 1; dòng "đã được tự động đưa lên vòng tiếp theo" ở màn hình Kết quả; dòng "Yêu cầu cho hai đội…" ở màn hình Công bố trường hợp; đoạn hướng dẫn dưới Sơ đồ đấu và phần đuôi footer.
+5. **Theme trắng**: chuyển toàn bộ giao diện sang nền sáng (trắng/xám xanh nhạt), chữ navy đậm, nhấn teal đậm; màu chữ cái thẻ A–F được làm đậm hơn cho dễ đọc trên nền trắng.
+6. Dữ liệu trình duyệt chuyển sang khóa `cns_*_v2` do mô hình cặp đấu thay đổi; tên đội đã nhập ở bản cũ (v1) được kế thừa tự động.
+
+## 14. Tab Nhà vô địch (01/11/2026)
+
+- Tab **Nhà vô địch** ở thanh bên trái chỉ xuất hiện sau khi chốt kết quả trận chung kết; ngay khi chốt, web tự động chuyển đến tab này.
+- Nội dung tab: hình cúp lớn, tên đội vô địch ngay phía dưới cúp, tỉ số/phe của trận chung kết và GIF ăn mừng do người dùng gửi ở dưới tên đội (`assets/champion-meme.png`; file nhận được là PNG tĩnh nên web thêm hiệu ứng nhảy múa bằng CSS).
+- Nếu kết quả chung kết bị sửa/đặt lại, tab tự ẩn và web quay về Sơ đồ đấu nếu đang ở tab này.

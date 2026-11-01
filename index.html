@@ -21,7 +21,7 @@
     <button type="button" class="nav-btn active" data-nav="home">⌂&ensp;Tổng quan</button>
     <button type="button" class="nav-btn" data-nav="bracket">◈&ensp;Sơ đồ đấu</button>
     <button type="button" class="nav-btn" data-nav="match">▶&ensp;Trận đấu</button>
-    <button type="button" class="nav-btn" data-nav="editor">⚙&ensp;Soạn nội dung</button>
+    <button type="button" id="navChampion" class="nav-btn champion-nav hidden" data-nav="champion">🏆&ensp;Nhà vô địch</button>
   </nav>
   <div class="side-info">
     <div class="mini-label">Gameshow trực tiếp</div>
@@ -53,7 +53,7 @@
       8 đội tranh tài qua 3 vòng — đội thuyết phục nhất sẽ trở thành <strong>ĐỘI CÔNG NHÂN SỐ</strong>.</p>
       <div class="hero-actions">
         <button type="button" class="primary-btn big" data-nav="bracket">▶ Vào sơ đồ thi đấu</button>
-        <button type="button" class="secondary-btn big" data-nav="editor">✏️ Soạn nội dung đề thi</button>
+        <button type="button" class="secondary-btn big" data-nav="match">⚔️ Mở màn hình trận đấu</button>
       </div>
       <div id="homeProgress" class="hero-progress"></div>
       <div class="stat-row">
@@ -65,7 +65,7 @@
 
     <h2 class="section-title">🧑‍🤝‍🧑 8 đội thi đấu</h2>
     <div id="homeTeams" class="team-chips"></div>
-    <p class="hint">Tên đội &amp; ngành học đang để trống — BTC điền tại trang <button type="button" class="link-btn" data-nav="editor">Soạn nội dung</button>. Cặp đấu vòng bảng: Đội 1–2, 3–4, 5–6, 7–8.</p>
+    <p class="hint">BTC đổi tên các đội và bốc thăm chia cặp tại <button type="button" class="link-btn" data-nav="bracket">Sơ đồ đấu</button>. Ngành học ở Vòng 2 do từng đội tự chọn bằng dropdown khi vào trận bán kết.</p>
 
     <h2 class="section-title">🎯 Thể lệ 3 vòng thi</h2>
     <div class="rounds-grid">
@@ -126,10 +126,10 @@
 
     <h2 class="section-title">🎤 MC vận hành như thế nào?</h2>
     <ol class="howto">
-      <li>Trước giờ thi: vào <strong>Soạn nội dung</strong> điền tên đội, ngành học, 4 trường hợp vòng 1 (mọi thứ tự lưu trên máy).</li>
-      <li>Mở <strong>Sơ đồ đấu</strong>, bấm <strong>“Vào trận”</strong> → bấm <strong>Toàn màn hình</strong> để trình chiếu.</li>
+      <li>Trước giờ thi: mở <strong>Sơ đồ đấu</strong>, đổi tên 8 đội rồi bấm <strong>“Bốc thăm chia cặp Vòng 1”</strong>. Đề bài đã được đưa sẵn vào từng trận.</li>
+      <li>Bấm <strong>“Vào trận”</strong> → bấm <strong>Toàn màn hình</strong> để trình chiếu.</li>
       <li>Đi từng bước trong trận: công bố đề → bấm giờ thảo luận → nhập 2 thẻ mỗi đội đã giơ → bấm giờ trình bày → ghi 7 phiếu giám khảo → chốt đội thắng.</li>
-      <li>Đội thắng <strong>tự động lên nhánh</strong> vòng sau trên sơ đồ. Phím tắt: <kbd>Space</kbd> chạy/dừng đồng hồ · <kbd>←</kbd>/<kbd>→</kbd> chuyển bước · <kbd>F</kbd> toàn màn hình.</li>
+      <li>Sau 4 trận Vòng 1, quay lại Sơ đồ đấu bấm <strong>“Bốc thăm chia cặp Vòng 2”</strong> để ghép 4 đội thắng thành 2 trận bán kết. Phím tắt: <kbd>Space</kbd> chạy/dừng đồng hồ · <kbd>←</kbd>/<kbd>→</kbd> chuyển bước · <kbd>F</kbd> toàn màn hình.</li>
     </ol>
   </section>
 
@@ -144,9 +144,21 @@
         <button type="button" id="btnResetResults" class="danger-ghost-btn">↺ Đặt lại kết quả thi đấu</button>
       </div>
     </div>
-    <div id="championBanner" class="champion-banner hidden"></div>
+    <div id="championBanner" class="champion-banner hidden" data-nav="champion" role="button" tabindex="0" title="Mở tab Nhà vô địch"></div>
+
+    <div class="teams-panel">
+      <div class="teams-panel-head">
+        <h3>🧑‍🤝‍🧑 Danh sách 8 đội</h3>
+        <div class="draw-actions">
+          <button type="button" id="btnDrawR1" class="primary-btn">🎲 Bốc thăm chia cặp Vòng 1</button>
+          <button type="button" id="btnDrawR2" class="secondary-btn">🎲 Bốc thăm chia cặp Vòng 2</button>
+        </div>
+      </div>
+      <div id="bracketTeams" class="bracket-teams"></div>
+      <p id="drawStatus" class="hint"></p>
+    </div>
+
     <div id="bracketBoard" class="bracket-board"></div>
-    <p class="hint">Bấm <strong>“Vào trận”</strong> để điều hành từng trận. Trận chỉ mở khi đã xác định đủ 2 đội. Đội thắng được tự động đưa lên vòng kế tiếp; nếu sửa lại kết quả của một trận, các vòng phía sau liên quan sẽ được xóa để tránh sai nhánh.</p>
   </section>
 
   <!-- ============ VIEW: TRẬN ĐẤU ============ -->
@@ -209,41 +221,25 @@
     </div>
   </section>
 
-  <!-- ============ VIEW: SOẠN NỘI DUNG ============ -->
-  <section id="view-editor" class="view">
-    <div class="view-head">
-      <div>
-        <h2>✏️ Soạn nội dung (BTC)</h2>
-        <p class="hint">Tất cả ô đề thi đang để trống đúng yêu cầu — điền vào đây là web tự hiển thị, không cần sửa code. Nội dung <strong>tự động lưu</strong> trên trình duyệt của máy này. <span id="saveStatus" class="save-status"></span></p>
+  <!-- ============ VIEW: NHÀ VÔ ĐỊCH (chỉ hiện sau khi chốt chung kết) ============ -->
+  <section id="view-champion" class="view">
+    <div class="champion-stage">
+      <div class="champion-eyebrow">🏅 Nhà vô địch · Đội Công Nhân Số 🏅</div>
+      <div class="champion-cup" aria-hidden="true">🏆</div>
+      <h2 id="championTeamName">—</h2>
+      <p id="championMeta" class="champion-meta"></p>
+      <img class="champion-gif" src="assets/champion-meme.png" alt="GIF ăn mừng nhà vô địch" width="220" height="190">
+      <div class="center-actions">
+        <button type="button" class="primary-btn big" data-nav="bracket">🏆 Xem sơ đồ đấu</button>
+        <button type="button" class="secondary-btn big" data-open-match="F1">↩ Xem lại trận chung kết</button>
       </div>
     </div>
-
-    <div class="editor-actions">
-      <button type="button" id="btnExport" class="secondary-btn">⬇ Xuất dữ liệu (JSON)</button>
-      <button type="button" id="btnImport" class="secondary-btn">⬆ Nhập dữ liệu (JSON)</button>
-      <input type="file" id="importFile" accept="application/json,.json" class="hidden">
-      <button type="button" id="btnResetContent" class="danger-ghost-btn">Xóa trống lại toàn bộ nội dung</button>
-      <button type="button" id="btnResetResults2" class="danger-ghost-btn">Đặt lại kết quả thi đấu</button>
-    </div>
-    <p class="hint">💡 Mẹo: soạn nội dung trên máy ở nhà → <strong>Xuất JSON</strong> → mang file lên lớp → <strong>Nhập JSON</strong> trên máy trình chiếu. Như vậy không phụ thuộc dữ liệu đã lưu của từng máy.</p>
-
-    <h3 class="editor-title">1) Tên &amp; ngành học của 8 đội</h3>
-    <p class="hint">Ngành học gắn theo từng đội để khi đội thắng vào bán kết (Vòng 2 – My Major), đúng ngành của đội đó tự hiện lên. Nếu một đội có thành viên nhiều ngành, hãy ghi ngành đại diện mà đội chọn trình bày.</p>
-    <div id="editorTeams" class="editor-teams"></div>
-
-    <h3 class="editor-title">2) Vòng 1 — 4 trường hợp thực tế (để trống, BTC bổ sung)</h3>
-    <p class="hint">Mỗi trận vòng bảng dùng 1 trường hợp: Trận 1 = cặp Đội 1–2, Trận 2 = cặp Đội 3–4, Trận 3 = cặp Đội 5–6, Trận 4 = cặp Đội 7–8. Có thể dán link ảnh minh họa (URL) nếu có.</p>
-    <div id="editorCases" class="editor-cases"></div>
-
-    <h3 class="editor-title">3) Vòng 3 — Chủ đề tranh biện chung kết</h3>
-    <textarea id="editorTopic" rows="3" placeholder="[Để trống — BTC bổ sung chủ đề tranh biện]"></textarea>
-    <p class="hint">Chủ đề chính thức theo kịch bản hiện đã được điền sẵn; BTC có thể sửa tại đây nếu kịch bản thay đổi.</p>
   </section>
 
 </main>
 
 <footer class="footer">
-  CÔNG NHÂN SỐ – Chọn năng lực, giải bài toán · Web điều hành trò chơi chạy offline, dữ liệu lưu tại trình duyệt của máy trình chiếu.
+  CÔNG NHÂN SỐ – Chọn năng lực, giải bài toán
 </footer>
 
 <div id="toast" class="toast hidden" role="status"></div>

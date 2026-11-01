@@ -1,29 +1,63 @@
 /* ============================================================
    CÔNG NHÂN SỐ – Chọn năng lực, giải bài toán
    Web điều hành trò chơi (thuần HTML/CSS/JS, chạy offline).
-   - Nội dung đề thi để trống trong cấu hình mặc định, BTC điền
-     tại trang "Soạn nội dung"; dữ liệu lưu ở localStorage.
+   - Đề bài Vòng 1 và chủ đề Vòng 3 được đưa sẵn vào code;
+     tên đội, kết quả bốc thăm và tiến trình lưu ở localStorage.
    ============================================================ */
 "use strict";
 
 /* ---------------- Hằng số ---------------- */
 var CARDS = [
-  { letter: "A", name: "Chuyên môn, tay nghề", desc: "Hiểu nghiệp vụ, quy trình, tiêu chuẩn", color: "#38bdf8" },
-  { letter: "B", name: "Năng lực số & ứng dụng công nghệ", desc: "Sử dụng thiết bị, phần mềm, dữ liệu, AI", color: "#22d3ee" },
-  { letter: "C", name: "Tư duy phản biện & giải quyết vấn đề", desc: "Kiểm chứng, phân tích, xử lý tình huống", color: "#a78bfa" },
-  { letter: "D", name: "Tự học & thích ứng", desc: "Học kỹ năng mới, chuyển đổi nhiệm vụ", color: "#34d399" },
-  { letter: "E", name: "Giao tiếp, hợp tác & ngoại ngữ", desc: "Phối hợp, trao đổi, tiếp cận tài liệu", color: "#fbbf24" },
-  { letter: "F", name: "Tác phong, trách nhiệm & ý thức quyền lợi", desc: "Kỷ luật, đạo đức, an toàn và quyền lợi", color: "#fb7185" }
+  { letter: "A", name: "Chuyên môn, tay nghề", desc: "Hiểu nghiệp vụ, quy trình, tiêu chuẩn", color: "#0284c7" },
+  { letter: "B", name: "Năng lực số & ứng dụng công nghệ", desc: "Sử dụng thiết bị, phần mềm, dữ liệu, AI", color: "#0d9488" },
+  { letter: "C", name: "Tư duy phản biện & giải quyết vấn đề", desc: "Kiểm chứng, phân tích, xử lý tình huống", color: "#7c3aed" },
+  { letter: "D", name: "Tự học & thích ứng", desc: "Học kỹ năng mới, chuyển đổi nhiệm vụ", color: "#16a34a" },
+  { letter: "E", name: "Giao tiếp, hợp tác & ngoại ngữ", desc: "Phối hợp, trao đổi, tiếp cận tài liệu", color: "#d97706" },
+  { letter: "F", name: "Tác phong, trách nhiệm & ý thức quyền lợi", desc: "Kỷ luật, đạo đức, an toàn và quyền lợi", color: "#e11d48" }
 ];
 
 var MATCH_DEFS = [
-  { id: "R1M1", type: "case",  round: "Vòng 1 · Nhận diện năng lực", title: "Trận 1 – Vòng bảng", short: "Trận 1", caseIndex: 0, fixedTeams: [0, 1] },
-  { id: "R1M2", type: "case",  round: "Vòng 1 · Nhận diện năng lực", title: "Trận 2 – Vòng bảng", short: "Trận 2", caseIndex: 1, fixedTeams: [2, 3] },
-  { id: "R1M3", type: "case",  round: "Vòng 1 · Nhận diện năng lực", title: "Trận 3 – Vòng bảng", short: "Trận 3", caseIndex: 2, fixedTeams: [4, 5] },
-  { id: "R1M4", type: "case",  round: "Vòng 1 · Nhận diện năng lực", title: "Trận 4 – Vòng bảng", short: "Trận 4", caseIndex: 3, fixedTeams: [6, 7] },
-  { id: "R2M1", type: "major", round: "Vòng 2 · My Major, My Future", title: "Bán kết 1", short: "BK1", feeds: ["R1M1", "R1M2"] },
-  { id: "R2M2", type: "major", round: "Vòng 2 · My Major, My Future", title: "Bán kết 2", short: "BK2", feeds: ["R1M3", "R1M4"] },
-  { id: "F1",   type: "debate", round: "Vòng 3 · The Final Debate", title: "CHUNG KẾT", short: "CK", feeds: ["R2M1", "R2M2"] }
+  { id: "R1M1", type: "case",  round: "Vòng 1 · Nhận diện năng lực", title: "Trận 1 – Vòng bảng", short: "Trận 1", caseIndex: 0 },
+  { id: "R1M2", type: "case",  round: "Vòng 1 · Nhận diện năng lực", title: "Trận 2 – Vòng bảng", short: "Trận 2", caseIndex: 1 },
+  { id: "R1M3", type: "case",  round: "Vòng 1 · Nhận diện năng lực", title: "Trận 3 – Vòng bảng", short: "Trận 3", caseIndex: 2 },
+  { id: "R1M4", type: "case",  round: "Vòng 1 · Nhận diện năng lực", title: "Trận 4 – Vòng bảng", short: "Trận 4", caseIndex: 3 },
+  { id: "R2M1", type: "major", round: "Vòng 2 · My Major, My Future", title: "Bán kết 1", short: "BK1", r2Index: 0 },
+  { id: "R2M2", type: "major", round: "Vòng 2 · My Major, My Future", title: "Bán kết 2", short: "BK2", r2Index: 1 },
+  { id: "F1",   type: "debate", round: "Vòng 3 · The Final Debate", title: "CHUNG KẾT", short: "CK" }
+];
+
+/* 6 ngành học cho dropdown Vòng 2 */
+var MAJORS = [
+  "Ngành Công nghệ thông tin",
+  "Ngành Công nghệ truyền thông",
+  "Khối Ngành Ngôn ngữ",
+  "Ngành Luật",
+  "Ngành Quản trị kinh doanh",
+  "Ngành Khoa học máy tính"
+];
+
+/* Đề bài Vòng 1 — nội dung điều chỉnh, đưa sẵn vào web */
+var CASES = [
+  {
+    title: "Từ giấy tờ sang hệ thống quản lý sản xuất số",
+    content: "Một doanh nghiệp dệt may đang từng bước chuyển đổi phương thức quản lý sản xuất từ ghi chép thủ công sang hệ thống quản lý dữ liệu điện tử.\n\nTrước đây, nhiều thông tin về nguyên phụ liệu, tiến độ sản xuất, năng suất và chất lượng sản phẩm được ghi nhận bằng giấy tờ hoặc bảng tính thủ công.\n\nHiện nay, doanh nghiệp đưa vào sử dụng hệ thống quản lý sản xuất MES, kết hợp mã QR và các công cụ số để cập nhật, theo dõi thông tin tại kho nguyên phụ liệu, tổ cắt, chuyền may và kho thành phẩm.\n\nSự thay đổi này khiến người lao động không chỉ thực hiện công việc chuyên môn mà còn phải tiếp cận với thiết bị, phần mềm và quy trình cập nhật dữ liệu mới.",
+    source: "", image: ""
+  },
+  {
+    title: "Khi AI tham gia kiểm tra chất lượng sản phẩm",
+    content: "Trong một dây chuyền sản xuất, doanh nghiệp đưa vào thử nghiệm hệ thống kiểm tra chất lượng sử dụng camera kết hợp trí tuệ nhân tạo.\n\nHệ thống có khả năng ghi nhận hình ảnh sản phẩm, đối chiếu với dữ liệu được thiết lập và phát hiện những dấu hiệu sai lệch trong quá trình sản xuất.\n\nMột số công đoạn kiểm tra lỗi bằng mắt thường trước đây có thể được thực hiện tự động. Hệ thống có khả năng xử lý mỗi sản phẩm trong thời gian rất ngắn và hỗ trợ phát hiện lỗi với độ chính xác cao.\n\nTuy nhiên, công nghệ vẫn có những giới hạn nhất định, đặc biệt đối với các vị trí sản phẩm khó quan sát hoặc những lỗi cần đánh giá chuyên môn.\n\nĐiều này đặt ra yêu cầu mới đối với người lao động trong lĩnh vực kiểm tra chất lượng: thay vì chỉ thực hiện thao tác quan sát thủ công, họ cần biết phối hợp với hệ thống và xử lý những tình huống công nghệ chưa thể giải quyết hoàn toàn.",
+    source: "", image: ""
+  },
+  {
+    title: "Khi nhà máy chuyển sang mô hình sản xuất số",
+    content: "Một doanh nghiệp sản xuất cáp công nghệ cao đang chuyển đổi từ phương thức quản lý thủ công sang mô hình nhà máy số.\n\nTrong mô hình mới, các thiết bị sản xuất được kết nối với hệ thống quản lý thông qua công nghệ IoT. Dữ liệu về tình trạng máy móc, tiến độ sản xuất và chất lượng sản phẩm được thu thập, cập nhật và theo dõi trên hệ thống.\n\nThông tin sản xuất có thể được truy xuất bằng mã QR, giúp các bộ phận và ca làm việc tiếp nhận dữ liệu thuận tiện hơn.\n\nTuy nhiên, phương thức làm việc mới cũng đòi hỏi người lao động phải cập nhật thông tin chính xác, thực hiện bàn giao công việc đầy đủ và phối hợp chặt chẽ với các bộ phận liên quan.",
+    source: "", image: ""
+  },
+  {
+    title: "Tài xế công nghệ và những thách thức nghề nghiệp",
+    content: "Trong nền kinh tế số, nhiều người lao động lựa chọn công việc tài xế công nghệ thông qua các nền tảng gọi xe và giao hàng.\n\nCông việc được điều phối thông qua ứng dụng điện thoại, trong đó hệ thống hỗ trợ tiếp nhận đơn hàng, xác định lộ trình, theo dõi hoạt động và đánh giá hiệu suất làm việc.\n\nTuy nhiên, một khảo sát đối với nhóm tài xế công nghệ tại Việt Nam cho thấy:\n\n- 35,5% người được hỏi cho biết thường xuyên làm việc hơn 10 giờ mỗi ngày.\n- 73,8% từng gặp ít nhất một vụ va chạm hoặc tai nạn giao thông.\n- 87,9% mong muốn có cơ chế phù hợp để tham gia bảo hiểm xã hội và được hỗ trợ.\n\nNhững vấn đề này cho thấy bên cạnh khả năng sử dụng nền tảng số, người lao động còn phải đối mặt với áp lực thời gian, rủi ro nghề nghiệp và những vấn đề liên quan đến quyền lợi, an sinh xã hội.",
+    source: "", image: ""
+  }
 ];
 
 var DEBATE_ROUNDS = [
@@ -33,38 +67,47 @@ var DEBATE_ROUNDS = [
   { n: 4, purpose: "Tổng kết",            prep: 90,  speak: 90 }
 ];
 
-var DEFAULT_TOPIC = "Trong 10 năm tới, AI sẽ chủ yếu thay thế người lao động thay vì hỗ trợ họ làm việc.";
-var LS_CONFIG = "cns_config_v1";
-var LS_STATE = "cns_state_v1";
+var FINAL_TOPIC = "Trong thời đại số hiện nay, AI đang có xu hướng thay thế người lao động thay vì chỉ hỗ trợ họ làm việc";
+var LS_CONFIG = "cns_config_v2";
+var LS_STATE = "cns_state_v2";
 var RING_C = 552.92;
 
 /* ---------------- Trạng thái ---------------- */
 function defaultConfig() {
-  var teams = [], cases = [], i;
-  for (i = 0; i < 8; i++) teams.push({ name: "Đội " + (i + 1), major: "" });
-  for (i = 0; i < 4; i++) cases.push({ title: "", content: "", source: "", image: "" });
-  return { teams: teams, cases: cases, finalTopic: DEFAULT_TOPIC };
+  var teams = [], i;
+  for (i = 0; i < 8; i++) teams.push({ name: "Đội " + (i + 1) });
+  return { teams: teams };
 }
 function blankMatchState() {
-  return { phase: 0, winner: null, votes: [], picks: { A: [], B: [] }, stanceA: null };
+  return { phase: 0, winner: null, votes: [], picks: { A: [], B: [] }, stanceA: null, majorA: "", majorB: "" };
 }
+function sequentialPairs() { return [[0, 1], [2, 3], [4, 5], [6, 7]]; }
 function defaultState() {
   var m = {};
   MATCH_DEFS.forEach(function (d) { m[d.id] = blankMatchState(); });
-  return { matches: m, currentMatchId: null };
+  return { matches: m, currentMatchId: null, draw: { r1: sequentialPairs(), r2: null } };
 }
 function sanitizeConfig(c) {
-  var d = defaultConfig(), i, t, k;
+  var d = defaultConfig(), i;
   if (!c || typeof c !== "object") return d;
   if (Array.isArray(c.teams)) for (i = 0; i < 8; i++) if (c.teams[i]) {
     d.teams[i].name = String(c.teams[i].name == null ? "" : c.teams[i].name);
-    d.teams[i].major = String(c.teams[i].major == null ? "" : c.teams[i].major);
   }
-  if (Array.isArray(c.cases)) for (i = 0; i < 4; i++) if (c.cases[i]) {
-    ["title", "content", "source", "image"].forEach(function (f) { d.cases[i][f] = String(c.cases[i][f] == null ? "" : c.cases[i][f]); });
-  }
-  if (typeof c.finalTopic === "string") d.finalTopic = c.finalTopic;
   return d;
+}
+function sanitizePairs(pairs, count, maxIdx) {
+  if (!Array.isArray(pairs) || pairs.length !== count) return null;
+  var seen = {}, out = [];
+  for (var i = 0; i < pairs.length; i++) {
+    var p = pairs[i];
+    if (!Array.isArray(p) || p.length !== 2) return null;
+    for (var j = 0; j < 2; j++) {
+      if (!Number.isInteger(p[j]) || p[j] < 0 || p[j] > maxIdx || seen[p[j]]) return null;
+      seen[p[j]] = 1;
+    }
+    out.push([p[0], p[1]]);
+  }
+  return out;
 }
 function sanitizeState(s) {
   var d = defaultState();
@@ -79,25 +122,31 @@ function sanitizeState(s) {
       if (Array.isArray(m.picks[side])) t.picks[side] = m.picks[side].filter(function (L) { return "ABCDEF".indexOf(L) >= 0; });
     });
     if (m.stanceA === "agree" || m.stanceA === "disagree") t.stanceA = m.stanceA;
+    if (MAJORS.indexOf(m.majorA) >= 0) t.majorA = m.majorA;
+    if (MAJORS.indexOf(m.majorB) >= 0) t.majorB = m.majorB;
   });
   if (s.currentMatchId && d.matches[s.currentMatchId]) d.currentMatchId = s.currentMatchId;
+  if (s.draw) {
+    var r1 = sanitizePairs(s.draw.r1, 4, 7);
+    if (r1) d.draw.r1 = r1;
+    d.draw.r2 = sanitizePairs(s.draw.r2, 2, 7); /* null nếu chưa bốc thăm */
+  }
   return d;
 }
 function loadJSON(key, fallback) {
   try { var raw = localStorage.getItem(key); return raw ? JSON.parse(raw) : fallback(); }
   catch (e) { return fallback(); }
 }
-var config = sanitizeConfig(loadJSON(LS_CONFIG, defaultConfig));
+var config = sanitizeConfig(loadJSON(LS_CONFIG, function () {
+  /* Chuyển tiếp từ bản cũ: chỉ giữ lại tên đội đã nhập (nếu có) */
+  return loadJSON("cns_config_v1", defaultConfig);
+}));
 var tstate = sanitizeState(loadJSON(LS_STATE, defaultState));
 var currentView = "home";
 var drawingStance = false;
 
-function saveConfig(markSaved) {
+function saveConfig() {
   try { localStorage.setItem(LS_CONFIG, JSON.stringify(config)); } catch (e) {}
-  if (markSaved) {
-    var el = document.getElementById("saveStatus");
-    if (el) el.textContent = "✓ Đã lưu " + new Date().toLocaleTimeString("vi-VN");
-  }
 }
 function saveState() { try { localStorage.setItem(LS_STATE, JSON.stringify(tstate)); } catch (e) {} }
 
@@ -114,7 +163,15 @@ function teamName(i) {
   var n = config.teams[i].name.trim();
   return n || ("Đội " + (i + 1));
 }
-function teamMajor(i) { return (i != null && config.teams[i]) ? config.teams[i].major.trim() : ""; }
+function matchMajor(ms, side) { return (side === "A" ? ms.majorA : ms.majorB) || ""; }
+function r1WinnerIndexes() {
+  var out = [];
+  ["R1M1", "R1M2", "R1M3", "R1M4"].forEach(function (id) {
+    var w = matchState(id).winner;
+    if (w != null) out.push(w);
+  });
+  return out;
+}
 function cardOf(letter) { for (var i = 0; i < CARDS.length; i++) if (CARDS[i].letter === letter) return CARDS[i]; return null; }
 function matchDef(id) { for (var i = 0; i < MATCH_DEFS.length; i++) if (MATCH_DEFS[i].id === id) return MATCH_DEFS[i]; return null; }
 function matchState(id) { return tstate.matches[id]; }
@@ -131,32 +188,50 @@ function toast(msg) {
   toastTimer = setTimeout(function () { el.classList.add("hidden"); }, 3200);
 }
 
-/* Đội tham dự một trận: trả về [{idx,label},{idx,label}] (idx=null nếu chưa rõ) */
+/* Đội tham dự một trận theo kết quả bốc thăm.
+   Trả về [{idx,label,advanced},{...}] (idx=null nếu chưa xác định).
+   advanced=true khi đội ở ô này là đội thắng của vòng trước. */
 function participantSlots(def) {
-  if (def.fixedTeams) return def.fixedTeams.map(function (i) { return { idx: i, label: teamName(i) }; });
-  return def.feeds.map(function (fid) {
+  function slot(idx, advanced) { return { idx: idx, label: teamName(idx), advanced: !!advanced }; }
+  if (def.type === "case") {
+    var pair = (tstate.draw && tstate.draw.r1 && tstate.draw.r1[def.caseIndex]) || sequentialPairs()[def.caseIndex];
+    return [slot(pair[0], false), slot(pair[1], false)];
+  }
+  if (def.type === "major") {
+    if (tstate.draw && tstate.draw.r2) {
+      var p2 = tstate.draw.r2[def.r2Index];
+      return [slot(p2[0], true), slot(p2[1], true)];
+    }
+    var needDraw = r1WinnerIndexes().length === 4;
+    return [
+      { idx: null, label: needDraw ? "Chờ bốc thăm Vòng 2" : "Thắng Vòng 1", advanced: false },
+      { idx: null, label: needDraw ? "Chờ bốc thăm Vòng 2" : "Thắng Vòng 1", advanced: false }
+    ];
+  }
+  /* Chung kết: đội thắng hai trận bán kết */
+  return ["R2M1", "R2M2"].map(function (fid) {
     var w = matchState(fid).winner;
-    return (w == null) ? { idx: null, label: "Thắng " + matchDef(fid).short } : { idx: w, label: teamName(w) };
+    return (w == null) ? { idx: null, label: "Thắng " + matchDef(fid).short, advanced: false } : slot(w, true);
   });
 }
 function participantIndexes(def) {
   var s = participantSlots(def);
   return (s[0].idx == null || s[1].idx == null) ? null : [s[0].idx, s[1].idx];
 }
-function downstreamOf(id) {
-  var out = [], seen = {};
-  (function walk(mid) {
-    MATCH_DEFS.forEach(function (d) {
-      if (d.feeds && d.feeds.indexOf(mid) >= 0 && !seen[d.id]) { seen[d.id] = 1; out.push(d.id); walk(d.id); }
-    });
-  })(id);
-  return out;
+/* Xóa các trận phía sau (và lượt bốc thăm Vòng 2) khi một kết quả thay đổi */
+function clearDownstream(mid) {
+  if (matchDef(mid).type === "case") {
+    tstate.draw.r2 = null;
+    ["R2M1", "R2M2", "F1"].forEach(function (did) { tstate.matches[did] = blankMatchState(); });
+  } else if (matchDef(mid).type === "major") {
+    tstate.matches.F1 = blankMatchState();
+  }
 }
 function clearWinner(mid) {
   var ms = matchState(mid);
   if (ms.winner == null) return;
   ms.winner = null;
-  downstreamOf(mid).forEach(function (did) { tstate.matches[did] = blankMatchState(); });
+  clearDownstream(mid);
 }
 
 /* ---------------- Âm thanh bíp ---------------- */
@@ -255,7 +330,7 @@ function buildPhases(def) {
       desc: "MC giới thiệu trường hợp cho cả hai đội. Hai đội lắng nghe, ghi chú ý chính trước khi bước vào 1 phút thảo luận." },
     { key: "discuss", short: "Thảo luận 1′", timer: 60,
       title: "💬 Thảo luận & chọn 2 thẻ năng lực",
-      desc: "Hai đội có 1 phút hội ý và chọn đúng 2 năng lực ưu tiên nhất. Hết giờ, theo hiệu lệnh “3, 2, 1 – Giơ thẻ!”, MC nhập 2 thẻ của mỗi đội vào bên dưới." },
+      desc: "Hai đội có 1 phút hội ý và chọn đúng 2 năng lực ưu tiên nhất." },
     { key: "present", side: "A", short: "Trình bày " + nA, timer: 60,
       title: "🎤 " + nA + " trình bày", desc: "Đội XANH trình bày trong 1 phút." },
     { key: "present", side: "B", short: "Trình bày " + nB, timer: 60,
@@ -320,25 +395,54 @@ function completedCount() {
 function renderHome() {
   $("#homeTeams").innerHTML = config.teams.map(function (t, i) {
     return '<div class="team-chip"><div class="tname">' + esc(teamName(i)) + '</div>' +
-      '<div class="tmajor">' + (t.major.trim() ? "🎓 " + esc(t.major.trim()) : '<span class="blank-note">[Ngành học để trống]</span>') + "</div></div>";
+      '<div class="tmajor">Đội thi số ' + (i + 1) + "</div></div>";
   }).join("");
   $("#homeCards").innerHTML = CARDS.map(function (c) {
     return '<article class="comp-card" style="--cc:' + c.color + '"><span class="comp-letter">' + c.letter +
       "</span><h4>" + esc(c.name) + "</h4><p>" + esc(c.desc) + "</p></article>";
   }).join("");
-  $("#homeTopic").textContent = config.finalTopic.trim() ? "“" + config.finalTopic.trim() + "”" : "[Để trống — BTC bổ sung]";
+  $("#homeTopic").textContent = "“" + FINAL_TOPIC + "”";
   var done = completedCount(), champ = matchState("F1").winner;
   $("#homeProgress").innerHTML = champ != null
     ? "🏆 <strong>Quán quân: " + esc(teamName(champ)) + "</strong> · Giải đấu đã hoàn thành " + done + "/7 trận."
     : "Tiến độ giải đấu: <strong>" + done + "/7 trận</strong> đã có đội thắng.";
 }
 
+/* ---------------- Nhà vô địch ---------------- */
+function championIndex() { return matchState("F1").winner; }
+function updateChampionUI() {
+  var champ = championIndex();
+  var nav = $("#navChampion");
+  if (nav) nav.classList.toggle("hidden", champ == null);
+  if (champ == null && currentView === "champion") showView("bracket");
+}
+function renderChampion() {
+  var champ = championIndex();
+  if (champ == null) { updateChampionUI(); return; }
+  var def = matchDef("F1"), ms = matchState("F1"), parts = participantIndexes(def), counts = voteCounts(ms);
+  $("#championTeamName").textContent = teamName(champ);
+  var meta = "Nhà vô địch của trò chơi Công Nhân Số 🎉";
+  if (parts) {
+    var wSide = (champ === parts[0]) ? "A" : "B";
+    var opp = teamName(parts[wSide === "A" ? 1 : 0]);
+    meta = "Thắng " + opp + " với tỉ số " + counts.A + "–" + counts.B + " trong trận chung kết";
+    var stance = stanceOfSide(ms, wSide);
+    if (stance) meta += " · Phe " + stanceLabel(stance);
+    meta += " 🎉";
+  }
+  $("#championMeta").textContent = meta;
+  updateChampionUI();
+}
+
 /* ---------------- Render: Sơ đồ đấu ---------------- */
 function matchStatus(def) {
   var ms = matchState(def.id);
   if (ms.winner != null) return { cls: "done", label: "ĐÃ XONG" };
-  if (!participantIndexes(def)) return { cls: "", label: "Chờ đội thắng" };
-  if (ms.phase > 0 || ms.votes.length || ms.picks.A.length || ms.picks.B.length || ms.stanceA) return { cls: "playing", label: "ĐANG ĐẤU" };
+  if (!participantIndexes(def)) {
+    if (def.type === "major" && r1WinnerIndexes().length === 4) return { cls: "playing", label: "CHỜ BỐC THĂM" };
+    return { cls: "", label: "Chờ đội thắng" };
+  }
+  if (ms.phase > 0 || ms.votes.length || ms.picks.A.length || ms.picks.B.length || ms.stanceA || ms.majorA || ms.majorB) return { cls: "playing", label: "ĐANG ĐẤU" };
   return { cls: "", label: "Sẵn sàng" };
 }
 function matchCardHTML(def) {
@@ -346,25 +450,26 @@ function matchCardHTML(def) {
   var ready = !!participantIndexes(def);
   function row(side, i) {
     var isWin = ms.winner != null && slots[i].idx === ms.winner;
-    return '<div class="m-team' + (isWin ? " win" : "") + '"><span>' + (isWin ? "👑 " : "") + esc(slots[i].label) + "</span>" +
+    var cls = "m-team" + (isWin ? " win" : "") + (slots[i].advanced && !isWin ? " advanced" : "");
+    return '<div class="' + cls + '"><span>' + (isWin ? "👑 " : (slots[i].advanced ? "⬆ " : "")) + esc(slots[i].label) + "</span>" +
       '<span class="side-tag side-' + side.toLowerCase() + '-tag">' + (side === "A" ? "XANH" : "ĐỎ") + "</span>" +
       (ms.votes.length ? '<span class="votes">' + counts[side] + "</span>" : "") + "</div>";
   }
   var btnLabel = ms.winner != null ? "Xem lại trận" : (st.cls === "playing" ? "Tiếp tục trận →" : "Vào trận →");
-  return '<div class="match-card' + (ms.winner != null ? " done" : "") + '">' +
+  return '<div class="match-card' + (ms.winner != null ? " done" : "") + ((slots[0].advanced || slots[1].advanced) ? " has-advanced" : "") + '">' +
     '<div class="m-title"><span>' + esc(def.title) + '</span><span class="badge ' + st.cls + '">' + st.label + "</span></div>" +
     '<div class="m-teams">' + row("A", 0) + row("B", 1) + "</div>" +
     '<button type="button" class="' + (ready ? "primary-btn" : "secondary-btn") + '" data-open-match="' + def.id + '"' + (ready ? "" : " disabled") + ">" + btnLabel + "</button></div>";
 }
 function renderBracket() {
   var cols = [
-    { title: "VÒNG 1 · NHẬN DIỆN NĂNG LỰC", ids: ["R1M1", "R1M2", "R1M3", "R1M4"], cls: "" },
-    { title: "VÒNG 2 · MY MAJOR, MY FUTURE", ids: ["R2M1", "R2M2"], cls: "" },
-    { title: "VÒNG 3 · THE FINAL DEBATE", ids: ["F1"], cls: "final-col" }
+    { title: "VÒNG 1 · NHẬN DIỆN NĂNG LỰC", ids: ["R1M1", "R1M2", "R1M3", "R1M4"], cls: "col-r1" },
+    { title: "VÒNG 2 · MY MAJOR, MY FUTURE", ids: ["R2M1", "R2M2"], cls: "col-r2" },
+    { title: "VÒNG 3 · THE FINAL DEBATE", ids: ["F1"], cls: "final-col col-final" }
   ];
   $("#bracketBoard").innerHTML = cols.map(function (c) {
-    return '<div class="bracket-col ' + c.cls + '"><h3>' + c.title + "</h3>" +
-      c.ids.map(function (id) { return matchCardHTML(matchDef(id)); }).join("") + "</div>";
+    return '<div class="bracket-col ' + c.cls + '"><h3>' + c.title + '</h3><div class="bracket-col-body">' +
+      c.ids.map(function (id) { return matchCardHTML(matchDef(id)); }).join("") + "</div></div>";
   }).join("");
   $("#bracketProgress").textContent = "Đã hoàn thành " + completedCount() + "/7 trận.";
   var champ = matchState("F1").winner, banner = $("#championBanner");
@@ -372,6 +477,80 @@ function renderBracket() {
     banner.textContent = "🏆 QUÁN QUÂN – ĐỘI CÔNG NHÂN SỐ: " + teamName(champ).toUpperCase() + " 🎉";
     banner.classList.remove("hidden");
   } else banner.classList.add("hidden");
+  updateDrawUI();
+  updateChampionUI();
+}
+/* Danh sách 8 đội ở đầu trang Sơ đồ (đổi tên trực tiếp) */
+function renderBracketTeams() {
+  var wrap = $("#bracketTeams");
+  if (!wrap) return;
+  wrap.innerHTML = "";
+  config.teams.forEach(function (t, i) {
+    var div = document.createElement("div");
+    div.className = "bracket-team-item";
+    div.innerHTML = '<label for="teamNameInput' + i + '">Đội ' + (i + 1) + '</label>' +
+      '<input type="text" id="teamNameInput' + i + '" data-team-name="' + i + '" placeholder="Tên đội ' + (i + 1) + '">';
+    wrap.appendChild(div);
+    div.querySelector("input").value = t.name;
+  });
+}
+function shuffle(arr) {
+  var a = arr.slice();
+  for (var i = a.length - 1; i > 0; i--) {
+    var j = Math.floor(Math.random() * (i + 1));
+    var tmp = a[i]; a[i] = a[j]; a[j] = tmp;
+  }
+  return a;
+}
+function updateDrawUI() {
+  var status = $("#drawStatus"), btn2 = $("#btnDrawR2");
+  if (!status || !btn2) return;
+  var wins = r1WinnerIndexes();
+  var r1Text = tstate.draw && tstate.draw.r1
+    ? "Cặp Vòng 1: " + tstate.draw.r1.map(function (p) { return teamName(p[0]) + " – " + teamName(p[1]); }).join(" · ")
+    : "";
+  var r2Text;
+  if (tstate.draw && tstate.draw.r2)
+    r2Text = "Cặp Vòng 2: " + tstate.draw.r2.map(function (p) { return teamName(p[0]) + " – " + teamName(p[1]); }).join(" · ") + ".";
+  else if (wins.length === 4)
+    r2Text = "Đã có 4 đội thắng Vòng 1 — hãy bấm “Bốc thăm chia cặp Vòng 2”.";
+  else
+    r2Text = "Bốc thăm Vòng 2 sẽ mở sau khi có đủ 4 đội thắng Vòng 1 (hiện " + wins.length + "/4).";
+  status.textContent = r1Text + "  |  " + r2Text;
+  btn2.disabled = wins.length !== 4;
+  btn2.classList.toggle("primary-btn", wins.length === 4 && !tstate.draw.r2);
+  btn2.classList.toggle("secondary-btn", !(wins.length === 4 && !tstate.draw.r2));
+}
+function drawRound1() {
+  var hasProgress = MATCH_DEFS.some(function (d) {
+    var m = matchState(d.id);
+    return m.winner != null || m.votes.length || m.picks.A.length || m.picks.B.length || m.phase > 0;
+  });
+  if (hasProgress && !confirm("Đã có tiến trình/kết quả thi đấu. Bốc thăm lại Vòng 1 sẽ đặt lại toàn bộ kết quả giải đấu. Tiếp tục?")) return;
+  var order = shuffle([0, 1, 2, 3, 4, 5, 6, 7]);
+  var cur = tstate.currentMatchId;
+  tstate = defaultState();
+  tstate.draw.r1 = [[order[0], order[1]], [order[2], order[3]], [order[4], order[5]], [order[6], order[7]]];
+  tstate.currentMatchId = null;
+  saveState(); stopTimer();
+  renderHome(); renderBracket(); renderMatch(true);
+  toast("🎲 Đã bốc thăm cặp Vòng 1: " + tstate.draw.r1.map(function (p) { return teamName(p[0]) + " – " + teamName(p[1]); }).join(" · "));
+}
+function drawRound2() {
+  var wins = r1WinnerIndexes();
+  if (wins.length !== 4) { toast("Cần chốt đủ 4 trận Vòng 1 trước khi bốc thăm Vòng 2."); return; }
+  var hasR2 = ["R2M1", "R2M2", "F1"].some(function (id) {
+    var m = matchState(id);
+    return m.winner != null || m.votes.length || m.phase > 0 || m.majorA || m.majorB || m.stanceA;
+  });
+  if (tstate.draw.r2 && hasR2 && !confirm("Vòng 2/Chung kết đã có tiến trình. Bốc thăm lại sẽ đặt lại các trận bán kết và chung kết. Tiếp tục?")) return;
+  var order = shuffle(wins);
+  tstate.draw.r2 = [[order[0], order[1]], [order[2], order[3]]];
+  ["R2M1", "R2M2", "F1"].forEach(function (did) { tstate.matches[did] = blankMatchState(); });
+  if (tstate.currentMatchId === "R2M1" || tstate.currentMatchId === "R2M2" || tstate.currentMatchId === "F1") tstate.currentMatchId = null;
+  saveState(); stopTimer();
+  renderBracket(); renderMatch(true);
+  toast("🎲 Đã bốc thăm cặp Vòng 2: " + tstate.draw.r2.map(function (p) { return teamName(p[0]) + " – " + teamName(p[1]); }).join(" · "));
 }
 
 /* ---------------- Render: Trận đấu ---------------- */
@@ -404,7 +583,7 @@ function renderMatch(resetClock) {
   if (ph.key === "speak") speakSide = sideForStance(ms, ph.stance);
   function vsTeam(side, idx) {
     var sub = "";
-    if (def.type === "major") sub = teamMajor(idx) ? "🎓 " + esc(teamMajor(idx)) : '<span class="blank-note">[Ngành học để trống]</span>';
+    if (def.type === "major") sub = matchMajor(ms, side) ? "🎓 " + esc(matchMajor(ms, side)) : '<span class="blank-note">[Chưa chọn ngành]</span>';
     else if (def.type === "debate") sub = "Phe: <strong>" + stanceLabel(stanceOfSide(ms, side)) + "</strong>";
     else sub = "Thẻ: " + picksSummaryHTML(ms, side);
     return '<div class="vs-team side-' + side.toLowerCase() + (speakSide === side ? " is-speaking" : "") + '">' +
@@ -449,10 +628,7 @@ function renderMatch(resetClock) {
   $("#btnPrevPhase").disabled = (ms.phase === 0);
   $("#btnNextPhase").disabled = (ms.phase === phases.length - 1);
   if (resetClock) setTimer(ph.timer || 0); else renderTimer();
-}
-function blankBoxHTML(title, note) {
-  return '<div class="blank-box"><span class="big-blank">⬜ ' + esc(title) + "</span>" + esc(note) +
-    '<div class="center-actions"><button type="button" class="secondary-btn" data-nav="editor">✏️ Đi tới Soạn nội dung</button></div></div>';
+  updateChampionUI();
 }
 function chosenCardsHTML(ms, side) {
   var arr = ms.picks[side];
@@ -479,52 +655,48 @@ function phaseContentHTML(ph, def, ms, parts) {
   var nA = teamName(parts[0]), nB = teamName(parts[1]);
 
   if (ph.key === "intro" && def.type === "case") {
-    var c = config.cases[def.caseIndex];
-    if (!c.title.trim() && !c.content.trim())
-      return blankBoxHTML("TRƯỜNG HỢP THỰC TẾ " + (def.caseIndex + 1) + " ĐANG ĐỂ TRỐNG",
-        "BTC bổ sung tiêu đề, nội dung trường hợp và nguồn xác nhận tại trang Soạn nội dung trước khi thi đấu.");
-    var html = '<div class="case-box"><h4>' + esc(c.title.trim() || ("Trường hợp " + (def.caseIndex + 1))) + "</h4>" +
-      '<div class="case-body">' + esc(c.content.trim() || "[Nội dung trường hợp đang để trống]") + "</div>";
-    if (c.image.trim() && isURL(c.image)) html += '<img class="case-img" src="' + esc(c.image.trim()) + '" alt="Ảnh minh họa trường hợp" onerror="this.remove()">';
-    html += '<div class="case-source">📌 Nguồn xác nhận: ' +
-      (c.source.trim() ? (isURL(c.source) ? '<a href="' + esc(c.source.trim()) + '" target="_blank" rel="noopener noreferrer">' + esc(c.source.trim()) + "</a>" : esc(c.source.trim())) : '<span class="blank-note">[Chưa ghi nguồn]</span>') + "</div></div>";
-    html += '<ul class="cue-list"><li><strong>Yêu cầu cho hai đội:</strong> chọn đúng <strong>2 năng lực A–F</strong> cần ưu tiên nhất cho trường hợp này và chuẩn bị giải thích: vì sao chọn hai năng lực đó, vận dụng bằng hành động cụ thể nào?</li></ul>';
-    return html;
+    var c = CASES[def.caseIndex];
+    var html = '<div class="case-box"><h4>' + esc(c.title) + "</h4>" +
+      '<div class="case-body">' + esc(c.content) + "</div>";
+    if (c.image && isURL(c.image)) html += '<img class="case-img" src="' + esc(c.image) + '" alt="Ảnh minh họa trường hợp" onerror="this.remove()">';
+    if (c.source) html += '<div class="case-source">📌 Nguồn xác nhận: ' +
+      (isURL(c.source) ? '<a href="' + esc(c.source) + '" target="_blank" rel="noopener noreferrer">' + esc(c.source) + "</a>" : esc(c.source)) + "</div>";
+    return html + "</div>";
   }
 
   if (ph.key === "intro" && def.type === "major") {
-    function majorBox(idx) {
-      var m = teamMajor(idx);
-      return m
-        ? '<div class="case-box"><h4>' + esc(teamName(idx)) + '</h4><div class="case-body">🎓 Ngành học: <strong>' + esc(m) + "</strong></div></div>"
-        : blankBoxHTML("NGÀNH HỌC CỦA " + teamName(idx).toUpperCase() + " ĐANG ĐỂ TRỐNG", "BTC/đội điền ngành học tại trang Soạn nội dung.");
+    function majorBox(idx, side) {
+      var selected = matchMajor(ms, side);
+      var options = '<option value="">— Chọn ngành học —</option>' + MAJORS.map(function (m) {
+        return '<option value="' + esc(m) + '"' + (m === selected ? " selected" : "") + ">" + esc(m) + "</option>";
+      }).join("");
+      return '<div class="case-box major-pick"><h4>' + (side === "A" ? "🟦 " : "🟥 ") + esc(teamName(idx)) + "</h4>" +
+        '<label class="major-label" for="majorSelect' + side + '">Ngành học đội lựa chọn</label>' +
+        '<select id="majorSelect' + side + '" class="major-select" data-major-side="' + side + '">' + options + "</select>" +
+        (selected ? '<div class="case-body">🎓 <strong>' + esc(selected) + "</strong></div>" : '<p class="hint">Đội chưa chọn ngành.</p>') + "</div>";
     }
-    return '<div class="two-cols">' + majorBox(parts[0]) + majorBox(parts[1]) + "</div>" +
+    return '<div class="two-cols">' + majorBox(parts[0], "A") + majorBox(parts[1], "B") + "</div>" +
       '<ul class="cue-list"><li><strong>Câu hỏi 1:</strong> Trong thời đại số, công việc hoặc yêu cầu lao động của ngành học đó đang thay đổi như thế nào?</li>' +
       "<li><strong>Câu hỏi 2:</strong> Đề xuất các năng lực quan trọng, cần ưu tiên nhất để thích ứng trong ngành đó và giải thích vì sao.</li></ul>";
   }
 
   if (ph.key === "discuss") {
-    var note = def.type === "case"
-      ? "Bấm <strong>Bắt đầu</strong> ở đồng hồ bên phải để tính 1 phút thảo luận. Hết giờ, theo hiệu lệnh giơ thẻ, MC bấm chọn đúng 2 thẻ cho mỗi đội."
-      : "Bấm <strong>Bắt đầu</strong> để tính 2 phút thảo luận đồng thời cho hai đội.";
-    return '<p>' + note + '</p><div class="two-cols">' + pickColumnHTML(def, ms, parts, "A") + pickColumnHTML(def, ms, parts, "B") + "</div>";
+    if (def.type === "case")
+      return '<div class="two-cols">' + pickColumnHTML(def, ms, parts, "A") + pickColumnHTML(def, ms, parts, "B") + "</div>";
+    return '<p>Bấm <strong>Bắt đầu</strong> để tính 2 phút thảo luận đồng thời cho hai đội.</p><div class="two-cols">' + pickColumnHTML(def, ms, parts, "A") + pickColumnHTML(def, ms, parts, "B") + "</div>";
   }
 
   if (ph.key === "present") {
     var idxP = parts[ph.side === "A" ? 0 : 1];
     var cue = def.type === "case"
       ? '<ul class="cue-list"><li>Đội chọn hai năng lực nào?</li><li>Vì sao ưu tiên hai năng lực đó cho trường hợp thực tế này?</li><li>Vận dụng bằng những hành động cụ thể nào?</li></ul>'
-      : '<ul class="cue-list"><li>Ngành <strong>' + esc(teamMajor(idxP) || "[để trống]") + '</strong> đang thay đổi thế nào trong thời đại số?</li><li>Những năng lực nào cần ưu tiên nhất để thích ứng? Vì sao?</li></ul>';
+      : '<ul class="cue-list"><li>Ngành <strong>' + esc(matchMajor(ms, ph.side) || "[chưa chọn]") + '</strong> đang thay đổi thế nào trong thời đại số?</li><li>Những năng lực nào cần ưu tiên nhất để thích ứng? Vì sao?</li></ul>';
     return '<div class="present-box"><div class="present-role">Đang trình bày</div><div class="present-team">' + esc(teamName(idxP)) + "</div>" +
       chosenCardsHTML(ms, ph.side) + cue + "</div>";
   }
 
   if (ph.key === "stance") {
-    var topic = config.finalTopic.trim();
-    var topicHTML = topic
-      ? '<div class="topic-box"><div class="hint">CHỦ ĐỀ TRANH BIỆN CHÍNH THỨC</div><div class="topic-text">“' + esc(topic) + '”</div></div>'
-      : blankBoxHTML("CHỦ ĐỀ TRANH BIỆN ĐANG ĐỂ TRỐNG", "BTC bổ sung chủ đề tại trang Soạn nội dung.");
+    var topicHTML = '<div class="topic-box"><div class="hint">CHỦ ĐỀ TRANH BIỆN CHÍNH THỨC</div><div class="topic-text">“' + esc(FINAL_TOPIC) + '”</div></div>';
     var agreeSide = sideForStance(ms, "agree"), disSide = sideForStance(ms, "disagree");
     function stanceCard(kind, side, label) {
       var t = side ? teamName(parts[side === "A" ? 0 : 1]) : (drawingStance ? "🎲 Đang bốc thăm…" : "Chưa bốc thăm");
@@ -544,7 +716,7 @@ function phaseContentHTML(ph, def, ms, parts) {
       '<ul class="cue-list"><li><strong>Mục đích lượt ' + rp.n + ":</strong> " + rp.purpose + ".</li>" +
       "<li>✅ <strong>" + esc(ag ? teamName(parts[ag === "A" ? 0 : 1]) : "—") + "</strong> (Đồng tình) sẽ phát biểu trước — " + fmtTime(rp.speak) + ".</li>" +
       "<li>⛔ <strong>" + esc(dg ? teamName(parts[dg === "A" ? 0 : 1]) : "—") + "</strong> (Phản đối) sẽ phát biểu sau — " + fmtTime(rp.speak) + ".</li></ul>" +
-      '<p class="hint">Bấm <strong>Bắt đầu</strong> ở đồng hồ bên phải. Chủ đề: “' + esc(config.finalTopic.trim() || "[Để trống]") + '”</p></div>';
+      '<p class="hint">Bấm <strong>Bắt đầu</strong> ở đồng hồ bên phải. Chủ đề: “' + esc(FINAL_TOPIC) + '”</p></div>';
   }
 
   if (ph.key === "speak") {
@@ -590,9 +762,10 @@ function phaseContentHTML(ph, def, ms, parts) {
       '<div class="result-score">🟦 ' + esc(nA) + " " + cc.A + " — " + cc.B + " " + esc(nB) + " 🟥</div>";
     if (def.type === "case") htmlR += '<p class="hint">Thẻ đã chọn: ' + esc(nA) + " chọn <strong>" + (ms.picks.A.join(" + ") || "—") + "</strong> · " + esc(nB) + " chọn <strong>" + (ms.picks.B.join(" + ") || "—") + "</strong>.</p>";
     if (isFinal) htmlR += '<p class="hint">Đội quán quân thuộc phe <strong>' + stanceLabel(stanceOfSide(ms, wSide)) + "</strong> và là đội thể hiện tốt nhất khả năng lựa chọn năng lực, lập luận và vận dụng vào thực tiễn lao động thời đại số. 🎉</p>";
-    else htmlR += '<p class="hint">' + esc(teamName(ms.winner)) + " đã được tự động đưa lên vòng tiếp theo trên sơ đồ đấu.</p>";
     var next = nextPlayableMatch();
-    htmlR += '<div class="center-actions"><button type="button" class="secondary-btn big" data-nav="bracket">🏆 Xem sơ đồ đấu</button>' +
+    htmlR += '<div class="center-actions">' +
+      (isFinal ? '<button type="button" class="primary-btn big" data-nav="champion">🏆 Mở tab Nhà vô địch</button>' : "") +
+      '<button type="button" class="secondary-btn big" data-nav="bracket">🏆 Xem sơ đồ đấu</button>' +
       (next && next !== def.id ? '<button type="button" class="primary-btn big" data-open-match="' + next + '">Trận tiếp theo: ' + esc(matchDef(next).title) + " →</button>" : "") +
       "</div></div>";
     return htmlR;
@@ -609,6 +782,10 @@ function nextPlayableMatch() {
 
 /* ---------------- Điều hướng & chuyển bước ---------------- */
 function showView(name) {
+  if (name === "champion" && championIndex() == null) {
+    toast("🏆 Tab Nhà vô địch sẽ mở sau khi chốt kết quả trận chung kết.");
+    name = "bracket";
+  }
   if (name !== "match") stopTimer();
   currentView = name;
   document.querySelectorAll(".view").forEach(function (v) { v.classList.remove("active"); });
@@ -617,6 +794,7 @@ function showView(name) {
   if (name === "home") renderHome();
   if (name === "bracket") renderBracket();
   if (name === "match") renderMatch(true);
+  if (name === "champion") renderChampion();
   window.scrollTo({ top: 0, behavior: "smooth" });
 }
 function openMatch(id) {
@@ -631,6 +809,7 @@ function goPhase(delta) {
   var ms = matchState(def.id), phases = buildPhases(def), cur = phases[ms.phase];
   if (delta > 0) {
     if (cur.key === "stance" && !ms.stanceA) { toast("🎲 Hãy bốc thăm phe trước khi sang bước tiếp!"); return; }
+    if (cur.key === "intro" && def.type === "major" && (!ms.majorA || !ms.majorB)) { toast("🎓 Hãy chọn ngành học cho cả hai đội trước khi sang bước tiếp!"); return; }
     if (cur.key === "discuss" && def.type === "case" && (ms.picks.A.length !== 2 || ms.picks.B.length !== 2)) {
       if (!confirm("Chưa nhập đủ đúng 2 thẻ cho cả hai đội trên web. Nếu các đội đã giơ thẻ giấy rồi, bạn có thể tiếp tục và quay lại nhập bổ sung sau. Tiếp tục?")) return;
     }
@@ -651,14 +830,21 @@ function finishVote() {
   var parts = participantIndexes(def), counts = voteCounts(ms);
   var winnerIdx = counts.A > counts.B ? parts[0] : parts[1];
   var changed = (ms.winner !== null && ms.winner !== winnerIdx);
-  if (changed) downstreamOf(def.id).forEach(function (did) { tstate.matches[did] = blankMatchState(); });
+  if (changed) clearDownstream(def.id);
   ms.winner = winnerIdx;
   var phases = buildPhases(def);
   ms.phase = phases.length - 1;
   saveState();
-  renderBracket(); renderHome(); renderMatch(true);
-  toast("🏁 " + teamName(winnerIdx) + " thắng với tỉ số " + counts.A + "–" + counts.B + "!");
-  if (def.type === "debate") launchConfetti();
+  renderBracket(); renderHome();
+  if (def.type === "debate") {
+    /* Vừa chốt chung kết: hiện tab Nhà vô địch và tự động chuyển tới đó */
+    showView("champion");
+    launchConfetti();
+    toast("🏆 " + teamName(winnerIdx) + " là NHÀ VÔ ĐỊCH với tỉ số " + counts.A + "–" + counts.B + "!");
+  } else {
+    renderMatch(true);
+    toast("🏁 " + teamName(winnerIdx) + " thắng với tỉ số " + counts.A + "–" + counts.B + "!");
+  }
 }
 
 /* ---------------- Pháo giấy ---------------- */
@@ -674,73 +860,12 @@ function launchConfetti() {
   setTimeout(function () { box.classList.add("hidden"); box.innerHTML = ""; }, 5200);
 }
 
-/* ---------------- Soạn nội dung ---------------- */
-function renderEditor() {
-  var tWrap = $("#editorTeams");
-  tWrap.innerHTML = "";
-  config.teams.forEach(function (t, i) {
-    var div = document.createElement("div");
-    div.className = "editor-team";
-    div.innerHTML = "<strong>Đội " + (i + 1) + '</strong><label>Tên đội</label><input type="text" data-team="' + i + '" data-field="name" placeholder="Ví dụ: Đội Bứt Phá"><label>Ngành học (dùng ở Vòng 2 – My Major)</label><input type="text" data-team="' + i + '" data-field="major" placeholder="[Để trống — ví dụ: Công nghệ thông tin]">';
-    tWrap.appendChild(div);
-    div.querySelector('[data-field="name"]').value = t.name;
-    div.querySelector('[data-field="major"]').value = t.major;
-  });
-  var pairLabels = ["Cặp Đội 1 – Đội 2", "Cặp Đội 3 – Đội 4", "Cặp Đội 5 – Đội 6", "Cặp Đội 7 – Đội 8"];
-  var cWrap = $("#editorCases");
-  cWrap.innerHTML = "";
-  config.cases.forEach(function (c, i) {
-    var div = document.createElement("div");
-    div.className = "editor-case";
-    div.innerHTML = "<h4>Trường hợp " + (i + 1) + " · " + pairLabels[i] + "</h4>" +
-      '<label>Tiêu đề trường hợp</label><input type="text" data-case="' + i + '" data-field="title" placeholder="[Để trống — BTC bổ sung]">' +
-      '<label>Nội dung trường hợp thực tế</label><textarea rows="7" data-case="' + i + '" data-field="content" placeholder="[Để trống — dán toàn văn trường hợp thực tế vào đây]"></textarea>' +
-      '<label>Nguồn xác nhận (tên báo/tổ chức hoặc đường link)</label><input type="text" data-case="' + i + '" data-field="source" placeholder="[Để trống — ví dụ: https://... hoặc Báo X, ngày ...]">' +
-      '<label>Link ảnh minh họa (không bắt buộc)</label><input type="text" data-case="' + i + '" data-field="image" placeholder="https://...">';
-    cWrap.appendChild(div);
-    div.querySelector('[data-field="title"]').value = c.title;
-    div.querySelector('[data-field="content"]').value = c.content;
-    div.querySelector('[data-field="source"]').value = c.source;
-    div.querySelector('[data-field="image"]').value = c.image;
-  });
-  $("#editorTopic").value = config.finalTopic;
-}
-function exportJSON() {
-  var data = { app: "cong-nhan-so", version: 1, exportedAt: new Date().toISOString(), config: config, tournament: tstate };
-  var blob = new Blob([JSON.stringify(data, null, 2)], { type: "application/json" });
-  var a = document.createElement("a");
-  a.href = URL.createObjectURL(blob);
-  a.download = "cong-nhan-so-du-lieu.json";
-  document.body.appendChild(a); a.click(); a.remove();
-  setTimeout(function () { URL.revokeObjectURL(a.href); }, 1500);
-  toast("⬇ Đã xuất file dữ liệu.");
-}
-function importJSON(file) {
-  var reader = new FileReader();
-  reader.onload = function () {
-    try {
-      var obj = JSON.parse(reader.result);
-      if (!obj || !obj.config) throw new Error("bad");
-      config = sanitizeConfig(obj.config);
-      if (obj.tournament) tstate = sanitizeState(obj.tournament);
-      saveConfig(true); saveState();
-      renderEditor(); renderHome(); renderBracket();
-      toast("⬆ Nhập dữ liệu thành công!");
-    } catch (e) { toast("⚠️ File không hợp lệ — hãy dùng file JSON do chính web này xuất ra."); }
-  };
-  reader.readAsText(file);
-}
+/* ---------------- Đặt lại giải đấu ---------------- */
 function resetResults() {
-  if (!confirm("Đặt lại toàn bộ kết quả thi đấu, phiếu bầu và thẻ đã chọn? Nội dung đề thi vẫn được giữ nguyên.")) return;
+  if (!confirm("Đặt lại toàn bộ kết quả thi đấu, phiếu bầu, thẻ đã chọn và kết quả bốc thăm chia cặp? Tên các đội vẫn được giữ nguyên.")) return;
   tstate = defaultState(); saveState(); stopTimer();
   renderHome(); renderBracket(); renderMatch(true);
   toast("↺ Đã đặt lại kết quả thi đấu.");
-}
-function resetContent() {
-  if (!confirm("Xóa trống toàn bộ tên đội, ngành học, 4 trường hợp và chủ đề về mặc định? Hành động này không hoàn tác được.")) return;
-  config = defaultConfig(); saveConfig(true);
-  renderEditor(); renderHome(); renderBracket();
-  toast("🧹 Đã xóa trống nội dung về mặc định.");
 }
 
 /* ---------------- Sự kiện ---------------- */
@@ -816,26 +941,28 @@ $("#btnPrevPhase").addEventListener("click", function () { goPhase(-1); this.blu
 $("#btnNextPhase").addEventListener("click", function () { goPhase(1); this.blur(); });
 $("#btnFullscreen").addEventListener("click", toggleFullscreen);
 $("#btnResetResults").addEventListener("click", resetResults);
-$("#btnResetResults2").addEventListener("click", resetResults);
-$("#btnResetContent").addEventListener("click", resetContent);
-$("#btnExport").addEventListener("click", exportJSON);
-$("#btnImport").addEventListener("click", function () { $("#importFile").click(); });
-$("#importFile").addEventListener("change", function () {
-  if (this.files && this.files[0]) importJSON(this.files[0]);
-  this.value = "";
-});
+$("#btnDrawR1").addEventListener("click", drawRound1);
+$("#btnDrawR2").addEventListener("click", drawRound2);
 
 document.addEventListener("input", function (e) {
   var t = e.target;
-  if (t.hasAttribute && t.hasAttribute("data-team")) {
-    config.teams[+t.getAttribute("data-team")][t.getAttribute("data-field")] = t.value;
-    saveConfig(true); return;
+  if (t.hasAttribute && t.hasAttribute("data-team-name")) {
+    config.teams[+t.getAttribute("data-team-name")].name = t.value;
+    saveConfig();
+    renderBracket(); renderHome();
+    if (currentView === "match") renderMatch(false);
   }
-  if (t.hasAttribute && t.hasAttribute("data-case")) {
-    config.cases[+t.getAttribute("data-case")][t.getAttribute("data-field")] = t.value;
-    saveConfig(true); return;
+});
+document.addEventListener("change", function (e) {
+  var t = e.target;
+  if (t.hasAttribute && t.hasAttribute("data-major-side")) {
+    var def = currentDef(); if (!def) return;
+    var ms = matchState(def.id);
+    if (t.getAttribute("data-major-side") === "A") ms.majorA = t.value; else ms.majorB = t.value;
+    saveState();
+    renderBracket(); renderMatch(false);
+    if (t.value) toast("🎓 Đã chọn ngành: " + t.value);
   }
-  if (t.id === "editorTopic") { config.finalTopic = t.value; saveConfig(true); }
 });
 
 function toggleFullscreen() {
@@ -858,6 +985,6 @@ document.querySelector(".brand").addEventListener("keydown", function (e) {
 
 /* ---------------- Khởi tạo ---------------- */
 renderHome();
+renderBracketTeams();
 renderBracket();
-renderEditor();
 renderMatch(true);

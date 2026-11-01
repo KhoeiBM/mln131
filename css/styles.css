@@ -502,3 +502,294 @@ input[type="text"]:focus,textarea:focus{outline:none;border-color:var(--teal)}
   body{padding-left:0;background:#fff}
   .topbar,.topbar-actions,.content-topbar .live-tag{display:none!important}
 }
+
+/* ============================================================
+   CẬP NHẬT: THEME TRẮNG + bốc thăm chia cặp + bracket đối xứng
+   - Các cột vòng trong lệch xuống, căn giữa hai trận cấp nguồn.
+   - Đội thắng được highlight viền và nối sang vòng trong.
+   - Toàn bộ màu chữ/bề mặt chuyển sang nền sáng tương phản cao.
+   ============================================================ */
+
+/* --- Danh sách đội & nút bốc thăm trên Sơ đồ đấu --- */
+.teams-panel{
+  background:linear-gradient(145deg,#122135,#0f1b2c);border:1px solid var(--line);
+  border-radius:19px;padding:1.15rem 1.25rem;margin-bottom:1.25rem;box-shadow:var(--shadow);
+}
+.teams-panel-head{display:flex;justify-content:space-between;align-items:center;gap:1rem;flex-wrap:wrap}
+.teams-panel-head h3{margin:0}
+.draw-actions{display:flex;gap:.6rem;flex-wrap:wrap}
+.bracket-teams{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:.75rem;margin-top:1rem}
+.bracket-team-item label{display:block;font-size:.82rem;font-weight:700;color:var(--muted);margin-bottom:.3rem}
+#drawStatus{margin:.9rem 0 0}
+
+/* --- Dropdown chọn ngành Vòng 2 --- */
+.major-label{display:block;font-size:.88rem;font-weight:700;color:var(--muted);margin:.4rem 0 .35rem}
+.major-select{
+  width:100%;padding:.7rem .8rem;border-radius:10px;border:1px solid #385169;
+  background:#0c1d30;color:var(--text);font:inherit;font-size:1rem;
+}
+.major-pick .case-body{margin-top:.75rem}
+
+/* --- Bracket: vòng trong lệch xuống, đối xứng theo chiều ngang --- */
+.bracket-board{align-items:stretch}
+.bracket-col{display:flex;flex-direction:column}
+.bracket-col h3{min-height:2.4em}
+.bracket-col-body{flex:1;display:flex;flex-direction:column;gap:.85rem}
+.bracket-col-body .match-card{margin-bottom:0;position:relative}
+.bracket-col.col-r2 .bracket-col-body{justify-content:space-around}
+.bracket-col.col-final .bracket-col-body{justify-content:center}
+.bracket-col.col-r1 .match-card.done::after,
+.bracket-col.col-r2 .match-card.done::after{
+  content:"";position:absolute;top:50%;right:-19px;width:19px;height:3px;border-radius:2px;
+  background:#14b8a6;box-shadow:0 0 8px rgba(20,184,166,.55);
+}
+.bracket-col.col-r2 .match-card.has-advanced::before,
+.bracket-col.col-final .match-card.has-advanced::before{
+  content:"";position:absolute;top:50%;left:-19px;width:19px;height:3px;border-radius:2px;
+  background:#14b8a6;box-shadow:0 0 8px rgba(20,184,166,.55);
+}
+.m-team{border:1.5px solid transparent}
+.m-team.win{
+  border:2px solid #f59e0b;background:rgba(245,158,11,.14);
+  box-shadow:0 0 0 3px rgba(245,158,11,.16),0 0 14px rgba(245,158,11,.22);
+}
+.m-team.advanced{
+  border:2px solid #14b8a6;background:rgba(20,184,166,.12);
+  box-shadow:0 0 0 3px rgba(20,184,166,.14);font-weight:700;
+}
+.match-card.done{border-color:#10b981;box-shadow:0 0 0 1px rgba(16,185,129,.35),0 12px 28px rgba(0,0,0,.18)}
+
+/* ================= THEME TRẮNG ================= */
+:root{
+  color-scheme:light;
+  --bg:#f5f8fb; --bg2:#ffffff; --panel:#ffffff; --panel2:#f2f7fa; --line:#d7e3ec;
+  --text:#10233b; --muted:#5b7186; --cyan:#0d9488; --teal:#14b8a6; --teal2:#0f766e;
+  --blue:#2563eb; --red:#e11d48; --red2:#e11d48; --gold:#b45309; --green:#16a34a; --amber:#d97706;
+  --shadow:0 12px 32px rgba(15,50,80,.09);
+}
+body{
+  background:
+    radial-gradient(1000px 520px at 88% -10%, rgba(20,184,166,.12), transparent 58%),
+    radial-gradient(760px 460px at -8% 18%, rgba(37,99,235,.07), transparent 60%),
+    linear-gradient(180deg,#ffffff,#f3f8fb 42%,#eef5f9);
+  color:var(--text);
+}
+body::before{
+  background-image:linear-gradient(rgba(15,80,110,.05) 1px,transparent 1px),linear-gradient(90deg,rgba(15,80,110,.05) 1px,transparent 1px);
+}
+::-webkit-scrollbar-thumb{background:#c3d3df}
+kbd{background:#eef4f8;border-color:#cbd9e4;color:var(--text)}
+.hint{color:var(--muted)}
+
+/* Sidebar sáng */
+.topbar{background:rgba(255,255,255,.96);border-right-color:var(--line)}
+.brand-icon{background:linear-gradient(135deg,#14b8a6,#0e7490);color:#ffffff;box-shadow:0 8px 20px rgba(20,184,166,.28)}
+.brand-text strong{color:#0b2239}
+.brand-text small{color:var(--muted)}
+.nav-btn{color:#4b637c}
+.nav-btn:hover{color:#0b2239;background:#eef6f8}
+.nav-btn.active{background:#ccfbf1;color:#0f766e;border-color:#5eead4}
+.side-info{background:#f2f8fa;border-color:var(--line)}
+.side-info strong{color:#0b2239}
+.side-info p{color:var(--muted)}
+
+/* Thanh tiêu đề & hero */
+.content-topbar{border-bottom-color:var(--line)}
+.eyebrow{color:#0f766e}
+.content-title{color:#0b2239}
+.live-tag{background:#ecfdf5;color:#047857;border-color:#a7f3d0}
+.hero h1{color:#0b2239}
+.hero-sub{color:#0f766e}
+.hero-badge{color:#0f766e}
+.hero-desc{color:#43586e}
+.hero-desc strong{color:#0b2239}
+.hero-progress{color:var(--muted)}
+.stat{background:#ffffff;border-color:var(--line);box-shadow:var(--shadow)}
+.stat::after{background:rgba(20,184,166,.10)}
+.stat b{color:#0b2239}
+.section-title{color:#0b2239}
+
+/* Nút bấm trên nền sáng */
+.primary-btn{background:linear-gradient(135deg,#0d9488,#14b8a6);color:#ffffff;box-shadow:0 8px 18px rgba(13,148,136,.28)}
+.primary-btn:hover:not(:disabled){background:linear-gradient(135deg,#0f766e,#0d9488);color:#ffffff}
+.secondary-btn{background:#ffffff;border-color:#cbd9e4;color:#14324f}
+.secondary-btn:hover:not(:disabled){background:#eef7fa;border-color:#14b8a6}
+.ghost-btn{background:#ffffff;border-color:#cbd9e4;color:#14324f}
+.ghost-btn:hover{background:#eef7fa;border-color:#14b8a6}
+.danger-ghost-btn{background:#fff1f2;border-color:#fecdd3;color:#be123c}
+.danger-ghost-btn:hover{background:#ffe4e6}
+.link-btn{color:#0f766e}
+
+/* Bề mặt thẻ/panel sáng */
+.team-chip,.judges-panel,.phase-main,.teams-panel{
+  background:linear-gradient(145deg,#ffffff,#f6fbfd);border-color:var(--line);box-shadow:var(--shadow);
+}
+.team-chip{background:#ffffff}
+.round-card{background:linear-gradient(145deg,#ffffff,#f6fbfd);border-color:var(--line);box-shadow:var(--shadow)}
+.round-card ul{color:#33475e}
+.round-name{color:#0f766e}
+.round-tag{background:#ccfbf1;color:#115e59;border-color:#5eead4}
+.round-card.r2 .round-tag{background:#fef3c7;color:#92400e;border-color:#fcd34d}
+.round-card.r3 .round-tag{background:#ffe4e6;color:#9f1239;border-color:#fda4af}
+.round-result{border-top-color:var(--line);color:#15803d}
+.comp-card{background:linear-gradient(145deg,#ffffff,#f6fbfd);border-color:var(--line);box-shadow:var(--shadow)}
+.comp-card p{color:var(--muted)}
+.comp-letter{color:#ffffff}
+.judges-caption{color:var(--muted)} .judges-caption strong{color:#0b2239}
+.judges-rules{color:#243750}
+.howto{color:#33475e}
+
+/* Sơ đồ đấu sáng */
+.match-card{background:#ffffff;border-color:var(--line);box-shadow:0 8px 22px rgba(15,50,80,.07)}
+.match-card.done{border-color:#10b981;box-shadow:0 0 0 1px rgba(16,185,129,.3),0 10px 24px rgba(16,185,129,.12)}
+.m-team{background:#f7fbff}
+.m-team.win{background:#fff7e6;color:#7c2d12}
+.m-team.advanced{background:#ecfdf8;color:#065f46}
+.badge{background:#eef4f8;border-color:#d7e3ec;color:#35506b}
+.badge.done{background:#dcfce7;color:#15803d;border-color:#86efac}
+.badge.playing{background:#fef3c7;color:#b45309;border-color:#fcd34d}
+.side-a-tag{background:#dbeafe;color:#1d4ed8}
+.side-b-tag{background:#ffe4e6;color:#be123c}
+.bracket-col h3{color:#55708c}
+.bracket-col.final-col h3{color:#b45309}
+.champion-banner{
+  background:linear-gradient(90deg,#f59e0b,#fbbf24,#fde68a,#fbbf24);color:#451a03;border:none;
+  box-shadow:0 12px 30px rgba(245,158,11,.3);
+}
+
+/* Màn hình trận sáng */
+.match-round{color:#0f766e}
+.vs-team{background:#ffffff}
+.vs-team.side-a{border-color:#93c5fd;background:#eff6ff}
+.vs-team.side-b{border-color:#fda4af;background:#fff5f6}
+.side-a .vs-side{color:#1d4ed8}
+.side-b .vs-side{color:#be123c}
+.vs-team .vs-sub{color:var(--muted)}
+.vs-team.is-speaking{outline-color:#f59e0b}
+.vs-mid{background:#0f766e;border-color:#0f766e;color:#ffffff}
+.step-pill,.debate-chip{background:#ffffff;border-color:#d7e3ec;color:#5b7186}
+.step-pill.current,.debate-chip.current{background:#0f766e;color:#ffffff;border-color:#0f766e}
+.step-pill.done,.debate-chip.done{background:#f0fdf4;color:#15803d;border-color:#86efac}
+.phase-main{background:linear-gradient(145deg,#ffffff,#f8fcfe)}
+.phase-desc{color:var(--muted)}
+.case-box{background:linear-gradient(115deg,#ecfdf5,#eff6ff);border-color:#a7e8d8}
+.case-body{background:#ffffff;color:#1e344d;border-left-color:#14b8a6}
+.case-source{border-top-color:#d7e3ec;color:var(--muted)}
+.case-source a{color:#0f766e}
+.pick-col{background:#ffffff;border-color:var(--line)}
+.pick-col.side-a{border-top-color:#3b82f6}
+.pick-col.side-b{border-top-color:#f43f5e}
+.pick-btn{background:#f7fbff;border-color:#d7e3ec;color:var(--text)}
+.pick-btn .pn{color:var(--muted)}
+.pick-btn.selected{background:#ccfbf1;border-color:#0d9488;color:#134e4a;box-shadow:0 0 0 1px #14b8a6 inset}
+.pick-count.ok{color:#15803d}
+.pick-count.notok{color:#d97706}
+.chosen-card{background:#ffffff;border-color:var(--line)}
+.chosen-card .cd{color:var(--muted)}
+.present-role{color:#b45309}
+.cue-list{color:#33475e}
+.topic-box{background:linear-gradient(120deg,#ecfdf5,#eff6ff 75%);border-color:#5eead4}
+.topic-box .topic-text{color:#0b2239}
+.stance-card{background:#ffffff}
+.stance-card.agree{border-color:#93c5fd}
+.stance-card.disagree{border-color:#fda4af}
+.stance-card .stance-team{color:var(--muted)}
+.vote-slot{background:#ffffff;border-color:#cbd9e4;color:#8296ab}
+.vote-slot.a{border-color:#2563eb;background:#dbeafe;color:#1d4ed8}
+.vote-slot.b{border-color:#e11d48;background:#ffe4e6;color:#be123c}
+.vote-btn.a{background:linear-gradient(135deg,#2563eb,#3b82f6)}
+.vote-btn.b{background:linear-gradient(135deg,#e11d48,#fb7185)}
+.result-winner{color:#0f766e}
+.blank-note{color:#b45309}
+.empty-state{border-color:#cbd9e4;color:var(--muted)}
+.major-select{background:#ffffff;border-color:#cbd9e4;color:var(--text)}
+.major-select:focus{outline:3px solid rgba(20,184,166,.35);border-color:#14b8a6}
+
+/* Đồng hồ sáng */
+.timer-card{background:#ffffff;border-color:var(--line);box-shadow:var(--shadow)}
+.timer-label{color:var(--muted)}
+.timer-display{color:#0b2239}
+.timer-progress-track{background:#e2e8f0}
+.timer-status{color:var(--muted)}
+.timer-card.warn .timer-display{color:#b45309}
+.timer-card.danger{background:#fff5f6;border-color:#f43f5e}
+.timer-card.danger .timer-display{color:#e11d48}
+
+/* Ô nhập đội & footer/toast */
+input[type="text"],textarea{background:#ffffff;border-color:#cbd9e4;color:var(--text)}
+input[type="text"]:focus,textarea:focus{border-color:#14b8a6;outline:3px solid rgba(20,184,166,.25)}
+.bracket-team-item label{color:var(--muted)}
+.toast{background:#0f766e;border-color:#0f766e;color:#ffffff;box-shadow:0 14px 30px rgba(15,118,110,.3)}
+.footer{color:#8296ab;border-top-color:var(--line)}
+
+/* Responsive: về 1 cột thì bracket xếp từ trên xuống, ẩn đường nối */
+@media (max-width:1050px){
+  .bracket-col.col-r2 .bracket-col-body,
+  .bracket-col.col-final .bracket-col-body{justify-content:flex-start}
+  .bracket-col h3{min-height:0}
+  .bracket-col .match-card.done::after,
+  .bracket-col .match-card.has-advanced::before{display:none}
+}
+@media (max-width:900px){
+  .topbar{background:rgba(255,255,255,.97)}
+  .draw-actions{width:100%}
+  .draw-actions button{flex:1}
+}
+
+/* ================= TAB NHÀ VÔ ĐỊCH ================= */
+.nav-btn.champion-nav{font-weight:800}
+.nav-btn.champion-nav.active{
+  background:linear-gradient(135deg,#fef3c7,#fde68a);color:#92400e;border-color:#f59e0b;
+  box-shadow:0 6px 16px rgba(245,158,11,.28);
+}
+.champion-banner{cursor:pointer}
+.champion-stage{
+  position:relative;overflow:hidden;text-align:center;max-width:940px;margin:18px auto 30px;
+  padding:clamp(26px,5vw,54px) clamp(16px,4vw,48px) 34px;
+  background:
+    radial-gradient(560px 300px at 50% -60px, rgba(251,191,36,.28), transparent 65%),
+    linear-gradient(180deg,#fffdf3,#ffffff 58%,#f2fbf8);
+  border:2px solid #fbbf24;border-radius:28px;
+  box-shadow:0 24px 60px rgba(180,120,10,.18),0 10px 28px rgba(15,50,80,.08);
+}
+.champion-stage::before,.champion-stage::after{
+  content:"✨";position:absolute;font-size:30px;opacity:.75;animation:championSparkle 1.6s ease-in-out infinite alternate;
+}
+.champion-stage::before{left:26px;top:22px}
+.champion-stage::after{right:26px;top:22px;animation-delay:.5s}
+@keyframes championSparkle{from{transform:scale(.82) rotate(-8deg);opacity:.45}to{transform:scale(1.12) rotate(8deg);opacity:1}}
+.champion-eyebrow{
+  font-size:12px;font-weight:850;letter-spacing:.18em;text-transform:uppercase;color:#b45309;
+}
+.champion-cup{
+  font-size:clamp(112px,17vw,190px);line-height:1.05;margin:8px auto 2px;width:fit-content;
+  filter:drop-shadow(0 20px 26px rgba(245,158,11,.42));
+  animation:championTrophy 2.4s ease-in-out infinite;
+}
+@keyframes championTrophy{
+  0%,100%{transform:translateY(0) rotate(-2deg)}
+  50%{transform:translateY(-13px) rotate(2deg)}
+}
+.champion-stage h2{
+  font-size:clamp(42px,7vw,80px);line-height:1.08;letter-spacing:-.045em;margin:4px 0 10px;
+  color:#7c2d12;
+  text-shadow:0 3px 0 rgba(251,191,36,.28);
+}
+.champion-meta{font-size:clamp(1rem,2.2vw,1.25rem);color:#526a82;font-weight:650;margin:0 auto}
+.champion-gif{
+  display:block;width:min(450px,92%);height:auto;margin:24px auto 10px;
+  border:3px solid #ffffff;border-radius:24px;
+  box-shadow:0 18px 38px rgba(76,29,149,.22),0 0 0 1px #e7e5f4;
+  transform-origin:50% 88%;
+  animation:championMemeDance .62s ease-in-out infinite alternate;
+}
+@keyframes championMemeDance{
+  from{transform:translateY(0) rotate(-2.2deg) scale(1)}
+  to{transform:translateY(-9px) rotate(2.2deg) scale(1.015)}
+}
+.champion-stage .center-actions{margin-top:22px}
+@media (max-width:640px){
+  .champion-stage{border-radius:22px;margin-top:6px}
+  .champion-stage::before{left:10px}.champion-stage::after{right:10px}
+  .champion-gif{width:100%}
+}
