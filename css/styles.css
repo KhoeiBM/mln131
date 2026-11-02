@@ -1,0 +1,833 @@
+/* ============ CÔNG NHÂN SỐ — styles ============ */
+:root{
+  --bg:#0a0f1e; --bg2:#0d1529; --panel:#121c36; --panel2:#16223f; --line:#26355c;
+  --text:#eef2ff; --muted:#a7b3d4; --cyan:#22d3ee; --blue:#38bdf8; --red:#fb7185; --red2:#f43f5e;
+  --gold:#fbbf24; --green:#34d399; --amber:#f59e0b; --radius:16px;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  margin:0; color:var(--text);
+  font-family:"Segoe UI",Inter,system-ui,-apple-system,Roboto,Arial,sans-serif;
+  background:
+    radial-gradient(1100px 550px at 85% -10%, rgba(34,211,238,.16), transparent 60%),
+    radial-gradient(900px 500px at -10% 20%, rgba(56,189,248,.10), transparent 60%),
+    linear-gradient(180deg,var(--bg),var(--bg2));
+  min-height:100vh;
+}
+h1,h2,h3{margin:0 0 .5rem}
+p{margin:.3rem 0 .8rem}
+button{font:inherit; cursor:pointer}
+kbd{background:#1e2a4d;border:1px solid var(--line);border-bottom-width:3px;border-radius:6px;padding:.05rem .4rem;font-size:.85em}
+.hidden{display:none!important}
+.hint{color:var(--muted);font-size:.95rem;line-height:1.55}
+.hint.center{text-align:center}
+.link-btn{background:none;border:none;color:var(--cyan);text-decoration:underline;padding:0}
+
+/* ---------- Topbar ---------- */
+.topbar{
+  position:sticky;top:0;z-index:50;display:flex;align-items:center;gap:1rem;flex-wrap:wrap;
+  padding:.6rem 1.1rem;background:rgba(10,15,30,.92);backdrop-filter:blur(8px);
+  border-bottom:1px solid var(--line);
+}
+.brand{display:flex;align-items:center;gap:.6rem;cursor:pointer;margin-right:auto}
+.brand-icon{font-size:1.7rem}
+.brand-text{display:flex;flex-direction:column;line-height:1.05}
+.brand-text strong{letter-spacing:.12em;font-size:1.05rem;color:#fff}
+.brand-text small{color:var(--cyan);letter-spacing:.06em;text-transform:uppercase;font-size:.68rem}
+.main-nav{display:flex;gap:.45rem;flex-wrap:wrap}
+.nav-btn{
+  background:#141f3d;border:1px solid var(--line);color:var(--text);
+  padding:.55rem .95rem;border-radius:999px;font-weight:600;
+}
+.nav-btn:hover{border-color:var(--cyan)}
+.nav-btn.active{background:linear-gradient(90deg,#0e7490,#0284c7);border-color:transparent;color:#fff}
+.ghost-btn{background:transparent;border:1px solid var(--line);color:var(--text);padding:.5rem .9rem;border-radius:10px}
+.ghost-btn:hover{border-color:var(--cyan)}
+.danger-ghost-btn{background:transparent;border:1px solid #7f1d2d;color:#fda4af;padding:.55rem .95rem;border-radius:10px}
+.danger-ghost-btn:hover{background:rgba(244,63,94,.12)}
+.primary-btn{background:linear-gradient(90deg,#0891b2,#2563eb);border:none;color:#fff;padding:.65rem 1.2rem;border-radius:12px;font-weight:700;box-shadow:0 6px 18px rgba(37,99,235,.35)}
+.primary-btn:hover{filter:brightness(1.12)}
+.primary-btn:disabled{opacity:.4;cursor:not-allowed;box-shadow:none}
+.secondary-btn{background:#1a27489c;border:1px solid var(--line);color:var(--text);padding:.65rem 1.15rem;border-radius:12px;font-weight:600}
+.secondary-btn:hover{border-color:var(--cyan)}
+.secondary-btn:disabled{opacity:.4;cursor:not-allowed}
+.big{font-size:1.12rem;padding:.85rem 1.6rem;border-radius:14px}
+
+/* ---------- Layout/views ---------- */
+main{max-width:1420px;margin:0 auto;padding:1.4rem 1.1rem 2.5rem}
+.view{display:none;animation:fade .25s ease}
+.view.active{display:block}
+@keyframes fade{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+.section-title{font-size:1.55rem;margin:2.4rem 0 1rem}
+.view-head{display:flex;justify-content:space-between;align-items:flex-start;gap:1rem;flex-wrap:wrap;margin-bottom:1rem}
+.view-head h2{font-size:1.9rem}
+.footer{text-align:center;color:var(--muted);padding:1.2rem;border-top:1px solid var(--line);font-size:.9rem}
+
+/* ---------- Hero ---------- */
+.hero{text-align:center;padding:2.6rem 1rem 1.4rem}
+.hero-badge{display:inline-block;border:1px solid var(--line);color:var(--cyan);border-radius:999px;padding:.35rem 1rem;letter-spacing:.14em;font-size:.8rem;font-weight:700;background:rgba(34,211,238,.06)}
+.hero h1{font-size:clamp(3rem,9vw,6.2rem);letter-spacing:.04em;margin:.7rem 0 0;
+  background:linear-gradient(90deg,#fff,#7dd3fc 55%,#22d3ee);-webkit-background-clip:text;background-clip:text;color:transparent}
+.hero-sub{font-size:clamp(1.3rem,3.6vw,2.2rem);font-weight:800;letter-spacing:.22em;color:var(--gold);margin:.2rem 0 .9rem}
+.hero-desc{font-size:1.15rem;color:var(--muted);line-height:1.65}
+.hero-desc strong{color:#fff}
+.hero-actions{display:flex;gap:.8rem;justify-content:center;flex-wrap:wrap;margin-top:1.2rem}
+.hero-progress{margin-top:1rem;color:var(--muted)}
+.hero-progress strong{color:var(--green)}
+
+/* ---------- Teams chips ---------- */
+.team-chips{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:.7rem}
+.team-chip{background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);padding:.85rem 1rem}
+.team-chip .tname{font-weight:800;font-size:1.08rem}
+.team-chip .tmajor{color:var(--muted);font-size:.92rem}
+.blank-note{color:var(--amber);font-style:italic}
+
+/* ---------- Round cards ---------- */
+.rounds-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:1rem}
+.round-card{background:linear-gradient(180deg,var(--panel2),var(--panel));border:1px solid var(--line);border-radius:20px;padding:1.2rem 1.25rem;position:relative;overflow:hidden}
+.round-card::before{content:"";position:absolute;inset:0 0 auto 0;height:5px;background:var(--cyan)}
+.round-card.r2::before{background:var(--gold)} .round-card.r3::before{background:var(--red2)}
+.round-tag{color:var(--muted);font-weight:800;letter-spacing:.12em;font-size:.78rem;margin-bottom:.5rem}
+.round-card h3{font-size:1.35rem}
+.round-name{color:var(--cyan);font-weight:700}
+.round-card ul{margin:.4rem 0 .8rem;padding-left:1.15rem;line-height:1.6;color:#dbe4ff}
+.round-result{border-top:1px dashed var(--line);padding-top:.7rem;font-weight:800;color:var(--green)}
+
+/* ---------- Competency cards ---------- */
+.cards-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:1.25rem}
+.comp-card{background:var(--panel);border:1px solid var(--line);border-top:6px solid var(--cc,#38bdf8);border-radius:20px;padding:1.5rem 1.45rem}
+.comp-letter{display:inline-flex;width:68px;height:68px;border-radius:17px;align-items:center;justify-content:center;font-size:2.15rem;font-weight:900;color:#071022;background:var(--cc,#38bdf8);margin-bottom:.8rem}
+.comp-card h4{margin:.1rem 0 .5rem;font-size:1.32rem;line-height:1.3}
+.comp-card p{color:var(--muted);font-size:1.08rem;line-height:1.65}
+
+/* ---------- Judges ---------- */
+.judges-panel{display:grid;grid-template-columns:340px 1fr;gap:1.2rem;background:var(--panel);border:1px solid var(--line);border-radius:20px;padding:1.3rem}
+.judge-icons{display:flex;gap:.25rem;flex-wrap:wrap;font-size:1.85rem}
+.judge{filter:grayscale(.1)} .judge.teacher{font-size:2.2rem}
+.judges-caption{color:var(--muted)} .judges-caption strong{color:#fff}
+.judges-rules{margin:0;padding-left:1.2rem;line-height:1.7;font-size:1.02rem}
+.dot{display:inline-block;width:.8em;height:.8em;border-radius:50%;vertical-align:middle}
+.dot-blue{background:var(--blue)} .dot-red{background:var(--red2)}
+.howto{line-height:1.85;font-size:1.05rem;padding-left:1.4rem;color:#dbe4ff}
+
+/* ---------- Bracket ---------- */
+.bracket-board{display:grid;grid-template-columns:1.25fr 1fr .9fr;gap:1.1rem;align-items:start}
+.bracket-col h3{text-align:center;letter-spacing:.1em;color:var(--cyan);font-size:1rem;margin-bottom:.7rem}
+.bracket-col.final-col h3{color:var(--gold)}
+.match-card{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:.9rem 1rem;margin-bottom:.85rem}
+.match-card.done{border-color:#14532d}
+.match-card .m-title{font-weight:800;display:flex;justify-content:space-between;gap:.5rem;align-items:center}
+.badge{font-size:.72rem;font-weight:800;letter-spacing:.06em;border-radius:999px;padding:.2rem .6rem;border:1px solid var(--line);color:var(--muted);white-space:nowrap}
+.badge.done{color:#052e16;background:var(--green);border-color:transparent}
+.badge.playing{color:#111827;background:var(--gold);border-color:transparent}
+.m-teams{margin:.55rem 0}
+.m-team{display:flex;justify-content:space-between;gap:.6rem;padding:.45rem .6rem;border-radius:10px;margin:.25rem 0;background:#0e1730;border:1px solid transparent}
+.m-team.win{border-color:var(--gold);background:rgba(251,191,36,.12);font-weight:800}
+.m-team .side-tag{font-size:.72rem;font-weight:800;padding:.12rem .5rem;border-radius:999px;align-self:center;white-space:nowrap}
+.side-a-tag{background:rgba(56,189,248,.18);color:#7dd3fc}
+.side-b-tag{background:rgba(244,63,94,.18);color:#fda4af}
+.m-team .votes{font-weight:900}
+.match-card .primary-btn,.match-card .secondary-btn{width:100%;margin-top:.5rem}
+.champion-banner{
+  text-align:center;font-size:clamp(1.4rem,4vw,2.4rem);font-weight:900;color:#1c1402;
+  background:linear-gradient(90deg,#f59e0b,#fbbf24,#fde68a,#fbbf24);border-radius:20px;padding:1.2rem;margin-bottom:1.2rem;
+  box-shadow:0 10px 34px rgba(251,191,36,.35);
+}
+
+/* ---------- Match screen ---------- */
+.empty-state{text-align:center;padding:5rem 1rem}
+.empty-icon{font-size:4rem}
+.match-head{display:flex;justify-content:space-between;gap:1rem;align-items:flex-start;flex-wrap:wrap}
+.match-round{color:var(--cyan);font-weight:800;letter-spacing:.12em;font-size:.85rem;text-transform:uppercase}
+.match-head h2{font-size:2rem}
+.vs-panel{display:grid;grid-template-columns:1fr auto 1fr;gap:.9rem;align-items:stretch;margin:1rem 0}
+.vs-team{border-radius:18px;padding:1rem 1.15rem;border:2px solid var(--line);background:var(--panel);text-align:center}
+.vs-team.side-a{border-color:#0369a1;background:linear-gradient(180deg,rgba(56,189,248,.18),var(--panel))}
+.vs-team.side-b{border-color:#9f1239;background:linear-gradient(180deg,rgba(244,63,94,.18),var(--panel))}
+.vs-team .vs-side{font-size:.78rem;font-weight:900;letter-spacing:.14em}
+.side-a .vs-side{color:#7dd3fc} .side-b .vs-side{color:#fda4af}
+.vs-team .vs-name{font-size:clamp(1.5rem,3.6vw,2.3rem);font-weight:900;margin:.15rem 0}
+.vs-team .vs-sub{color:var(--muted)}
+.vs-team.is-speaking{outline:3px solid var(--gold);outline-offset:2px}
+.vs-mid{display:flex;align-items:center;justify-content:center;font-size:1.9rem;font-weight:900;color:var(--muted)}
+.stepper{display:flex;gap:.45rem;flex-wrap:wrap;margin:.4rem 0 .9rem}
+.step-pill{border:1px solid var(--line);background:#101b36;color:var(--muted);border-radius:999px;padding:.42rem .85rem;font-size:.9rem;font-weight:700}
+.step-pill.current{background:linear-gradient(90deg,#0891b2,#2563eb);color:#fff;border-color:transparent}
+.step-pill.done{color:var(--green);border-color:#14532d}
+.debate-tracker{display:flex;gap:.5rem;flex-wrap:wrap;margin-bottom:.9rem}
+.debate-chip{border:1px solid var(--line);border-radius:12px;padding:.5rem .8rem;color:var(--muted);background:#101b36;font-weight:700}
+.debate-chip.current{border-color:var(--gold);color:var(--gold)}
+.debate-chip.done{border-color:#14532d;color:var(--green)}
+.match-layout{display:grid;grid-template-columns:1fr 350px;gap:1.1rem;align-items:start}
+.phase-main{background:var(--panel);border:1px solid var(--line);border-radius:20px;padding:1.35rem 1.4rem;min-height:430px}
+.phase-main h3{font-size:1.75rem}
+.phase-desc{color:var(--muted);line-height:1.6;font-size:1.02rem}
+.phase-nav{display:flex;justify-content:space-between;align-items:center;gap:1rem;margin-top:1.1rem;flex-wrap:wrap}
+.phase-progress{color:var(--muted);font-weight:700}
+
+/* Timer */
+.timer-card{background:var(--panel);border:1px solid var(--line);border-radius:20px;padding:1.1rem;text-align:center;position:sticky;top:86px}
+.timer-label{font-weight:900;letter-spacing:.16em;color:var(--muted);margin-bottom:.6rem}
+.timer-ring-wrap{position:relative;width:230px;height:230px;margin:0 auto}
+.timer-ring{width:230px;height:230px;transform:rotate(-90deg)}
+.timer-ring circle{fill:none;stroke-width:12}
+.ring-bg{stroke:#1c294d}
+.ring-fg{stroke:var(--cyan);stroke-linecap:round;stroke-dasharray:552.9;stroke-dashoffset:0;transition:stroke-dashoffset .3s linear,stroke .3s}
+.timer-card.warn .ring-fg{stroke:var(--gold)}
+.timer-card.danger .ring-fg{stroke:var(--red2)}
+.timer-display{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:3.6rem;font-weight:900;font-variant-numeric:tabular-nums}
+.timer-card.danger .timer-display{animation:pulse .5s infinite alternate}
+@keyframes pulse{from{transform:scale(1)}to{transform:scale(1.06);color:#fda4af}}
+.timer-status{color:var(--muted);margin:.5rem 0 .8rem;font-weight:600}
+.timer-controls{display:flex;gap:.5rem;justify-content:center;margin:.35rem 0;flex-wrap:wrap}
+.timer-controls.small .ghost-btn{padding:.38rem .7rem;font-size:.9rem}
+
+/* Phase content blocks */
+.case-box{border:1px solid var(--line);border-radius:16px;padding:1.1rem 1.2rem;background:#0d1730;margin-top:.6rem}
+.case-box h4{font-size:1.35rem;margin:.1rem 0 .5rem}
+.case-body{font-size:1.14rem;line-height:1.75;white-space:pre-line;color:#e6ecff}
+.case-source{margin-top:.9rem;border-top:1px dashed var(--line);padding-top:.7rem;color:var(--muted)}
+.case-source a{color:var(--cyan);word-break:break-all}
+.case-img{max-width:100%;border-radius:12px;margin-top:.8rem;border:1px solid var(--line)}
+.blank-box{border:2px dashed var(--amber);border-radius:16px;padding:1.3rem;text-align:center;color:#fcd34d;background:rgba(245,158,11,.06);margin-top:.6rem;line-height:1.6}
+.blank-box .big-blank{font-size:1.25rem;font-weight:900;display:block;margin-bottom:.3rem}
+.two-cols{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-top:.7rem}
+.pick-col{border:1px solid var(--line);border-radius:16px;padding:1rem;background:#0d1730}
+.pick-col.side-a{border-top:5px solid var(--blue)} .pick-col.side-b{border-top:5px solid var(--red2)}
+.pick-col h4{margin:.1rem 0 .5rem;font-size:1.15rem}
+.pick-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:.5rem;margin-top:.6rem}
+.pick-btn{border:1px solid var(--line);background:#131f40;color:var(--text);border-radius:12px;padding:.6rem .4rem;font-weight:700;line-height:1.3}
+.pick-btn .pl{font-size:1.35rem;font-weight:900;display:block;color:var(--cc,#7dd3fc)}
+.pick-btn .pn{font-size:.72rem;color:var(--muted);display:block}
+.pick-btn.selected{background:linear-gradient(180deg,rgba(251,191,36,.25),rgba(251,191,36,.08));border-color:var(--gold);box-shadow:0 0 0 1px var(--gold) inset}
+.pick-count{font-weight:800;margin-top:.55rem}
+.pick-count.ok{color:var(--green)} .pick-count.notok{color:var(--amber)}
+.present-box{text-align:center;padding:1.2rem .5rem}
+.present-team{font-size:clamp(2rem,5vw,3.3rem);font-weight:900}
+.present-role{color:var(--gold);font-weight:800;letter-spacing:.1em;text-transform:uppercase}
+.chosen-cards{display:flex;gap:.8rem;justify-content:center;flex-wrap:wrap;margin:1rem 0}
+.chosen-card{min-width:170px;border-radius:16px;padding:.9rem;border:1px solid var(--line);border-top:6px solid var(--cc);background:#0d1730;animation:flip .5s ease}
+.chosen-card .cl{font-size:2.2rem;font-weight:900;color:var(--cc)}
+.chosen-card .cn{font-weight:800}
+.chosen-card .cd{color:var(--muted);font-size:.88rem}
+@keyframes flip{from{transform:rotateY(80deg);opacity:0}to{transform:none;opacity:1}}
+.cue-list{max-width:760px;margin:.6rem auto;text-align:left;line-height:1.75;font-size:1.08rem;color:#dbe4ff}
+.topic-box{border:2px solid var(--gold);border-radius:18px;padding:1.3rem 1.4rem;background:rgba(251,191,36,.07);text-align:center;margin-top:.7rem}
+.topic-box .topic-text{font-size:clamp(1.4rem,3.4vw,2.15rem);font-weight:900;line-height:1.45}
+.stance-grid{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-top:1rem}
+.stance-card{border-radius:16px;padding:1.1rem;text-align:center;border:2px solid var(--line);background:#0d1730}
+.stance-card.agree{border-color:#0369a1}.stance-card.disagree{border-color:#9f1239}
+.stance-card .stance-name{font-size:1.5rem;font-weight:900}
+.stance-card .stance-team{color:var(--muted);margin-top:.3rem;font-size:1.1rem}
+.center-actions{display:flex;gap:.6rem;justify-content:center;flex-wrap:wrap;margin-top:1rem}
+
+/* Vote */
+.vote-slots{display:flex;gap:.55rem;justify-content:center;margin:1.1rem 0;flex-wrap:wrap}
+.vote-slot{width:64px;height:64px;border-radius:50%;border:2px dashed var(--line);background:#0d1730;display:flex;align-items:center;justify-content:center;font-size:1.5rem;font-weight:900;color:var(--muted)}
+.vote-slot.a{border-style:solid;border-color:var(--blue);background:rgba(56,189,248,.22);color:#7dd3fc}
+.vote-slot.b{border-style:solid;border-color:var(--red2);background:rgba(244,63,94,.22);color:#fda4af}
+.vote-actions{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-top:.7rem}
+.vote-btn{border:none;border-radius:16px;padding:1rem;font-size:1.15rem;font-weight:900;color:#fff;line-height:1.35}
+.vote-btn.a{background:linear-gradient(135deg,#0284c7,#2563eb)} .vote-btn.b{background:linear-gradient(135deg,#e11d48,#f43f5e)}
+.vote-btn:hover{filter:brightness(1.15)} .vote-btn:disabled{opacity:.35;cursor:not-allowed}
+.vote-count-big{font-size:2.5rem;display:block}
+.result-box{text-align:center;padding:1rem .5rem}
+.result-winner{font-size:clamp(2.1rem,5.5vw,3.6rem);font-weight:900;color:var(--gold)}
+.result-score{font-size:1.5rem;font-weight:800;margin:.4rem 0}
+.result-box .hint{max-width:720px;margin:.4rem auto}
+
+/* ---------- Editor ---------- */
+.editor-actions{display:flex;gap:.6rem;flex-wrap:wrap;margin:1rem 0 .4rem}
+.save-status{color:var(--green);font-weight:800}
+.editor-title{margin:2rem 0 .3rem;font-size:1.3rem}
+.editor-teams{display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:.8rem}
+.editor-team{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:.9rem}
+.editor-team label,.editor-case label{display:block;font-size:.85rem;color:var(--muted);font-weight:700;margin:.5rem 0 .25rem}
+.editor-cases{display:grid;grid-template-columns:repeat(auto-fit,minmax(420px,1fr));gap:1rem}
+.editor-case{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:1rem 1.1rem}
+.editor-case h4{margin:.1rem 0 .3rem}
+input[type="text"],textarea{
+  width:100%;background:#0b142a;border:1px solid var(--line);color:var(--text);border-radius:10px;
+  padding:.6rem .75rem;font:inherit;font-size:.98rem;
+}
+textarea{line-height:1.55;resize:vertical}
+input:focus,textarea:focus{outline:2px solid rgba(34,211,238,.5);border-color:var(--cyan)}
+
+/* ---------- Toast & confetti ---------- */
+.toast{
+  position:fixed;left:50%;bottom:26px;transform:translateX(-50%);z-index:99;
+  background:#17264a;border:1px solid var(--cyan);color:#fff;padding:.8rem 1.3rem;border-radius:12px;font-weight:700;
+  box-shadow:0 12px 30px rgba(0,0,0,.5);max-width:92vw;text-align:center;
+}
+.confetti{position:fixed;inset:0;pointer-events:none;z-index:98;overflow:hidden}
+.confetti i{position:absolute;top:-20px;width:11px;height:17px;border-radius:3px;animation:fall linear forwards}
+@keyframes fall{to{transform:translateY(108vh) rotate(720deg);opacity:.85}}
+
+/* ---------- Responsive ---------- */
+@media (max-width:1050px){
+  .match-layout{grid-template-columns:1fr}
+  .timer-card{position:static}
+  .bracket-board{grid-template-columns:1fr}
+  .judges-panel{grid-template-columns:1fr}
+}
+@media (max-width:640px){
+  .two-cols,.stance-grid,.vote-actions{grid-template-columns:1fr}
+  .vs-panel{grid-template-columns:1fr}
+  .vs-mid{padding:.2rem}
+  .pick-grid{grid-template-columns:repeat(2,1fr)}
+  .timer-ring-wrap,.timer-ring{width:190px;height:190px}
+  .timer-display{font-size:2.8rem}
+  main{padding:1rem .7rem 2rem}
+}
+
+/* ============================================================
+   REDESIGN theo giao diện tham khảo "Công nhân số • Kỹ năng
+   thích ứng": sidebar trái, nền navy có lưới mờ, teal/mint +
+   vàng, panel dashboard bo góc lớn, đồng hồ chữ số + thanh
+   tiến trình. Chỉ đổi diện mạo — luật & chức năng giữ nguyên.
+   ============================================================ */
+:root{
+  color-scheme:dark;
+  --bg:#08111f; --bg2:#08111f; --panel:#111e31; --panel2:#17263b; --line:#2a3c54;
+  --text:#f3f7ff; --muted:#a2b2c8; --cyan:#4dd9d2; --teal:#4dd9d2; --teal2:#8bf1d5;
+  --blue:#80a9ff; --red:#ff8f93; --red2:#ff777e; --gold:#ffcd75; --green:#88e3ab; --amber:#ffcd75;
+  --shadow:0 20px 70px rgba(0,0,0,.18); --radius:19px;
+}
+body{
+  padding-left:250px;
+  font-family:Inter,"Be Vietnam Pro","Segoe UI",ui-sans-serif,system-ui,-apple-system,Roboto,Arial,sans-serif;
+  background:radial-gradient(ellipse 90% 70% at 85% -10%,#122c48 0,transparent 55%),linear-gradient(180deg,#0b1424,#08111f 35%);
+}
+body::before{
+  content:"";position:fixed;inset:0;pointer-events:none;z-index:0;
+  background-image:linear-gradient(rgba(113,161,201,.035) 1px,transparent 1px),linear-gradient(90deg,rgba(113,161,201,.035) 1px,transparent 1px);
+  background-size:44px 44px;
+}
+main,.footer{position:relative;z-index:1}
+button:focus-visible,input:focus-visible,textarea:focus-visible,a:focus-visible{outline:3px solid var(--teal);outline-offset:3px}
+::-webkit-scrollbar{width:10px;height:10px} ::-webkit-scrollbar-thumb{background:#2a3c54;border-radius:8px}
+
+/* --- Sidebar trái (thay thanh ngang trên cùng) --- */
+.topbar{
+  position:fixed;left:0;top:0;bottom:0;width:250px;height:100dvh;z-index:100;
+  flex-direction:column;align-items:stretch;flex-wrap:nowrap;gap:22px;
+  padding:26px 16px;background:rgba(8,17,31,.92);border-bottom:none;border-right:1px solid var(--line);
+  overflow-y:auto;
+}
+.brand{margin-right:0;padding:2px 8px 6px}
+.brand-icon{
+  width:48px;height:48px;flex:none;border-radius:15px;display:grid;place-items:center;
+  background:linear-gradient(135deg,var(--teal),#266992);color:#082236;font-size:25px;font-weight:900;
+  box-shadow:0 0 32px rgba(77,217,210,.15);
+}
+.brand-text strong{font-size:15px;letter-spacing:.03em}
+.brand-text small{color:var(--muted);font-size:10.5px;letter-spacing:.17em}
+.main-nav{flex-direction:column;align-items:stretch;gap:3px;flex-wrap:nowrap}
+.nav-btn{
+  text-align:left;border-radius:13px;border:1px solid transparent;background:transparent;
+  color:var(--muted);font-size:14px;font-weight:650;padding:12px 14px;
+}
+.nav-btn:hover{color:var(--text);background:#17253a;border-color:transparent}
+.nav-btn.active{background:#163a45;color:var(--teal2);border-color:#23636a}
+.side-info{margin-top:auto;background:#122237;border:1px solid var(--line);border-radius:17px;padding:15px}
+.side-info .mini-label{font-size:10px;text-transform:uppercase;letter-spacing:.15em;color:var(--muted)}
+.side-info strong{display:block;font-size:23px;letter-spacing:-.03em;margin-top:5px}
+.side-info p{font-size:12px;color:var(--muted);line-height:1.6;margin:7px 0 0}
+.topbar-actions .ghost-btn{width:100%}
+
+/* --- Khung nội dung & thanh tiêu đề trong trang --- */
+main{max-width:1500px;padding:24px clamp(18px,3vw,48px) 52px}
+.content-topbar{
+  display:flex;justify-content:space-between;align-items:center;gap:14px;flex-wrap:wrap;
+  padding-bottom:22px;border-bottom:1px solid var(--line);margin-bottom:8px;
+}
+.eyebrow{font-size:11px;color:var(--teal2);font-weight:750;letter-spacing:.18em;text-transform:uppercase;margin-bottom:5px}
+.content-title{font-size:19px;font-weight:750;letter-spacing:-.025em}
+.live-tag{
+  display:inline-flex;align-items:center;border-radius:999px;background:#12313b;color:#d9fff9;
+  border:1px solid #225c64;font-size:12px;font-weight:750;padding:7px 13px;
+}
+.footer{text-align:left;max-width:1500px;margin:0 auto;padding:18px clamp(18px,3vw,48px);color:#70849d}
+.section-title{font-size:22px;letter-spacing:-.02em;margin:34px 0 16px}
+.view-head h2,.match-head h2{letter-spacing:-.03em}
+
+/* --- Nút bấm theo bản tham khảo --- */
+.primary-btn{
+  background:linear-gradient(135deg,#55ddd1,#7ae0b8);color:#052930;border-radius:11px;
+  box-shadow:none;transition:transform .16s,background .16s;
+}
+.primary-btn:hover:not(:disabled){background:linear-gradient(135deg,#77e9dc,#a2eac9);filter:none;transform:translateY(-1px)}
+.secondary-btn{background:#1b2d43;border-color:#36536e;border-radius:11px;transition:transform .16s,background .16s,border-color .16s}
+.secondary-btn:hover:not(:disabled){background:#223b57;border-color:#5b7899;transform:translateY(-1px)}
+.ghost-btn{border-radius:11px;border-color:#36536e;background:#1b2d43;color:var(--text)}
+.ghost-btn:hover{border-color:#5b7899;background:#223b57}
+.danger-ghost-btn{background:#382231;border-color:#744355;color:#ffb5bd;border-radius:11px}
+.big{font-size:1.05rem;padding:.8rem 1.5rem;border-radius:12px}
+
+/* --- Hero kiểu editorial trái + hàng số liệu --- */
+.hero{text-align:left;padding:22px 0 4px}
+.hero-badge{border:none;background:none;padding:0;color:var(--teal2);font-size:11px;letter-spacing:.18em}
+.hero h1{
+  font-size:clamp(42px,5.6vw,74px);letter-spacing:-.055em;line-height:1.08;margin:10px 0 0;
+  background:none;-webkit-background-clip:initial;background-clip:initial;color:var(--text);
+}
+.hero-sub{color:var(--teal2);font-size:clamp(24px,3.6vw,46px);letter-spacing:-.035em;font-weight:850;margin:2px 0 14px}
+.hero-desc{max-width:900px;font-size:15.5px;color:#c8d5e6}
+.hero-actions{justify-content:flex-start}
+.hero-progress{color:var(--muted)}
+.stat-row{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;margin:26px 0 8px}
+.stat{border:1px solid var(--line);border-radius:19px;padding:20px 22px;background:#101e30;position:relative;overflow:hidden}
+.stat::after{content:"";width:100px;height:100px;position:absolute;right:-50px;top:-50px;border-radius:50%;background:rgba(77,217,210,.08)}
+.stat b{font-size:40px;letter-spacing:-.07em;line-height:1.15}
+.stat span{display:block;font-size:12px;color:var(--muted);margin-top:7px}
+
+/* --- Panel & thẻ --- */
+.team-chip,.judges-panel,.phase-main,.editor-team,.editor-case{
+  background:linear-gradient(145deg,#122135,#0f1b2c);border-color:var(--line);border-radius:19px;box-shadow:var(--shadow);
+}
+.team-chip{background:#101e30;box-shadow:none;border-radius:15px}
+.round-card{background:linear-gradient(145deg,#122135,#0f1b2c);border-color:var(--line);border-radius:19px;box-shadow:var(--shadow);padding:23px}
+.round-card::before{display:none}
+.round-tag{
+  display:inline-flex;border-radius:999px;background:#123e48;color:#8cebe4;border:1px solid #2a6b73;
+  font-size:11px;font-weight:750;letter-spacing:.1em;padding:6px 11px;margin-bottom:13px;
+}
+.round-card.r2 .round-tag{background:#3a2d1e;color:#ffd591;border-color:#6c4e26}
+.round-card.r3 .round-tag{background:#452837;color:#ffb0b9;border-color:#6b3c50}
+.round-name{color:var(--teal2)}
+.round-result{color:var(--green)}
+.comp-card{background:linear-gradient(145deg,#122135,#0f1b2c);border-color:var(--line);border-top:1px solid var(--line);border-radius:19px;box-shadow:var(--shadow);padding:19px}
+.comp-letter{border-radius:13px}
+.match-card{background:#142238;border-color:var(--line);border-radius:15px}
+.match-card.done{border-color:#326d60}
+.m-team{background:#0f1d30;border-radius:9px}
+.m-team.win{border-color:#326d60;background:rgba(136,227,171,.1)}
+.badge{background:#1b3148;border-color:#2c465e;color:#c6deee}
+.badge.done{background:#153b35;color:#92f2c4;border-color:#2c6254}
+.badge.playing{background:#3a2d1e;color:#ffd591;border-color:#6c4e26}
+.bracket-col h3{color:var(--muted);text-transform:uppercase;letter-spacing:.12em;font-size:12px;text-align:left}
+.bracket-col.final-col h3{color:var(--gold)}
+.champion-banner{background:radial-gradient(ellipse at center top,#205047,#102032 75%);color:var(--teal2);border:1px solid #3f7664;box-shadow:var(--shadow)}
+
+/* --- Màn hình trận --- */
+.vs-team{background:#101f32;border-width:1px;border-radius:15px}
+.vs-team.side-a{border-color:#35618f;background:#101f32}
+.vs-team.side-b{border-color:#8a4250;background:#101f32}
+.vs-team.is-speaking{outline-color:var(--gold)}
+.vs-mid{
+  width:44px;height:44px;justify-self:center;border-radius:50%;border:1px solid #52748a;
+  background:#1b3246;color:var(--gold);font-size:13px;
+}
+.step-pill,.debate-chip{border-radius:10px;background:transparent}
+.step-pill.current,.debate-chip.current{background:#19454c;color:var(--teal2);border-color:#45a9a4}
+.step-pill.done,.debate-chip.done{color:var(--green);border-color:#2c6254}
+.case-box{background:linear-gradient(115deg,#103941,#17243b);border-color:#285568;border-radius:16px}
+.case-box h4{letter-spacing:-.02em}
+.case-body{background:#0c1e30;border-left:3px solid var(--teal);border-radius:6px;padding:13px 15px;font-size:1.05rem}
+.pick-col{background:#101f32;border-radius:15px}
+.pick-btn{background:#142a40;border-color:#2d465f;border-radius:10px}
+.pick-btn.selected{background:#184a50;border-color:var(--teal);box-shadow:none;color:#bdf9ef}
+.chosen-card{background:#101f32;border-radius:15px}
+.topic-box{background:linear-gradient(120deg,#183a48,#1a263b 70%);border-color:#396477;border-radius:19px}
+.stance-card{background:#101f32;border-radius:15px}
+.vote-slot{background:#0f1d30}
+.vote-slot.a{background:rgba(128,169,255,.2);color:#b9cfff}
+.vote-slot.b{background:rgba(255,143,147,.18);color:#ffc0c2}
+.vote-btn{border-radius:14px}
+.vote-btn.a{background:linear-gradient(135deg,#2f6fed,#5b8cff)}
+.vote-btn.b{background:linear-gradient(135deg,#d63a47,#ff777e)}
+.result-winner{color:var(--teal2)}
+.howto{color:#d1dcea}
+.empty-state{border:1px dashed #41576b;border-radius:19px;color:var(--muted)}
+.blank-box{border-color:#6c4e26;color:#ffd591;background:rgba(255,205,117,.05)}
+
+/* --- Đồng hồ: chữ số lớn + thanh tiến trình (ẩn vòng tròn cũ) --- */
+.timer-card{background:#0d1e30;border-color:var(--line);border-radius:15px;top:24px;padding:20px 18px}
+.timer-ring{display:none}
+.timer-ring-wrap{width:auto;height:auto;margin:2px auto 0}
+.timer-display{
+  position:static;font-size:clamp(60px,6vw,92px);line-height:1;letter-spacing:-.075em;font-weight:900;
+}
+.timer-progress-track{height:6px;background:#304053;border-radius:9px;overflow:hidden;margin:17px 4px 4px}
+.timer-progress-fill{height:100%;width:0%;background:linear-gradient(90deg,#38bdcf,#8aedd0);transition:width .15s linear}
+.timer-card.warn .timer-progress-fill{background:linear-gradient(90deg,#e8b558,#ffcd75)}
+.timer-card.danger{border-color:#ff777e;background:#2a1e2b;animation:timerPulse .7s infinite alternate}
+.timer-card.danger .timer-display{animation:none;color:#ffb2b2}
+.timer-card.danger .timer-progress-fill{background:linear-gradient(90deg,#ff777e,#ffb2b2)}
+@keyframes timerPulse{from{box-shadow:0 0 0 transparent}to{box-shadow:0 0 24px rgba(255,74,92,.33)}}
+
+/* --- Biểu mẫu soạn nội dung --- */
+input[type="text"],textarea{background:#0c1d30;border-color:#385169;border-radius:10px}
+input[type="text"]:focus,textarea:focus{outline:none;border-color:var(--teal)}
+.editor-team label,.editor-case label{color:#a9bacc}
+
+/* --- Toast góc phải dưới như bản tham khảo --- */
+.toast{
+  left:auto;right:22px;bottom:22px;transform:none;max-width:360px;text-align:left;
+  background:#214c53;border-color:#51c7bf;color:#e1fff8;border-radius:13px;box-shadow:var(--shadow);
+}
+
+/* --- Responsive cho bố cục sidebar --- */
+@media (max-width:1050px){
+  .timer-card{top:auto}
+}
+@media (max-width:900px){
+  body{padding-left:0}
+  .topbar{
+    position:sticky;width:auto;height:auto;flex-direction:row;align-items:center;flex-wrap:wrap;
+    gap:8px;padding:10px 13px;border-right:none;border-bottom:1px solid var(--line);overflow:visible;
+  }
+  .brand-icon{width:36px;height:36px;font-size:18px;border-radius:10px}
+  .brand-text strong{font-size:13px}
+  .side-info{display:none}
+  .main-nav{flex-direction:row;flex-wrap:nowrap;overflow-x:auto;flex:1;padding-bottom:2px}
+  .nav-btn{white-space:nowrap;padding:9px 11px;font-size:13px}
+  .topbar-actions .ghost-btn{width:auto;padding:.5rem .7rem}
+  main{padding:18px 15px 38px}
+  .footer{padding:16px 15px}
+  .stat{padding:13px 14px} .stat b{font-size:28px} .stat span{font-size:10.5px}
+  .timer-display{font-size:64px}
+}
+@media (max-width:640px){
+  .vs-mid{margin:0 auto}
+  .timer-ring-wrap{width:auto;height:auto}
+  .stat-row{gap:8px}
+  .content-title{font-size:16px}
+}
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation-duration:.001ms!important;scroll-behavior:auto!important;transition-duration:0ms!important}
+}
+@media print{
+  body{padding-left:0;background:#fff}
+  .topbar,.topbar-actions,.content-topbar .live-tag{display:none!important}
+}
+
+/* ============================================================
+   CẬP NHẬT: THEME TRẮNG + bốc thăm chia cặp + bracket đối xứng
+   - Các cột vòng trong lệch xuống, căn giữa hai trận cấp nguồn.
+   - Đội thắng được highlight viền và nối sang vòng trong.
+   - Toàn bộ màu chữ/bề mặt chuyển sang nền sáng tương phản cao.
+   ============================================================ */
+
+/* --- Danh sách đội & nút bốc thăm trên Sơ đồ đấu --- */
+.teams-panel{
+  background:linear-gradient(145deg,#122135,#0f1b2c);border:1px solid var(--line);
+  border-radius:19px;padding:1.15rem 1.25rem;margin-bottom:1.25rem;box-shadow:var(--shadow);
+}
+.teams-panel-head{display:flex;justify-content:space-between;align-items:center;gap:1rem;flex-wrap:wrap}
+.teams-panel-head h3{margin:0}
+.draw-actions{display:flex;gap:.6rem;flex-wrap:wrap}
+.bracket-teams{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:.75rem;margin-top:1rem}
+.bracket-team-item label{display:block;font-size:.82rem;font-weight:700;color:var(--muted);margin-bottom:.3rem}
+#drawStatus{margin:.9rem 0 0}
+.draw-btn.is-drawing{
+  opacity:1 !important;cursor:wait;
+  animation:pairDrawPulse .55s ease-in-out infinite alternate;
+}
+@keyframes pairDrawPulse{
+  from{transform:scale(1);filter:brightness(1)}
+  to{transform:scale(1.035);filter:brightness(1.14)}
+}
+.draw-btn.is-drawn:disabled{
+  opacity:1;background:#ffffff;border:1px solid #cbd9e4;color:#526a82;
+  box-shadow:none;cursor:not-allowed;
+}
+
+/* --- Dropdown chọn ngành Vòng 2 --- */
+.major-label{display:block;font-size:.88rem;font-weight:700;color:var(--muted);margin:.4rem 0 .35rem}
+.major-select{
+  width:100%;padding:.7rem .8rem;border-radius:10px;border:1px solid #385169;
+  background:#0c1d30;color:var(--text);font:inherit;font-size:1rem;
+}
+.major-pick .case-body{margin-top:.75rem}
+
+/* --- Bracket: vòng trong lệch xuống, đối xứng theo chiều ngang --- */
+.bracket-board{align-items:stretch}
+.bracket-col{display:flex;flex-direction:column}
+.bracket-col h3{min-height:2.4em}
+.bracket-col-body{flex:1;display:flex;flex-direction:column;gap:.85rem}
+.bracket-col-body .match-card{margin-bottom:0;position:relative}
+.bracket-col.col-r2 .bracket-col-body{justify-content:space-around}
+.bracket-col.col-final .bracket-col-body{justify-content:center}
+.bracket-col.col-r1 .match-card.done::after,
+.bracket-col.col-r2 .match-card.done::after{
+  content:"";position:absolute;top:50%;right:-19px;width:19px;height:3px;border-radius:2px;
+  background:#14b8a6;box-shadow:0 0 8px rgba(20,184,166,.55);
+}
+.bracket-col.col-r2 .match-card.has-advanced::before,
+.bracket-col.col-final .match-card.has-advanced::before{
+  content:"";position:absolute;top:50%;left:-19px;width:19px;height:3px;border-radius:2px;
+  background:#14b8a6;box-shadow:0 0 8px rgba(20,184,166,.55);
+}
+.m-team{border:1.5px solid transparent}
+.m-team.win{
+  border:2px solid #f59e0b;background:rgba(245,158,11,.14);
+  box-shadow:0 0 0 3px rgba(245,158,11,.16),0 0 14px rgba(245,158,11,.22);
+}
+.m-team.advanced{
+  border:2px solid #14b8a6;background:rgba(20,184,166,.12);
+  box-shadow:0 0 0 3px rgba(20,184,166,.14);font-weight:700;
+}
+.match-card.done{border-color:#10b981;box-shadow:0 0 0 1px rgba(16,185,129,.35),0 12px 28px rgba(0,0,0,.18)}
+
+/* ================= THEME TRẮNG ================= */
+:root{
+  color-scheme:light;
+  --bg:#f5f8fb; --bg2:#ffffff; --panel:#ffffff; --panel2:#f2f7fa; --line:#d7e3ec;
+  --text:#10233b; --muted:#5b7186; --cyan:#0d9488; --teal:#14b8a6; --teal2:#0f766e;
+  --blue:#2563eb; --red:#e11d48; --red2:#e11d48; --gold:#b45309; --green:#16a34a; --amber:#d97706;
+  --shadow:0 12px 32px rgba(15,50,80,.09);
+}
+body{
+  background:
+    radial-gradient(1000px 520px at 88% -10%, rgba(20,184,166,.12), transparent 58%),
+    radial-gradient(760px 460px at -8% 18%, rgba(37,99,235,.07), transparent 60%),
+    linear-gradient(180deg,#ffffff,#f3f8fb 42%,#eef5f9);
+  color:var(--text);
+}
+body::before{
+  background-image:linear-gradient(rgba(15,80,110,.05) 1px,transparent 1px),linear-gradient(90deg,rgba(15,80,110,.05) 1px,transparent 1px);
+}
+::-webkit-scrollbar-thumb{background:#c3d3df}
+kbd{background:#eef4f8;border-color:#cbd9e4;color:var(--text)}
+.hint{color:var(--muted)}
+
+/* Sidebar sáng */
+.topbar{background:rgba(255,255,255,.96);border-right-color:var(--line)}
+.brand-icon{background:linear-gradient(135deg,#14b8a6,#0e7490);color:#ffffff;box-shadow:0 8px 20px rgba(20,184,166,.28)}
+.brand-text strong{color:#0b2239}
+.brand-text small{color:var(--muted)}
+.nav-btn{color:#4b637c}
+.nav-btn:hover{color:#0b2239;background:#eef6f8}
+.nav-btn.active{background:#ccfbf1;color:#0f766e;border-color:#5eead4}
+.side-info{background:#f2f8fa;border-color:var(--line)}
+.side-info strong{color:#0b2239}
+.side-info p{color:var(--muted)}
+
+/* Thanh tiêu đề & hero */
+.content-topbar{border-bottom-color:var(--line)}
+.eyebrow{color:#0f766e}
+.content-title{color:#0b2239}
+.live-tag{background:#ecfdf5;color:#047857;border-color:#a7f3d0}
+.hero h1{color:#0b2239}
+.hero-sub{color:#0f766e}
+.hero-badge{color:#0f766e}
+.hero-desc{color:#43586e}
+.hero-desc strong{color:#0b2239}
+.hero-progress{color:var(--muted)}
+.stat{background:#ffffff;border-color:var(--line);box-shadow:var(--shadow)}
+.stat::after{background:rgba(20,184,166,.10)}
+.stat b{color:#0b2239}
+.section-title{color:#0b2239}
+
+/* Nút bấm trên nền sáng */
+.primary-btn{background:linear-gradient(135deg,#0d9488,#14b8a6);color:#ffffff;box-shadow:0 8px 18px rgba(13,148,136,.28)}
+.primary-btn:hover:not(:disabled){background:linear-gradient(135deg,#0f766e,#0d9488);color:#ffffff}
+.secondary-btn{background:#ffffff;border-color:#cbd9e4;color:#14324f}
+.secondary-btn:hover:not(:disabled){background:#eef7fa;border-color:#14b8a6}
+.ghost-btn{background:#ffffff;border-color:#cbd9e4;color:#14324f}
+.ghost-btn:hover{background:#eef7fa;border-color:#14b8a6}
+.danger-ghost-btn{background:#fff1f2;border-color:#fecdd3;color:#be123c}
+.danger-ghost-btn:hover{background:#ffe4e6}
+.link-btn{color:#0f766e}
+
+/* Bề mặt thẻ/panel sáng */
+.team-chip,.judges-panel,.phase-main,.teams-panel{
+  background:linear-gradient(145deg,#ffffff,#f6fbfd);border-color:var(--line);box-shadow:var(--shadow);
+}
+.team-chip{background:#ffffff}
+.round-card{background:linear-gradient(145deg,#ffffff,#f6fbfd);border-color:var(--line);box-shadow:var(--shadow)}
+.round-card ul{color:#33475e}
+.round-name{color:#0f766e}
+.round-tag{background:#ccfbf1;color:#115e59;border-color:#5eead4}
+.round-card.r2 .round-tag{background:#fef3c7;color:#92400e;border-color:#fcd34d}
+.round-card.r3 .round-tag{background:#ffe4e6;color:#9f1239;border-color:#fda4af}
+.round-result{border-top-color:var(--line);color:#15803d}
+.comp-card{background:linear-gradient(145deg,#ffffff,#f6fbfd);border-color:var(--line);box-shadow:var(--shadow)}
+.comp-card p{color:var(--muted)}
+.comp-letter{color:#ffffff}
+.judges-caption{color:var(--muted)} .judges-caption strong{color:#0b2239}
+.judges-rules{color:#243750}
+.howto{color:#33475e}
+
+/* Sơ đồ đấu sáng */
+.match-card{background:#ffffff;border-color:var(--line);box-shadow:0 8px 22px rgba(15,50,80,.07)}
+.match-card.done{border-color:#10b981;box-shadow:0 0 0 1px rgba(16,185,129,.3),0 10px 24px rgba(16,185,129,.12)}
+.m-team{background:#f7fbff}
+.m-team.win{background:#fff7e6;color:#7c2d12}
+.m-team.advanced{background:#ecfdf8;color:#065f46}
+.badge{background:#eef4f8;border-color:#d7e3ec;color:#35506b}
+.badge.done{background:#dcfce7;color:#15803d;border-color:#86efac}
+.badge.playing{background:#fef3c7;color:#b45309;border-color:#fcd34d}
+.side-a-tag{background:#dbeafe;color:#1d4ed8}
+.side-b-tag{background:#ffe4e6;color:#be123c}
+.bracket-col h3{color:#55708c}
+.bracket-col.final-col h3{color:#b45309}
+.champion-banner{
+  background:linear-gradient(90deg,#f59e0b,#fbbf24,#fde68a,#fbbf24);color:#451a03;border:none;
+  box-shadow:0 12px 30px rgba(245,158,11,.3);
+}
+
+/* Màn hình trận sáng */
+.match-round{color:#0f766e}
+.vs-team{background:#ffffff}
+.vs-team.side-a{border-color:#93c5fd;background:#eff6ff}
+.vs-team.side-b{border-color:#fda4af;background:#fff5f6}
+.side-a .vs-side{color:#1d4ed8}
+.side-b .vs-side{color:#be123c}
+.vs-team .vs-sub{color:var(--muted)}
+.vs-team.is-speaking{outline-color:#f59e0b}
+.vs-mid{background:#0f766e;border-color:#0f766e;color:#ffffff}
+.step-pill,.debate-chip{background:#ffffff;border-color:#d7e3ec;color:#5b7186}
+.step-pill.current,.debate-chip.current{background:#0f766e;color:#ffffff;border-color:#0f766e}
+.step-pill.done,.debate-chip.done{background:#f0fdf4;color:#15803d;border-color:#86efac}
+.phase-main{background:linear-gradient(145deg,#ffffff,#f8fcfe)}
+.phase-desc{color:var(--muted)}
+.case-box{background:linear-gradient(115deg,#ecfdf5,#eff6ff);border-color:#a7e8d8}
+.case-body{background:#ffffff;color:#1e344d;border-left-color:#14b8a6}
+.case-source{border-top-color:#d7e3ec;color:var(--muted)}
+.case-source a{color:#0f766e}
+.pick-col{background:#ffffff;border-color:var(--line)}
+.pick-col.side-a{border-top-color:#3b82f6}
+.pick-col.side-b{border-top-color:#f43f5e}
+.pick-btn{background:#f7fbff;border-color:#d7e3ec;color:var(--text)}
+.pick-btn .pn{color:var(--muted)}
+.pick-btn.selected{background:#ccfbf1;border-color:#0d9488;color:#134e4a;box-shadow:0 0 0 1px #14b8a6 inset}
+.pick-count.ok{color:#15803d}
+.pick-count.notok{color:#d97706}
+.chosen-card{background:#ffffff;border-color:var(--line)}
+.chosen-card .cd{color:var(--muted)}
+.present-role{color:#b45309}
+.cue-list{color:#33475e}
+.topic-box{background:linear-gradient(120deg,#ecfdf5,#eff6ff 75%);border-color:#5eead4}
+.topic-box .topic-text{color:#0b2239}
+.stance-card{background:#ffffff}
+.stance-card.agree{border-color:#93c5fd}
+.stance-card.disagree{border-color:#fda4af}
+.stance-card .stance-team{color:var(--muted)}
+.vote-slot{background:#ffffff;border-color:#cbd9e4;color:#8296ab}
+.vote-slot.a{border-color:#2563eb;background:#dbeafe;color:#1d4ed8}
+.vote-slot.b{border-color:#e11d48;background:#ffe4e6;color:#be123c}
+.vote-btn.a{background:linear-gradient(135deg,#2563eb,#3b82f6)}
+.vote-btn.b{background:linear-gradient(135deg,#e11d48,#fb7185)}
+.result-winner{color:#0f766e}
+.blank-note{color:#b45309}
+.empty-state{border-color:#cbd9e4;color:var(--muted)}
+.major-select{background:#ffffff;border-color:#cbd9e4;color:var(--text)}
+.major-select:focus{outline:3px solid rgba(20,184,166,.35);border-color:#14b8a6}
+
+/* Đồng hồ sáng */
+.timer-card{background:#ffffff;border-color:var(--line);box-shadow:var(--shadow)}
+.timer-label{color:var(--muted)}
+.timer-display{color:#0b2239}
+.timer-progress-track{background:#e2e8f0}
+.timer-status{color:var(--muted)}
+.timer-card.warn .timer-display{color:#b45309}
+.timer-card.danger{background:#fff5f6;border-color:#f43f5e}
+.timer-card.danger .timer-display{color:#e11d48}
+
+/* Ô nhập đội & footer/toast */
+input[type="text"],textarea{background:#ffffff;border-color:#cbd9e4;color:var(--text)}
+input[type="text"]:focus,textarea:focus{border-color:#14b8a6;outline:3px solid rgba(20,184,166,.25)}
+.bracket-team-item label{color:var(--muted)}
+.toast{background:#0f766e;border-color:#0f766e;color:#ffffff;box-shadow:0 14px 30px rgba(15,118,110,.3)}
+.footer{color:#8296ab;border-top-color:var(--line)}
+
+/* Responsive: về 1 cột thì bracket xếp từ trên xuống, ẩn đường nối */
+@media (max-width:1050px){
+  .bracket-col.col-r2 .bracket-col-body,
+  .bracket-col.col-final .bracket-col-body{justify-content:flex-start}
+  .bracket-col h3{min-height:0}
+  .bracket-col .match-card.done::after,
+  .bracket-col .match-card.has-advanced::before{display:none}
+}
+@media (max-width:900px){
+  .topbar{background:rgba(255,255,255,.97)}
+  .draw-actions{width:100%}
+  .draw-actions button{flex:1}
+}
+
+/* ================= TAB NHÀ VÔ ĐỊCH ================= */
+.nav-btn.champion-nav{font-weight:800}
+.nav-btn.champion-nav.active{
+  background:linear-gradient(135deg,#fef3c7,#fde68a);color:#92400e;border-color:#f59e0b;
+  box-shadow:0 6px 16px rgba(245,158,11,.28);
+}
+.champion-banner{cursor:pointer}
+.champion-stage{
+  position:relative;overflow:hidden;text-align:center;max-width:940px;margin:18px auto 30px;
+  padding:clamp(26px,5vw,54px) clamp(16px,4vw,48px) 34px;
+  background:
+    radial-gradient(560px 300px at 50% -60px, rgba(251,191,36,.28), transparent 65%),
+    linear-gradient(180deg,#fffdf3,#ffffff 58%,#f2fbf8);
+  border:2px solid #fbbf24;border-radius:28px;
+  box-shadow:0 24px 60px rgba(180,120,10,.18),0 10px 28px rgba(15,50,80,.08);
+}
+.champion-stage::before,.champion-stage::after{
+  content:"✨";position:absolute;font-size:30px;opacity:.75;animation:championSparkle 1.6s ease-in-out infinite alternate;
+}
+.champion-stage::before{left:26px;top:22px}
+.champion-stage::after{right:26px;top:22px;animation-delay:.5s}
+@keyframes championSparkle{from{transform:scale(.82) rotate(-8deg);opacity:.45}to{transform:scale(1.12) rotate(8deg);opacity:1}}
+.champion-eyebrow{
+  font-size:12px;font-weight:850;letter-spacing:.18em;text-transform:uppercase;color:#b45309;
+}
+.champion-cup{
+  font-size:clamp(112px,17vw,190px);line-height:1.05;margin:8px auto 2px;width:fit-content;
+  filter:drop-shadow(0 20px 26px rgba(245,158,11,.42));
+}
+.champion-stage h2{
+  font-size:clamp(42px,7vw,80px);line-height:1.08;letter-spacing:-.045em;margin:4px 0 10px;
+  color:#7c2d12;
+  text-shadow:0 3px 0 rgba(251,191,36,.28);
+}
+.champion-meta{font-size:clamp(1rem,2.2vw,1.25rem);color:#526a82;font-weight:650;margin:0 auto}
+.champion-gif{
+  display:block;width:min(450px,92%);height:auto;margin:24px auto 10px;
+  border:3px solid #ffffff;border-radius:24px;
+  box-shadow:0 18px 38px rgba(76,29,149,.22),0 0 0 1px #e7e5f4;
+}
+.champion-audio{display:block;width:min(440px,92%);margin:12px auto 0}
+.champion-music-status{
+  max-width:700px;margin:10px auto 0;color:#9a3412;
+  font-weight:650;line-height:1.55;
+}
+.champion-music-status:empty{display:none}
+.champion-stage .center-actions{margin-top:22px}
+
+/* ================= CÂU HỎI / ĐẦU VIỆC TRONG TRẬN ================= */
+.task-box{
+  margin:1rem auto 0;max-width:900px;text-align:left;
+  background:linear-gradient(180deg,#f0fdfa,#ffffff);
+  border:2px solid #5eead4;border-radius:18px;padding:1rem 1.25rem;
+  box-shadow:0 10px 24px rgba(13,148,136,.10);
+}
+.task-box h4{
+  margin:0 0 .55rem;font-size:1.05rem;letter-spacing:.08em;text-transform:uppercase;color:#0f766e;
+}
+.task-box ol,.task-box ul{margin:.25rem 0 .25rem 1.35rem;padding:0;line-height:1.7;font-size:1.13rem;color:#243a4f}
+.task-box li{margin:.3rem 0}
+.task-box li::marker{color:#0d9488;font-weight:900}
+.prep-task-grid{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-top:1rem;text-align:left}
+.prep-task-card{border:2px solid var(--line);border-radius:18px;padding:1rem 1.15rem;background:#fff}
+.prep-task-card.agree{border-color:#38bdf8;background:linear-gradient(180deg,#f0f9ff,#fff)}
+.prep-task-card.disagree{border-color:#fb7185;background:linear-gradient(180deg,#fff1f2,#fff)}
+.prep-task-card h4{margin:0 0 .35rem;font-size:1.18rem}
+.prep-task-card .prep-team{font-weight:850;color:#415a72;margin-bottom:.55rem}
+.prep-task-card ul{margin:.2rem 0 .2rem 1.25rem;padding:0;line-height:1.65;font-size:1.05rem;color:#243a4f}
+
+@media (max-width:900px){
+  .cards-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .prep-task-grid{grid-template-columns:1fr}
+}
+@media (max-width:640px){
+  .cards-grid{grid-template-columns:1fr}
+  .comp-card{padding:1.2rem}
+  .comp-letter{width:58px;height:58px;font-size:1.85rem}
+  .comp-card h4{font-size:1.18rem}
+  .comp-card p{font-size:1rem}
+  .champion-stage{border-radius:22px;margin-top:6px}
+  .champion-stage::before{left:10px}.champion-stage::after{right:10px}
+  .champion-gif{width:100%}
+}
